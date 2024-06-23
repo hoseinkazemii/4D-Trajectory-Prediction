@@ -1,11 +1,10 @@
-
-
 def _train(X_train, y_train, model, **params):
     verbose = params.get("verbose")
     num_epochs = params.get("num_epochs")
     batch_size = params.get("batch_size")
     validation_split = params.get("validation_split")
     warmup = params.get("warmup")
+
     if verbose:
         print("training the model...")
 
