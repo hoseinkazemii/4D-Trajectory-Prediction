@@ -1,3 +1,4 @@
+# Preprocessing/_split_data.py
 import numpy as np
 
 def _split_data(data, **params):
@@ -15,6 +16,7 @@ def _split_data(data, **params):
     X = np.array(X)
     y = np.array(y)
 
+    # Manually split the data into training and testing sets
     split_index = int(len(X) * train_data_split)
     X_train, X_test = X[:split_index], X[split_index:]
     y_train, y_test = y[:split_index], y[split_index:]
