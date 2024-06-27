@@ -1,6 +1,8 @@
 # main.py
 from Preprocessing import Preprocess
 from Training import Train
+from utils.log_results import log_results, aggregate_predictions
+import numpy as np
 
 params = {
     "data_directory": "./Data/",
@@ -22,12 +24,28 @@ def train_and_evaluate(coordinate):
 
     trainer = Train(**params)
     y_pred, history = trainer.train_model(X_train, X_test, X_val, y_train, y_val, coordinate)
-    trainer.test_model(y_test, y_pred, scaler, coordinate)
+    y_test, y_pred = trainer.test_model(y_test, y_pred, scaler, coordinate)
+    
+    return y_test, y_pred
 
 if __name__ == "__main__":
-    
+    # Train and evaluate for combined X and Z coordinates
     print(f"Training model for combined X and Z coordinates...")
-    train_and_evaluate(['X', 'Z'])
+    XZ_test, XZ_pred = train_and_evaluate('XZ')
 
-    # print(f"Training model for Y coordinate...")
-    # train_and_evaluate('Y')
+    # Train and evaluate for Y coordinate
+    print(f"Training model for Y coordinate...")
+    Y_test, Y_pred = train_and_evaluate('Y')
+
+    # Aggregate predictions
+    XZ_true, XZ_pred_aggregated = aggregate_predictions(XZ_test, XZ_pred, params['sequence_length'])
+    Y_true, Y_pred_aggregated = aggregate_predictions(Y_test, Y_pred, params['sequence_length'])
+
+    # Split aggregated XZ into X and Z
+    X_true = XZ_true[:, 0]
+    Z_true = XZ_true[:, 1]
+    X_pred = XZ_pred_aggregated[:, 0]
+    Z_pred = XZ_pred_aggregated[:, 1]
+
+    # Log the results
+    log_results(X_true, Y_true.flatten(), Z_true, X_pred, Y_pred_aggregated.flatten(), Z_pred, results_folder="./Results/", verbose=True)

@@ -1,6 +1,7 @@
 # Inverse transform the predictions and actual values
-def _inverse_transform(scaler, data, coordinate, **params):
+def _inverse_transform(scaler, data, **params):
     verbose = params.get("verbose")
+    coordinate = params.get("coordinate")
     if verbose:
         print("inverse transform...")
 

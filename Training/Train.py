@@ -20,3 +20,4 @@ class Train():
         y_test = _inverse_transform(scaler, y_test, **self.params)
         y_pred = _inverse_transform(scaler, y_pred, **self.params)
         _plot_3d_trajectory(y_test, y_pred, **self.params)
+        return y_test, y_pred
