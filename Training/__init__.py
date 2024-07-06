@@ -1,1 +1,1 @@
-from .Train import Train
+from .Seq2SeqWithSelfAttention import Seq2SeqWithSelfAttention

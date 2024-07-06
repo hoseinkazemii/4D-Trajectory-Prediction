@@ -5,7 +5,7 @@ def _load_data(**params):
     verbose = params.get("verbose")
     data_directory = params.get("data_directory")
     if verbose:
-        print("loading the data...")
+        print("Loading the datasets...")
 
     # Load all CSV files in the directory
     all_files = [os.path.join(data_directory, f) for f in os.listdir(data_directory) if f.endswith('.csv')]
