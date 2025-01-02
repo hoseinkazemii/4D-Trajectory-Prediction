@@ -5,14 +5,14 @@ from ._generate_sequences import _generate_sequences
 def _split_data_by_scenario(Y_data_scaled, XZ_data_scaled, row_counts, **params):   
     verbose = params.get("verbose")
     coordinates = params.get("coordinates")
-    if verbose:
-        print("Splitting the data by scenario into training, validation, and test sets...")
-        print("Generating seuqences for coordinates timeseries data...")
-
     # Determine the indices for training, validation, and test sets
     num_train_files = params.get("num_train")
     num_val_files = params.get("num_val")
     num_test_files = params.get("num_test")
+    if verbose:
+        print("Splitting the data by scenario into training, validation, and test sets...")
+        print("Generating seuqences for coordinates timeseries data...")
+
 
     train_indices = sum(row_counts[:num_train_files])
     val_indices = sum(row_counts[num_train_files:num_train_files + num_val_files])

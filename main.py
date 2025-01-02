@@ -9,11 +9,12 @@ params = {
     "warmup": False,
     "model_name": "Seq2SeqWithSelfAttention",
     "sequence_length": 10, # The length of the input sequences (e.g., 10 time steps)
+    "sequence_step": 1, # The distance between consecutive coordinates to generate sequences
     "prediction_horizon": 3, # The number of future time steps we want to predict
     "num_train": 7,
     "num_val": 1,
     "num_test": 2,
-    "num_epochs": 5,
+    "num_epochs": 10,
     "batch_size": 16,
     "sample_index": 0,
     "coordinates": ["Y", "XZ"], # "Y" or "XZ"
@@ -25,15 +26,16 @@ def main():
     X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
     X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
     Y_scaler, XZ_scaler = preprocessor.preprocess_data()
-    
+
+
     trainer = Seq2SeqWithSelfAttention(**params)
-    trainer._construct_model()
+    trainer.construct_model()
     trainer.run(X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
                 X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
                 Y_scaler, XZ_scaler)
     
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)
-    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqWithSelfAttention/202407030211/Results.csv", **params)
+    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqWithSelfAttention/202501021230/Results.csv", **params)
 
 
 

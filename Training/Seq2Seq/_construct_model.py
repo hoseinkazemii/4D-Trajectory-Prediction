@@ -3,11 +3,9 @@ from ._construct_network import _construct_network
 
 
 def _construct_model(**params):
-
 	warm_up = params.get('warm_up')
 	log = params.get("log")
 
-	constructed = False
 	if warm_up:
 		try:
 			model = _load_model(**params)
@@ -15,10 +13,8 @@ def _construct_model(**params):
 			log.info("\n\n------------\nA trained model is loaded\n------------\n\n")
 		except OSError:
 			print ("The model is not trained before. No saved models found")
-
-	if not constructed:
+	else:
 		# Creating the structure of the neural network
 		model_Y, model_XZ = _construct_network(**params)
-		
 
 	return model_Y, model_XZ

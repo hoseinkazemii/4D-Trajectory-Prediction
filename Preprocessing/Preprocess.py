@@ -8,9 +8,9 @@ class Preprocess():
         self.params = params
 
     def preprocess_data(self):
-        self.df, self.row_counts = _load_data(**self.params)
-        self.Y_data_array, self.XZ_data_array = _df_to_array(self.df, **self.params)
-        self.Y_data_scaled, self.Y_scaler, self.XZ_data_scaled, self.XZ_scaler = _scale_data(self.Y_data_array, self.XZ_data_array, **self.params)
+        self.df, self.row_counts = _load_data(**self.params) # Loading the datasets
+        self.Y_data_array, self.XZ_data_array = _df_to_array(self.df, **self.params) # Converting the data into arrays, and splitting them to "Y" and "XZ" axis 
+        self.Y_data_scaled, self.Y_scaler, self.XZ_data_scaled, self.XZ_scaler = _scale_data(self.Y_data_array, self.XZ_data_array, **self.params) # Scaling the arrays
         
         self.X_train_Y_coordinate, self.X_val_Y_coordinate, self.X_test_Y_coordinate, self.y_train_Y_coordinate, \
         self.y_val_Y_coordinate, self.y_test_Y_coordinate, self.X_train_XZ_coordinate, self.X_val_XZ_coordinate, \

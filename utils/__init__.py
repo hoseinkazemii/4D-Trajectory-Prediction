@@ -2,3 +2,4 @@ from .plot_3d_trajectory import plot_3d_trajectory
 from .Logger import Logger
 from ._save_prediction_results import _save_prediction_results
 from ._aggregate_sequence_predictions import _aggregate_sequence_predictions
+from ._plot_loss import _plot_loss

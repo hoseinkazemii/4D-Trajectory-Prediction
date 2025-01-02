@@ -6,7 +6,7 @@ class Seq2SeqWithSelfAttention(BaseMLModel):
     def __init__(self, **params):
         super(Seq2SeqWithSelfAttention, self).__init__(**params)
 
-    def _construct_model(self):
+    def construct_model(self):
         self.model_Y, self.model_XZ = _construct_model(**self.__dict__)
 
     def run(self, X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
