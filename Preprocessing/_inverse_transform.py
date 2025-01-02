@@ -8,7 +8,7 @@ def _inverse_transform(scaler, data, coordinate, **params):
         data_inversed = scaler.inverse_transform(data_reshaped)
         # Reshape back to the original shape
         data_inversed = data_inversed.reshape(original_shape)
-    
+
     elif coordinate == 'XZ':
         num_features = 2
         original_shape = data.shape

@@ -22,20 +22,20 @@ params = {
 
 def main():
     # Step 1: Preprocess and Train models on Y and XZ coordinates
-    # preprocessor = Preprocess(**params)
-    # X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
-    # X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
-    # Y_scaler, XZ_scaler = preprocessor.preprocess_data()
+    preprocessor = Preprocess(**params)
+    X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
+    X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
+    Y_scaler, XZ_scaler = preprocessor.preprocess_data()
 
 
-    # trainer = Seq2SeqMultiHeadAttention(**params)
-    # trainer.construct_model()
-    # trainer.run(X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
-    #             X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
-    #             Y_scaler, XZ_scaler)
+    trainer = Seq2SeqMultiHeadAttention(**params)
+    trainer.construct_model()
+    trainer.run(X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
+                X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
+                Y_scaler, XZ_scaler)
 
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)
-    plot_3d_trajectory(csv_path="./Reports/Seq2SeqMultiHeadAttention/202501021337/Results.csv", **params)
+    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqMultiHeadAttention/202501021337/Results.csv", **params)
 
 
 
