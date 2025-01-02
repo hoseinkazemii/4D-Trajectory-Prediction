@@ -1,10 +1,10 @@
 from .BaseMLModel import BaseMLModel
-from .Seq2Seq import _construct_model
-from .Seq2Seq import _train_and_evaluate_model
+from ._Seq2SeqMultiHeadAttention import _construct_model
+from ._Seq2SeqMultiHeadAttention import _train_and_evaluate_model
 
-class Seq2SeqWithSelfAttention(BaseMLModel):
+class Seq2SeqMultiHeadAttention(BaseMLModel):
     def __init__(self, **params):
-        super(Seq2SeqWithSelfAttention, self).__init__(**params)
+        super(Seq2SeqMultiHeadAttention, self).__init__(**params)
 
     def construct_model(self):
         self.model_Y, self.model_XZ = _construct_model(**self.__dict__)

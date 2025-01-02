@@ -1,1 +1,3 @@
-from .Seq2SeqWithSelfAttention import Seq2SeqWithSelfAttention
+from .Seq2SeqBahdanauAttention import Seq2SeqBahdanauAttention
+from .Seq2SeqTemporalAttention import Seq2SeqTemporalAttention
+from .Seq2SeqMultiHeadAttention import Seq2SeqMultiHeadAttention
