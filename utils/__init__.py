@@ -3,3 +3,4 @@ from .Logger import Logger
 from ._save_prediction_results import _save_prediction_results
 from ._aggregate_sequence_predictions import _aggregate_sequence_predictions
 from ._plot_loss import _plot_loss
+from ._evaluate_metrics import _compute_metrics, _export_metrics

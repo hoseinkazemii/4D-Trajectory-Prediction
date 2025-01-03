@@ -1,5 +1,6 @@
 from Preprocessing import _inverse_transform
 from utils import _aggregate_sequence_predictions, _save_prediction_results, _plot_loss
+from utils._evaluate_metrics import _compute_metrics, _export_metrics
 
 def _train_and_evaluate_model(X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
                               X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
@@ -14,6 +15,9 @@ def _train_and_evaluate_model(X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y
         print("Training the models...")
         print("Transforming predictions back to coordinates...")
         print("Aggregating sequence predictions...")
+
+    X_true, Y_true, Z_true = None, None, None
+    X_pred, Y_pred, Z_pred = None, None, None
 
     for coordinate in coordinates:
         if coordinate == "Y":
@@ -41,3 +45,19 @@ def _train_and_evaluate_model(X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y
             _plot_loss(history_XZ, coordinate, **params)
 
     _save_prediction_results(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params)
+
+    # ----------------
+    # Compute metrics
+    # ----------------
+    if verbose:
+        print("Computing metrics...")
+
+    metrics_dict = _compute_metrics(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params)
+
+    # --------------------------------
+    # Export or log the metrics
+    # --------------------------------
+    _export_metrics(metrics_dict, **params)
+
+    # You may also want to return metrics_dict for further usage:
+    return metrics_dict
