@@ -1,7 +1,11 @@
+import os
 import matplotlib.pyplot as plt
 
 def _plot_loss(history, coordinate, **params):
     verbose = params.get('verbose')
+    report_directory = params.get("report_directory")
+    plots_path = os.path.join(report_directory, f'loss_plot_{coordinate}.png')
+
     if verbose:
         print(f"Plotting loss for {coordinate} model...")
 
@@ -13,5 +17,5 @@ def _plot_loss(history, coordinate, **params):
     plt.ylabel('Loss')
     plt.legend()
     plt.grid(True)
-    plt.savefig(f'loss_plot_{coordinate}.png')
+    plt.savefig(plots_path)
     plt.close()

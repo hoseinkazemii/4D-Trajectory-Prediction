@@ -63,5 +63,5 @@ if __name__ == "__main__":
 
     prediction_horizon = 7  # Example value
 
-    aggregated_predictions = _aggregate_sequence_predictions(y_pred_XZ_coordinate, prediction_horizon)
+    aggregated_predictions = _aggregate_sequence_predictions(y_test_XZ_coordinate, **{"prediction_horizon":7})
     print("Aggregated Predictions:\n", aggregated_predictions)
