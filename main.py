@@ -13,7 +13,7 @@ common_params = {
     "num_train": 7,
     "num_val": 1,
     "num_test": 2,
-    "num_epochs": 10,
+    "num_epochs": 50,
     "batch_size": 16,
     "sample_index": 0,
     "coordinates": ["Y", "XZ"], # "Y" or "XZ"
