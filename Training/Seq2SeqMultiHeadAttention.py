@@ -1,18 +1,18 @@
 from .BaseMLModel import BaseMLModel
-from ._Seq2SeqMultiHeadAttention import _construct_model
-from ._Seq2SeqMultiHeadAttention import _train_and_evaluate_model
+from ._Seq2SeqMultiHeadAttention import _construct_model, _train_and_evaluate_model
 
 class Seq2SeqMultiHeadAttention(BaseMLModel):
     def __init__(self, **params):
         super(Seq2SeqMultiHeadAttention, self).__init__(**params)
+        self.models_dict = None  # will store { "Y": model, "XZ": model, ... } after construct
 
     def construct_model(self):
-        self.model_Y, self.model_XZ = _construct_model(**self.__dict__)
+        self.models_dict = _construct_model(**self.__dict__)
 
-    def run(self, X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
-            X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
-            Y_scaler, XZ_scaler):
-
-        _train_and_evaluate_model(X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
-                                  X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
-                                  Y_scaler, XZ_scaler, **self.__dict__)
+    def run(self, split_data_dict, scalers_dict):
+        _train_and_evaluate_model(
+            models_dict=self.models_dict,
+            split_data_dict=split_data_dict,
+            scalers_dict=scalers_dict,
+            **self.__dict__
+        )

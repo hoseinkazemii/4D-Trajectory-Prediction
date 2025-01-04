@@ -1,17 +1,23 @@
 from sklearn.preprocessing import RobustScaler
 
-def _scale_data(Y_data_array, XZ_data_array, **params):
-    verbose = params.get("verbose")
-    coordinates = params.get("coordinates")
+def _scale_data(data_arrays_dict, **params):
+    verbose = params.get("verbose", True)
     if verbose:
-        print("Scaling the data...")
+        print("Scaling the data with RobustScaler...")
 
-    for coordinate in coordinates:
-        if coordinate == "Y":
-            Y_scaler = RobustScaler()
-            Y_data_scaled = Y_scaler.fit_transform(Y_data_array)
-        if coordinate == "XZ":
-            XZ_scaler = RobustScaler()
-            XZ_data_scaled = XZ_scaler.fit_transform(XZ_data_array)
+    scaled_arrays_dict = {}
+    scalers_dict = {}
 
-    return Y_data_scaled, Y_scaler, XZ_data_scaled, XZ_scaler
+    # Loop over each coordinate key and array
+    for coord_str, arr in data_arrays_dict.items():
+        # Create a RobustScaler for this particular coordinate or coordinate-group
+        scaler = RobustScaler()
+        # Fit_transform the array
+        arr_scaled = scaler.fit_transform(arr)
+
+        # Store scaled array
+        scaled_arrays_dict[coord_str] = arr_scaled
+        # Store the scaler for possible inverse transforms later
+        scalers_dict[coord_str] = scaler
+
+    return scaled_arrays_dict, scalers_dict

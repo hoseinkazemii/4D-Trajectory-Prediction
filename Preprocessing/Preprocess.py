@@ -8,16 +8,9 @@ class Preprocess():
         self.params = params
 
     def preprocess_data(self):
-        self.df, self.row_counts = _load_data(**self.params) # Loading the datasets
-        self.Y_data_array, self.XZ_data_array = _df_to_array(self.df, **self.params) # Converting the data into arrays, and splitting them to "Y" and "XZ" axis 
-        self.Y_data_scaled, self.Y_scaler, self.XZ_data_scaled, self.XZ_scaler = _scale_data(self.Y_data_array, self.XZ_data_array, **self.params) # Scaling the arrays
-        
-        self.X_train_Y_coordinate, self.X_val_Y_coordinate, self.X_test_Y_coordinate, self.y_train_Y_coordinate, \
-        self.y_val_Y_coordinate, self.y_test_Y_coordinate, self.X_train_XZ_coordinate, self.X_val_XZ_coordinate, \
-        self.X_test_XZ_coordinate, self.y_train_XZ_coordinate, self.y_val_XZ_coordinate, self.y_test_XZ_coordinate = \
-        _split_data_by_scenario(self.Y_data_scaled, self.XZ_data_scaled, self.row_counts, **self.params)       
+        self.df, self.row_counts = _load_data(**self.params)
+        self.data_arrays_dict = _df_to_array(self.df, **self.params)
+        self.scaled_arrays_dict, self.scalers_dict = _scale_data(self.data_arrays_dict, **self.params)
+        self.split_data_dict = _split_data_by_scenario(self.scaled_arrays_dict, self.row_counts, **self.params)
 
-        return self.X_train_Y_coordinate, self.X_val_Y_coordinate, self.X_test_Y_coordinate, self.y_train_Y_coordinate, \
-                self.y_val_Y_coordinate, self.y_test_Y_coordinate, self.X_train_XZ_coordinate, self.X_val_XZ_coordinate, \
-                self.X_test_XZ_coordinate, self.y_train_XZ_coordinate, self.y_val_XZ_coordinate, self.y_test_XZ_coordinate, \
-                self.Y_scaler, self.XZ_scaler
+        return self.split_data_dict, self.scalers_dict

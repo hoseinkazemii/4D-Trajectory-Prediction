@@ -17,6 +17,18 @@ common_params = {
     "batch_size": 16,
     "sample_index": 0,
     "coordinates": ["Y", "XZ"], # "Y" or "XZ"
+    "coord_to_indices" : { # A helper mapping from coordinate string to the appropriate column indices
+        "X":   [0],
+        "Y":   [1],
+        "Z":   [2],
+        "XY":  [0, 1],
+        "XZ":  [0, 2],
+        "YZ":  [1, 2],
+        "XYZ": [0, 1, 2]
+    },
+
+
+
 }
 
 run_specific_params = {
@@ -26,18 +38,14 @@ run_specific_params = {
 params = {**common_params, **run_specific_params}
 
 def main():
-    # Step 1: Preprocess and Train models on Y and XZ coordinates
+    # Step 1: Preprocess and Train models
     preprocessor = Preprocess(**params)
-    X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
-    X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
-    Y_scaler, XZ_scaler = preprocessor.preprocess_data()
-
+    split_data_dict, scalers_dict = preprocessor.preprocess_data()
 
     trainer = Seq2SeqMultiHeadAttention(**params)
     trainer.construct_model()
-    trainer.run(X_train_Y_coordinate, X_val_Y_coordinate, X_test_Y_coordinate, y_train_Y_coordinate, y_val_Y_coordinate, y_test_Y_coordinate, \
-                X_train_XZ_coordinate, X_val_XZ_coordinate, X_test_XZ_coordinate, y_train_XZ_coordinate, y_val_XZ_coordinate, y_test_XZ_coordinate, \
-                Y_scaler, XZ_scaler)
+    trainer.run(split_data_dict, scalers_dict)
+
 
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)
     # plot_3d_trajectory(csv_path="./Reports/Seq2SeqMultiHeadAttention/202501021337/Results.csv", **params)

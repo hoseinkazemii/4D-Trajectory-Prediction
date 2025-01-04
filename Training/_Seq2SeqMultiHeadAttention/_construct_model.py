@@ -15,6 +15,6 @@ def _construct_model(**params):
 			print ("The model is not trained before. No saved models found")
 	else:
 		# Creating the structure of the neural network
-		model_Y, model_XZ = _construct_network(**params)
+		models_dict = _construct_network(**params)
 
-	return model_Y, model_XZ
+	return models_dict
