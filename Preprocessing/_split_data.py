@@ -1,4 +1,3 @@
-# Preprocessing/_split_data.py
 import numpy as np
 
 def _split_data(data, **params):

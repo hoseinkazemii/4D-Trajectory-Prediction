@@ -17,7 +17,7 @@ def _df_to_array(df, **params):
       ... etc.
     """
     verbose = params.get("verbose", True)
-    coordinates = params.get("coordinates", [])
+    coordinates = params.get("coordinates")
     coord_to_indices = params.get("coord_to_indices")
 
     if verbose:

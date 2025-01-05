@@ -16,7 +16,7 @@ common_params = {
     "num_epochs": 10,
     "batch_size": 32,
     "sample_index": 0,
-    "coordinates": ["X", "Y", "Z"], # custom coordinates
+    "coordinates": ["X","Y","Z"], # custom coordinates
     "coord_to_indices" : { # A helper mapping from coordinate string to the appropriate column indices
         "X":   [0],
         "Y":   [1],
@@ -57,7 +57,7 @@ def main():
 
 
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)
-    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqMultiHeadAttention/202501021337/Results.csv", **params)
+    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqMultiHeadAttention/202501042251/Results.csv", **params)
 
 
 

@@ -62,7 +62,7 @@ def _split_data_by_scenario(scaled_arrays_dict, row_counts, **params):
                                  train_indices + val_indices + test_indices]
 
         # Generate sequences
-        # _generate_sequences typically returns (X, y) for each subset
+        # _generate_sequences returns (X, y) for each subset
         X_train, y_train = _generate_sequences(train_data, **params)
         X_val,   y_val   = _generate_sequences(val_data, **params)
         X_test,  y_test  = _generate_sequences(test_data, **params)
