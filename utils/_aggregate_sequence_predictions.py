@@ -1,45 +1,35 @@
 import numpy as np
 
-
 def _aggregate_sequence_predictions(y, **params):
     prediction_horizon = params.get("prediction_horizon")
-    
-    """
-    Aggregate y for overlapping sequences by taking the mean for the overlapping points.
-    
-    Parameters:
-    y (numpy.ndarray): Array of shape (num_sequences, prediction_horizon, 2) containing predicted coordinates.
-    sequence_length (int): The length of the input sequence used for y.
-    prediction_horizon (int): The length of the predicted sequence.
-    
-    Returns:
-    numpy.ndarray: Aggregated y of shape (total_points, 2).
-    """
-    # Initialize a dictionary to store sums and counts of y for each point
+    num_sequences, _, num_features = y.shape
+
+    # Initialize dictionaries to store sums and counts
     point_sums = {}
     point_counts = {}
 
-    num_sequences = y.shape[0]
-
+    # Fill the aggregator
     for seq_idx in range(num_sequences):
         for pred_idx in range(prediction_horizon):
-            time_point = seq_idx + pred_idx  # Calculate the time point in the overall series
-            
+            time_point = seq_idx + pred_idx  # The time index in the "flattened" series
+
             if time_point not in point_sums:
-                point_sums[time_point] = np.zeros(2)
+                point_sums[time_point] = np.zeros(num_features)
                 point_counts[time_point] = 0
             
             point_sums[time_point] += y[seq_idx, pred_idx]
             point_counts[time_point] += 1
 
-    # Calculate the mean for each point
+    # Convert to final aggregated array
     total_points = max(point_sums.keys()) + 1
-    y_aggregated = np.zeros((total_points, 2))
+    y_aggregated = np.zeros((total_points, num_features))
 
-    for time_point in range(total_points):
-        y_aggregated[time_point] = point_sums[time_point] / point_counts[time_point]
+    # Compute average at each time point
+    for t in range(total_points):
+        y_aggregated[t] = point_sums[t] / point_counts[t]
 
     return y_aggregated
+
 
 
 

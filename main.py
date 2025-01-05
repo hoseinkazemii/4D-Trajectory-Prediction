@@ -13,10 +13,10 @@ common_params = {
     "num_train": 7,
     "num_val": 1,
     "num_test": 2,
-    "num_epochs": 50,
-    "batch_size": 16,
+    "num_epochs": 10,
+    "batch_size": 32,
     "sample_index": 0,
-    "coordinates": ["X", "Y", "Z"], # custom coordinates
+    "coordinates": ["XYZ"], # custom coordinates
     "coord_to_indices" : { # A helper mapping from coordinate string to the appropriate column indices
         "X":   [0],
         "Y":   [1],
