@@ -2,7 +2,7 @@ from Preprocessing import _inverse_transform
 from utils import _aggregate_sequence_predictions, _save_prediction_results, _plot_loss
 from utils._evaluate_metrics import _compute_metrics, _export_metrics
 
-def _train_and_evaluate_model(models_dict, split_data_dict, scalers_dict, **params):
+def _train_and_evaluate_model(split_data_dict, scalers_dict, **params):
     """
     Dynamically trains each model in 'models_dict' using data from 'split_data_dict',
     then inversely transforms and aggregates predictions for each coordinate group.
@@ -36,6 +36,7 @@ def _train_and_evaluate_model(models_dict, split_data_dict, scalers_dict, **para
     verbose = params.get('verbose', True)
     num_epochs = params.get('num_epochs')
     batch_size = params.get('batch_size')
+    models_dict = params.get("models_dict")
 
     if verbose:
         print("Training the models for coordinates:", coordinates)

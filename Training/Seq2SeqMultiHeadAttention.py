@@ -11,7 +11,6 @@ class Seq2SeqMultiHeadAttention(BaseMLModel):
 
     def run(self, split_data_dict, scalers_dict):
         _train_and_evaluate_model(
-            models_dict=self.models_dict,
             split_data_dict=split_data_dict,
             scalers_dict=scalers_dict,
             **self.__dict__
