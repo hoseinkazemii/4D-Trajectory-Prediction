@@ -16,5 +16,5 @@ def _construct_model(**params):
 	else:
 		# Creating the structure of the neural network
 		models_dict = _construct_network(**params)
-
+	
 	return models_dict

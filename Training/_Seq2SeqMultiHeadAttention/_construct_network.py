@@ -53,9 +53,7 @@ def _construct_network(**params):
         in_dim = COORD_TO_DIM[coord_str]   # e.g. 2 if coord_str == "XZ"
         out_dim = in_dim                  # same dimension for predictions
 
-        # --------------------------------------------------
-        #  1) Encoder
-        # --------------------------------------------------
+        # Encoder
         # Use shape (sequence_length, in_dim), e.g. (seq_len, 2) for XZ
         encoder_inputs = Input(shape=(sequence_length, in_dim), 
                                name=f"encoder_input_{coord_str}_mha")
@@ -65,9 +63,7 @@ def _construct_network(**params):
         encoder_outputs, state_h, state_c = encoder_lstm(encoder_inputs)
         # => (batch_size, sequence_length, 16)
 
-        # --------------------------------------------------
-        #  2) Multi-head cross-attention
-        # --------------------------------------------------
+        # Multi-head cross-attention
         # We treat state_h => (batch_size, 16) as the "query" 
         # and reshape it to (batch_size, 1, 16).
         query = Reshape((1, 16), name=f"reshape_query_{coord_str}_mha")(state_h)
@@ -81,9 +77,7 @@ def _construct_network(**params):
         context_vector_2d = Reshape((16,), 
                                     name=f"reshape_context_{coord_str}_mha")(context_vector)
 
-        # --------------------------------------------------
-        #  3) Decoder
-        # --------------------------------------------------
+        # Decoder
         # Repeat the 2D context for 'prediction_horizon' steps
         decoder_inputs = RepeatVector(prediction_horizon, 
                                       name=f"repeat_context_{coord_str}_mha")(context_vector_2d)
@@ -100,24 +94,19 @@ def _construct_network(**params):
         predictions = decoder_dense(decoder_outputs)
         # => (batch_size, prediction_horizon, out_dim)
 
-        # --------------------------------------------------
-        #  4) Build & compile the model
-        # --------------------------------------------------
+        # Build & compile the model
         model = Model(encoder_inputs, predictions, 
                       name=f"MHA_Model_{coord_str}")
         model.compile(optimizer=Adam(), loss=MeanSquaredError())
 
-        # --------------------------------------------------
-        #  5) Log model summary
-        # --------------------------------------------------
+        # Log model summary
         summary_io = StringIO()
         with contextlib.redirect_stdout(summary_io):
             model.summary()
         log.info(f"MultiHeadAttention - Model {coord_str} Summary:\n" + summary_io.getvalue())
         summary_io.close()
 
-        # 6) Store the model in the dictionary
+        # Store the model in the dictionary
         models_dict[coord_str] = model
 
-    # Return the dictionary of models
     return models_dict
