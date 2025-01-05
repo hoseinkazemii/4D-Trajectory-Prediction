@@ -32,10 +32,10 @@ def _train_and_evaluate_model(models_dict, split_data_dict, scalers_dict, **para
       metrics_dict: aggregated metrics (if you combine them into one call).
     """
 
-    coordinates = params.get("coordinates", [])
+    coordinates = params.get("coordinates")
     verbose = params.get('verbose', True)
-    num_epochs = params.get('num_epochs', 20)
-    batch_size = params.get('batch_size', 32)
+    num_epochs = params.get('num_epochs')
+    batch_size = params.get('batch_size')
 
     if verbose:
         print("Training the models for coordinates:", coordinates)
