@@ -5,8 +5,10 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import (
     Input, LSTM, Dense, TimeDistributed, RepeatVector, Reshape
 )
-from tensorflow.keras.losses import MeanSquaredError
+from tensorflow.keras.losses import MeanSquaredError, Huber
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers.schedules import ExponentialDecay
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 from ._attention_layer import MultiHeadEncDecAttention
 
@@ -27,6 +29,9 @@ def _construct_network(**params):
     coordinates_list = params.get("coordinates") # e.g. ["XZ", "Y"] or ["X","Y","Z"], etc.
     log = params.get("log")
     coord_to_dim = params.get("coord_to_dim")
+    learning_rate = params.get("learning_rate")
+    decay_steps = params.get("decay_steps")
+    decay_rate = params.get("decay_rate")
 
     if verbose:
         print("Building Seq2Seq models (with Multi-Head Attention) for coordinates: ", coordinates_list)
@@ -53,11 +58,11 @@ def _construct_network(**params):
         encoder_lstm2 = LSTM(64, return_sequences=True, return_state=True, name='encoder_2')
         encoder_outputs = encoder_lstm1(encoder_inputs)
         encoder_outputs, state_h, state_c = encoder_lstm2(encoder_outputs)
-        # => (batch_size, sequence_length, 16)      
+        # => (batch_size, sequence_length, 64)      
 
         # Multi-head cross-attention
-        # We treat state_h => (batch_size, 16) as the "query" 
-        # and reshape it to (batch_size, 1, 16).
+        # We treat state_h => (batch_size, 64) as the "query" 
+        # and reshape it to (batch_size, 1, 64).
         query = Reshape((1, 64), name=f"reshape_query_{coord_str}_mha")(state_h)
 
         mha_layer = MultiHeadEncDecAttention(num_heads=8, key_dim=32, 
@@ -87,9 +92,23 @@ def _construct_network(**params):
         # => (batch_size, prediction_horizon, out_dim)
 
         # Build & compile the model
+        # Use learning rate scheduling
+
+        lr_schedule = ExponentialDecay(
+            learning_rate, decay_steps, decay_rate)
+        optimizer = Adam(learning_rate=lr_schedule)
         model = Model(encoder_inputs, predictions, 
                       name=f"MHA_Model_{coord_str}")
-        model.compile(optimizer=Adam(), loss=MeanSquaredError())
+        model.compile(optimizer=optimizer, loss=MeanSquaredError())
+
+        # # Add early stopping and model checkpointing
+        # early_stopping = EarlyStopping(monitor='val_loss', 
+        #                             patience=10,
+        #                             restore_best_weights=True)
+        # model_checkpoint = ModelCheckpoint('best_model.keras', 
+        #                                 monitor='val_loss',
+        #                                 save_best_only=True)
+
 
         # Log model summary
         summary_io = StringIO()

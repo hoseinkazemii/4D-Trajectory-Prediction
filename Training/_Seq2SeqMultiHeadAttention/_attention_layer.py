@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras.layers import Layer, MultiHeadAttention, Reshape, LayerNormalization
 
-
 class MultiHeadEncDecAttention(Layer):
     """
     Simple wrapper around Keras's MultiHeadAttention for seq2seq usage.
@@ -14,6 +13,7 @@ class MultiHeadEncDecAttention(Layer):
         super(MultiHeadEncDecAttention, self).__init__(**kwargs)
         self.mha = MultiHeadAttention(num_heads=num_heads, key_dim=key_dim)
         self.layernorm = LayerNormalization()  # Add normalization
+
 
     def call(self, inputs, **kwargs):
         """

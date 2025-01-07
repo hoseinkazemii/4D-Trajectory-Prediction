@@ -14,9 +14,12 @@ common_params = {
     "num_val": 1,
     "num_test": 2,
     "num_epochs": 50,
+    "learning_rate" : 0.001,
+    "decay_steps" : 1000,
+    "decay_rate" : 0.9,
     "batch_size": 32,
     "sample_index": 0,
-    "coordinates": ["XZ","Y"], # custom coordinates
+    "coordinates": ["XYZ"], # custom coordinates
     "coord_to_indices" : { # A helper mapping from coordinate string to the appropriate column indices
         "X":   [0],
         "Y":   [1],
