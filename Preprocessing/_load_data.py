@@ -12,13 +12,12 @@ def _load_data(**params):
     all_files = sorted(
         [os.path.join(data_directory, f) for f in os.listdir(data_directory) if f.endswith('.csv')]
     )
-    
+
     # Read each CSV into its own DataFrame
     df_list = []
     for file_path in all_files:
         df_list.append(pd.read_csv(file_path))
 
-    # row_counts is optional if you want to see how many rows each scenario has
     row_counts = [len(df) for df in df_list]
     
     # Instead of concatenating, we return df_list

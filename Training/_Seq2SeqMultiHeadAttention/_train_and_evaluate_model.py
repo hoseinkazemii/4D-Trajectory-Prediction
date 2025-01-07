@@ -119,10 +119,6 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, **params):
         y_true_agg = _aggregate_sequence_predictions(y_true_inv, **params)
         y_pred_agg = _aggregate_sequence_predictions(y_pred_inv, **params)
 
-        print(f"y_true_agg: {y_true_agg}")
-        print("****************************")
-        print(f"y_pred_agg: {y_pred_agg}")
-
         # Assign results to X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred
         _assign_results(y_true_agg, y_pred_agg, coord_str)
 

@@ -13,19 +13,19 @@ def _scale_data(arrays_list, **params):
       - scaled_arrays_list => same shape as arrays_list but with scaled values
       - scalers_dict => { coord_str: fitted_scaler }
     """
-    coordinates = params.get("coordinates", [])
+    coordinates = params.get("coordinates")
     verbose = params.get("verbose", True)
 
     if verbose:
         print("Fitting scalers globally for each coordinate & scaling each scenario.")
 
-    # 1) Gather all data for each coordinate from all scenarios
+    # Gather all data for each coordinate from all scenarios
     big_data = {coord_str: [] for coord_str in coordinates}
     for scenario_dict in arrays_list:
         for coord_str in coordinates:
             big_data[coord_str].append(scenario_dict[coord_str])
     
-    # 2) Fit a single scaler for each coordinate
+    # Fit a single scaler for each coordinate
     scalers_dict = {}
     for coord_str in coordinates:
         cat_data = np.concatenate(big_data[coord_str], axis=0)  # combine rows from all scenarios
@@ -35,7 +35,7 @@ def _scale_data(arrays_list, **params):
         if verbose:
             print(f"Fitted scaler for coordinate '{coord_str}' with data shape {cat_data.shape}.")
 
-    # 3) Transform each scenario's arrays
+    # Transform each scenario's arrays
     scaled_arrays_list = []
     for scenario_dict in arrays_list:
         scaled_scenario = {}

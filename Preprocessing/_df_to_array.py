@@ -10,7 +10,7 @@ def _df_to_array(df, **params):
     verbose = params.get("verbose", True)
 
     if verbose:
-        print("Converting single scenario DataFrame to arrays for:", coordinates)
+        print("Converting single scenario DataFrame to arrays for: ", coordinates)
 
     # Extract raw data => shape (N, 3) from columns ["X","Y","Z"]
     data_3cols = df[["X","Y","Z"]].values
@@ -37,30 +37,26 @@ def _dfs_to_array(df_list, **params):
     return arrays_list
 
 
-def _df_to_array_single(df, coordinates, **params):
-    """
-    Convert one DataFrame to a dict of arrays, keyed by coordinate string.
-    e.g.: { "XYZ": <ndarray>, "XZ": <ndarray>, ... }
-    """
-    coord_to_indices = params.get("coord_to_indices")
+# def _df_to_array_single(df, coordinates, **params):
+#     """
+#     Convert one DataFrame to a dict of arrays, keyed by coordinate string.
+#     e.g.: { "XYZ": <ndarray>, "XZ": <ndarray>, ... }
+#     """
+#     coord_to_indices = params.get("coord_to_indices")
 
-    # Extract the 3 columns from the DF
-    data_3cols = df[['X', 'Y', 'Z']].values  # shape (num_rows, 3)
+#     # Extract the 3 columns from the DF
+#     data_3cols = df[['X', 'Y', 'Z']].values  # shape (num_rows, 3)
 
-    arrays_dict = {}
-    for coord_str in coordinates:
-        if coord_str not in coord_to_indices:
-            raise ValueError(f"Unknown coordinate pattern '{coord_str}'. "
-                             f"Supported keys: {list(coord_to_indices.keys())}")
+#     arrays_dict = {}
+#     for coord_str in coordinates:
+#         if coord_str not in coord_to_indices:
+#             raise ValueError(f"Unknown coordinate pattern '{coord_str}'. "
+#                              f"Supported keys: {list(coord_to_indices.keys())}")
 
-        # Retrieve the columns we want
-        col_inds = coord_to_indices[coord_str]
-        arrays_dict[coord_str] = data_3cols[:, col_inds]
-    return arrays_dict
-
-
-
-
+#         # Retrieve the columns we want
+#         col_inds = coord_to_indices[coord_str]
+#         arrays_dict[coord_str] = data_3cols[:, col_inds]
+#     return arrays_dict
 
 
 # def _df_to_array(df, **params):

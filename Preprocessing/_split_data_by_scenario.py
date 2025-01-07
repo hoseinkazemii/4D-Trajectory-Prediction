@@ -15,10 +15,10 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
 
     Returns: split_data_dict => e.g. { "X": { "X_train": <>, "y_train": <>, ... }, "Y": {...}, ... }
     """
-    num_train_files = params.get("num_train", 0)
-    num_val_files   = params.get("num_val", 0)
-    num_test_files  = params.get("num_test", 0)
-    coordinates     = params.get("coordinates", [])
+    num_train_files = params.get("num_train")
+    num_val_files   = params.get("num_val")
+    num_test_files  = params.get("num_test")
+    coordinates     = params.get("coordinates")
     verbose         = params.get("verbose", True)
 
     total_scenarios = len(scaled_arrays_list)
@@ -27,8 +27,8 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
 
     # Prepare empty structure
     split_data_dict = {}
-    for c in coordinates:
-        split_data_dict[c] = {
+    for coordinate_str in coordinates:
+        split_data_dict[coordinate_str] = {
             "X_train": [], "y_train": [],
             "X_val": [],   "y_val": [],
             "X_test": [],  "y_test": []
@@ -46,28 +46,28 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
     # Loop over each scenario & coordinate
     for i, scenario_dict in enumerate(scaled_arrays_list):
         subset_label = get_subset(i)
-        for c in coordinates:
-            arr = scenario_dict[c]  # shape (rows_i, dim)
+        for coordinate_str in coordinates:
+            arr = scenario_dict[coordinate_str]  # shape (rows_i, dim)
             X_seq, y_seq = _generate_sequences(arr, **params)
 
             if subset_label == "train":
-                split_data_dict[c]["X_train"].append(X_seq)
-                split_data_dict[c]["y_train"].append(y_seq)
+                split_data_dict[coordinate_str]["X_train"].append(X_seq)
+                split_data_dict[coordinate_str]["y_train"].append(y_seq)
             elif subset_label == "val":
-                split_data_dict[c]["X_val"].append(X_seq)
-                split_data_dict[c]["y_val"].append(y_seq)
+                split_data_dict[coordinate_str]["X_val"].append(X_seq)
+                split_data_dict[coordinate_str]["y_val"].append(y_seq)
             else:  # test
-                split_data_dict[c]["X_test"].append(X_seq)
-                split_data_dict[c]["y_test"].append(y_seq)
+                split_data_dict[coordinate_str]["X_test"].append(X_seq)
+                split_data_dict[coordinate_str]["y_test"].append(y_seq)
 
     # Concatenate within each subset
-    for c in coordinates:
+    for coordinate_str in coordinates:
         for subset_name in ["X_train","y_train","X_val","y_val","X_test","y_test"]:
-            if len(split_data_dict[c][subset_name]) > 0:
-                split_data_dict[c][subset_name] = np.concatenate(split_data_dict[c][subset_name], axis=0)
+            if len(split_data_dict[coordinate_str][subset_name]) > 0:
+                split_data_dict[coordinate_str][subset_name] = np.concatenate(split_data_dict[coordinate_str][subset_name], axis=0)
             else:
                 # If no data, set an empty array
-                split_data_dict[c][subset_name] = np.array([])
+                split_data_dict[coordinate_str][subset_name] = np.array([])
 
     return split_data_dict
 

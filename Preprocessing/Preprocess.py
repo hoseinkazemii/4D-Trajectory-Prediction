@@ -23,7 +23,7 @@ class Preprocess():
         3) Fit scalers across all scenarios (per coordinate) & transform them => scaled_arrays_list
         4) Split the scaled arrays into train/val/test by scenario index (no cross-scenario sequences).
         """
-        # 1) Load the datasets => list of DataFrames (one per scenario)
+        # Load the datasets => list of DataFrames (one per scenario)
         self.df_list, self.row_counts = _load_data(**self.params)
         # e.g. df_list[0], df_list[1], ... each is a separate scenario's DataFrame
         self.arrays_list = _dfs_to_array(self.df_list, **self.params)
