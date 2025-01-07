@@ -35,4 +35,4 @@ class MultiHeadEncDecAttention(Layer):
 
         self.attention_weights = attn_weights  # For visualization purposes
 
-        return context_vector
+        return self.layernorm(context_vector)
