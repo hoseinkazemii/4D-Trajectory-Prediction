@@ -23,13 +23,6 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, **params):
 
     scalers_dict: dict of { coordinate_str: scaler_object }
       e.g. { "Y": Y_scaler, "XZ": XZ_scaler, ... }
-
-    params: includes hyperparameters like:
-      - num_epochs, batch_size, verbose, etc.
-      - coordinates: list of coordinate strings (e.g. ["Y", "XZ", ...])
-
-    Returns:
-      metrics_dict: aggregated metrics (if you combine them into one call).
     """
 
     coordinates = params.get("coordinates")
@@ -125,6 +118,10 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, **params):
         # Aggregate sequences
         y_true_agg = _aggregate_sequence_predictions(y_true_inv, **params)
         y_pred_agg = _aggregate_sequence_predictions(y_pred_inv, **params)
+
+        print(f"y_true_agg: {y_true_agg}")
+        print("****************************")
+        print(f"y_pred_agg: {y_pred_agg}")
 
         # Assign results to X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred
         _assign_results(y_true_agg, y_pred_agg, coord_str)

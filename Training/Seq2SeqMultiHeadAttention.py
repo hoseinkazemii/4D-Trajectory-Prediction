@@ -4,7 +4,7 @@ from ._Seq2SeqMultiHeadAttention import _construct_model, _train_and_evaluate_mo
 class Seq2SeqMultiHeadAttention(BaseMLModel):
     def __init__(self, **params):
         super(Seq2SeqMultiHeadAttention, self).__init__(**params)
-        self.models_dict = None  # will store { "Y": model, "XZ": model, ... } after construct
+        self.models_dict = None  # will store { "XZ": model, "Y": model, ... } after construct
 
     def construct_model(self):
         self.models_dict = _construct_model(**self.__dict__)

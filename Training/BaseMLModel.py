@@ -14,6 +14,6 @@ class BaseMLModel:
 			os.path.join(".", 'Reports', self.model_name, f"{now}")
 		if not os.path.exists(self.report_directory):
 			os.makedirs(self.report_directory)
-		self.log = Logger(address = f"{self.report_directory}/Log.log")
 
+		self.log = Logger(address = f"{self.report_directory}/Log.log")
 		self.log.info(pprint.pformat(self.__dict__))

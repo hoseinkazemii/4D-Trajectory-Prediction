@@ -31,4 +31,6 @@ class MultiHeadEncDecAttention(Layer):
         )
         # context_vector => (batch_size, 1, hidden_dim)
 
+        self.attention_weights = attn_weights  # For visualization purposes
+
         return context_vector

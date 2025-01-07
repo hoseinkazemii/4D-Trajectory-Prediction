@@ -8,19 +8,8 @@ from tensorflow.keras.layers import (
 from tensorflow.keras.losses import MeanSquaredError
 from tensorflow.keras.optimizers import Adam
 
-# Example: we import the MultiHeadEncDecAttention or your own attention
 from ._attention_layer import MultiHeadEncDecAttention
 
-# A small helper dictionary to map coordinate strings to input/output dims
-COORD_TO_DIM = {
-    "X": 1,
-    "Y": 1,
-    "Z": 1,
-    "XY": 2,
-    "XZ": 2,
-    "YZ": 2,
-    "XYZ": 3
-}
 
 def _construct_network(**params):
     """
@@ -37,6 +26,7 @@ def _construct_network(**params):
     prediction_horizon = params.get("prediction_horizon")
     coordinates_list = params.get("coordinates") # e.g. ["XZ", "Y"] or ["X","Y","Z"], etc.
     log = params.get("log")
+    coord_to_dim = params.get("coord_to_dim")
 
     if verbose:
         print("Building Seq2Seq models (with Multi-Head Attention) for coordinates: ", coordinates_list)
@@ -45,12 +35,12 @@ def _construct_network(**params):
     models_dict = {}
 
     for coord_str in coordinates_list:
-        # 1) Determine input/output dimension from the coordinate string
-        if coord_str not in COORD_TO_DIM:
+        # Determine input/output dimension from the coordinate string
+        if coord_str not in coord_to_dim:
             raise ValueError(f"Unknown coordinate pattern '{coord_str}'. "
-                             f"Supported keys: {list(COORD_TO_DIM.keys())}")
+                             f"Supported keys: {list(coord_to_dim.keys())}")
 
-        in_dim = COORD_TO_DIM[coord_str]   # e.g. 2 if coord_str == "XZ"
+        in_dim = coord_to_dim[coord_str]   # e.g. 2 if coord_str == "XZ"
         out_dim = in_dim                  # same dimension for predictions
 
         # Encoder
@@ -58,7 +48,7 @@ def _construct_network(**params):
         encoder_inputs = Input(shape=(sequence_length, in_dim), 
                                name=f"encoder_input_{coord_str}_mha")
 
-        encoder_lstm = LSTM(16, return_sequences=True, return_state=True,
+        encoder_lstm = LSTM(16, return_sequences=True, return_state=True, dropout=0.2,
                             name=f"encoder_lstm_{coord_str}_mha")
         encoder_outputs, state_h, state_c = encoder_lstm(encoder_inputs)
         # => (batch_size, sequence_length, 16)
@@ -83,7 +73,7 @@ def _construct_network(**params):
                                       name=f"repeat_context_{coord_str}_mha")(context_vector_2d)
         # => (batch_size, prediction_horizon, 16)
 
-        decoder_lstm = LSTM(16, return_sequences=True, 
+        decoder_lstm = LSTM(16, return_sequences=True, dropout=0.2,
                             name=f"decoder_lstm_{coord_str}_mha")
         decoder_outputs = decoder_lstm(decoder_inputs, 
                                        initial_state=[state_h, state_c])

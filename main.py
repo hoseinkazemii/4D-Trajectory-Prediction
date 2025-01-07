@@ -16,7 +16,7 @@ common_params = {
     "num_epochs": 10,
     "batch_size": 32,
     "sample_index": 0,
-    "coordinates": ["X","Y","Z"], # custom coordinates
+    "coordinates": ["X","Y", "Z"], # custom coordinates
     "coord_to_indices" : { # A helper mapping from coordinate string to the appropriate column indices
         "X":   [0],
         "Y":   [1],
