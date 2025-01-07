@@ -164,3 +164,4 @@ cython_debug/
 # Ignore CSV and PNG files
 *.csv
 *.png
+*.keras
