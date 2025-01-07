@@ -48,36 +48,38 @@ def _construct_network(**params):
         encoder_inputs = Input(shape=(sequence_length, in_dim), 
                                name=f"encoder_input_{coord_str}_mha")
 
-        encoder_lstm = LSTM(16, return_sequences=True, return_state=True, dropout=0.2,
-                            name=f"encoder_lstm_{coord_str}_mha")
-        encoder_outputs, state_h, state_c = encoder_lstm(encoder_inputs)
-        # => (batch_size, sequence_length, 16)
+        # Add multiple LSTM layers
+        encoder_lstm1 = LSTM(64, return_sequences=True, name='encoder_1', dropout=0.2, recurrent_dropout=0.2)
+        encoder_lstm2 = LSTM(64, return_sequences=True, return_state=True, name='encoder_2')
+        encoder_outputs = encoder_lstm1(encoder_inputs)
+        encoder_outputs, state_h, state_c = encoder_lstm2(encoder_outputs)
+        # => (batch_size, sequence_length, 16)      
 
         # Multi-head cross-attention
         # We treat state_h => (batch_size, 16) as the "query" 
         # and reshape it to (batch_size, 1, 16).
-        query = Reshape((1, 16), name=f"reshape_query_{coord_str}_mha")(state_h)
+        query = Reshape((1, 64), name=f"reshape_query_{coord_str}_mha")(state_h)
 
-        mha_layer = MultiHeadEncDecAttention(num_heads=4, key_dim=16, 
+        mha_layer = MultiHeadEncDecAttention(num_heads=8, key_dim=32, 
                                              name=f"mha_{coord_str}")
         context_vector = mha_layer([query, encoder_outputs])  
-        # => shape (batch_size, 1, 16)
+        # => shape (batch_size, 1, 64)
 
         # Optionally flatten context to 2D
-        context_vector_2d = Reshape((16,), 
+        context_vector_2d = Reshape((64,), 
                                     name=f"reshape_context_{coord_str}_mha")(context_vector)
 
         # Decoder
         # Repeat the 2D context for 'prediction_horizon' steps
         decoder_inputs = RepeatVector(prediction_horizon, 
                                       name=f"repeat_context_{coord_str}_mha")(context_vector_2d)
-        # => (batch_size, prediction_horizon, 16)
+        # => (batch_size, prediction_horizon, 64)
 
-        decoder_lstm = LSTM(16, return_sequences=True, dropout=0.2,
+        decoder_lstm = LSTM(64, return_sequences=True, dropout=0.2,
                             name=f"decoder_lstm_{coord_str}_mha")
         decoder_outputs = decoder_lstm(decoder_inputs, 
                                        initial_state=[state_h, state_c])
-        # => (batch_size, prediction_horizon, 16)
+        # => (batch_size, prediction_horizon, 64)
 
         decoder_dense = TimeDistributed(Dense(out_dim), 
                                         name=f"decoder_dense_{coord_str}_mha")

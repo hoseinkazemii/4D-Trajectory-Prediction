@@ -1,5 +1,6 @@
 import tensorflow as tf
-from tensorflow.keras.layers import Layer, MultiHeadAttention, Reshape
+from tensorflow.keras.layers import Layer, MultiHeadAttention, Reshape, LayerNormalization
+
 
 class MultiHeadEncDecAttention(Layer):
     """
@@ -12,6 +13,7 @@ class MultiHeadEncDecAttention(Layer):
     def __init__(self, num_heads=4, key_dim=16, **kwargs):
         super(MultiHeadEncDecAttention, self).__init__(**kwargs)
         self.mha = MultiHeadAttention(num_heads=num_heads, key_dim=key_dim)
+        self.layernorm = LayerNormalization()  # Add normalization
 
     def call(self, inputs, **kwargs):
         """
