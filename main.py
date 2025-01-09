@@ -7,7 +7,7 @@ common_params = {
     "data_directory": "./Data/",
     "verbose": True,
     "warmup": False,
-    "sequence_length": 10, # The length of the input sequences (e.g., 10 time steps)
+    "sequence_length": 15, # The length of the input sequences (e.g., 10 time steps)
     "sequence_step": 1, # The distance between consecutive coordinates to generate sequences
     "prediction_horizon": 3, # The number of future time steps we want to predict
     "num_train": 7,

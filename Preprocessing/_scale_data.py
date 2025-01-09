@@ -41,8 +41,8 @@ def _scale_data(arrays_list, **params):
         scaled_scenario = {}
         for coord_str in coordinates:
             arr = scenario_dict[coord_str]
-            scaled_scenario[coord_str] = arr
-            # scaled_scenario[coord_str] = scalers_dict[coord_str].transform(arr)
+            # scaled_scenario[coord_str] = arr
+            scaled_scenario[coord_str] = scalers_dict[coord_str].transform(arr)
         scaled_arrays_list.append(scaled_scenario)
 
     return scaled_arrays_list, scalers_dict

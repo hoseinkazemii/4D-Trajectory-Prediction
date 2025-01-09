@@ -1,6 +1,7 @@
 from Preprocessing import _inverse_transform
 from utils import _aggregate_sequence_predictions, _save_prediction_results, _plot_loss
 from utils._evaluate_metrics import _compute_metrics, _export_metrics
+import pandas as pd
 
 def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **params):
     """
@@ -109,18 +110,23 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **param
 
         # Predict on test
         y_pred_test = model.predict(test_X)
-
+        # print(f"y_pred_test.shape: {y_pred_test.shape}")
         # Inverse transform (test_y and y_pred_test)
         # shape => (num_samples, prediction_horizon, dimension_of(coord_str))
         y_true_inv = _inverse_transform(scaler, test_y, coord_str, **params)
         y_pred_inv = _inverse_transform(scaler, y_pred_test, coord_str, **params)
+        # print(f"y_true_inv.shape: {y_true_inv.shape}")
+        # print(f"y_true_inv[-10:]: {y_true_inv[-10:]}")
+        print(f"y_true_inv.shape: {y_true_inv.shape}")
+        print(f"y_pred_inv.shape: {y_pred_inv.shape}")
 
         # Aggregate sequences
-        y_true_agg = _aggregate_sequence_predictions(y_true_inv, **params)
-        y_pred_agg = _aggregate_sequence_predictions(y_pred_inv, **params)
-
+        y_true_agg = _aggregate_sequence_predictions(y_true_inv, row_counts, **params)
+        y_pred_agg = _aggregate_sequence_predictions(y_pred_inv, row_counts, **params)
         print(f"y_true_agg.shape: {y_true_agg.shape}")
-
+        print(f"y_pred_agg.shape: {y_pred_agg.shape}")
+        # print(f"y_true_agg.shape: {y_true_agg.shape}")
+        # print(f"y_true_agg[54:58]: {y_true_agg[54:58]}")
 
         # Assign results to X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred
         _assign_results(y_true_agg, y_pred_agg, coord_str)
@@ -133,8 +139,9 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **param
     _save_prediction_results(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, row_counts, **params)
 
     print(f"X_true.shape: {X_true.shape}")
-    print(f"Y_true.shape: {Y_true.shape}")
-    print(f"Z_true.shape: {Z_true.shape}")
+    print(f"X_true")
+    # print(f"Y_true.shape: {Y_true.shape}")
+    # print(f"Z_true.shape: {Z_true.shape}")
 
 
     # Compute metrics (handles partial or full if some are None)
