@@ -14,7 +14,6 @@ class MultiHeadEncDecAttention(Layer):
         self.mha = MultiHeadAttention(num_heads=num_heads, key_dim=key_dim)
         self.layernorm = LayerNormalization()  # Add normalization
 
-
     def call(self, inputs, **kwargs):
         """
         inputs = [query, value]

@@ -17,14 +17,15 @@ class Preprocess():
 
     def preprocess_data(self):
         """
-        Preprocess the data from multiple scenario CSV files.
-        1) Load each file into a separate DataFrame. (No concatenation)
+        Preprocess the data from multiple scenario CSV files:
+        1) Load each file into a separate DataFrame. (A list of dataframes, No concatenation)
         2) Convert each DF to unscaled arrays (dict form).
         3) Fit scalers across all scenarios (per coordinate) & transform them => scaled_arrays_list
         4) Split the scaled arrays into train/val/test by scenario index (no cross-scenario sequences).
         """
         # Load the datasets => list of DataFrames (one per scenario)
         self.df_list, self.row_counts = _load_data(**self.params)
+
         # e.g. df_list[0], df_list[1], ... each is a separate scenario's DataFrame
         self.arrays_list = _dfs_to_array(self.df_list, **self.params)
         # 3) Scale the arrays across ALL scenarios for each coordinate
@@ -36,7 +37,7 @@ class Preprocess():
         #    => no cross-file boundaries
         self.split_data_dict = _split_data_by_scenario(self.scaled_arrays_list, **self.params)
 
-        return self.split_data_dict, self.scalers_dict
+        return self.split_data_dict, self.scalers_dict, self.row_counts
 
 
 # from ._load_data import _load_data

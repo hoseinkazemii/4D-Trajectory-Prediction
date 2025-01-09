@@ -19,7 +19,7 @@ common_params = {
     "decay_rate" : 0.9,
     "batch_size": 32,
     "sample_index": 0,
-    "coordinates": ["X", "Y", "Z"], # custom coordinates
+    "coordinates": ["XYZ"], # custom coordinates
     "coord_to_indices" : { # A helper mapping from coordinate string to the appropriate column indices
         "X":   [0],
         "Y":   [1],
@@ -52,11 +52,11 @@ params = {**common_params, **run_specific_params}
 def main():
     # Step 1: Preprocess and Train models
     preprocessor = Preprocess(**params)
-    split_data_dict, scalers_dict = preprocessor.preprocess_data()
+    split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
 
     trainer = Seq2SeqMultiHeadAttention(**params)
     trainer.construct_model()
-    trainer.run(split_data_dict, scalers_dict)
+    trainer.run(split_data_dict, scalers_dict, row_counts)
 
 
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)

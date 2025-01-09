@@ -9,7 +9,10 @@ def _compute_metrics(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params):
     Computes a variety of metrics for 3D regression tasks.
     Returns a dictionary of metric_name -> value.
     """
+    verbose = params.get("verbose")
 
+    if verbose:
+        print("Computing metrics...")
     metrics_dict = {}
 
     # Convert to numpy arrays (if they aren't already)
@@ -82,9 +85,6 @@ def _compute_metrics(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params):
 
 def _export_metrics(metrics_dict, **params):
     """
-    Exports the metrics dictionary and logs them using your custom Logger.
-    - metrics_dict: dict of metric_name -> float
-    - logger: an instance of your custom Logger to write to .txt
     - export_path: path to output file. If None, we simply skip saving to CSV/JSON
                   but ALWAYS log them via logger.
                   If it ends with '.csv', we save as CSV.
@@ -93,17 +93,16 @@ def _export_metrics(metrics_dict, **params):
     """
     export_path = params.get("export_path")
     logger = params.get("log")
-    verbose = params.get("verbose")
 
-    # 1) Build a string to log (human-readable)
+    # Build a string to log (human-readable)
     output = "===== Metrics =====\n"
     for k, v in metrics_dict.items():
         output += f"{k}: {v:.4f}\n"
 
-    # 2) Log metrics to your text log using logger.info
+    # Log metrics to the text log
     logger.info(output)
 
-    # 3) Optionally save to a file (CSV/JSON) if export_path is provided
+    # Optionally saving to a file (CSV/JSON) if export_path is provided
     if export_path is not None and len(export_path.strip()) > 0:
         _, file_ext = os.path.splitext(export_path)
         file_ext = file_ext.lower()

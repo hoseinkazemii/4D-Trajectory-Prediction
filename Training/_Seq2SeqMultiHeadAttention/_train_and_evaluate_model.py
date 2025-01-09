@@ -2,7 +2,7 @@ from Preprocessing import _inverse_transform
 from utils import _aggregate_sequence_predictions, _save_prediction_results, _plot_loss
 from utils._evaluate_metrics import _compute_metrics, _export_metrics
 
-def _train_and_evaluate_model(split_data_dict, scalers_dict, **params):
+def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **params):
     """
     Dynamically trains each model in 'models_dict' using data from 'split_data_dict',
     then inversely transforms and aggregates predictions for each coordinate group.
@@ -119,6 +119,9 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, **params):
         y_true_agg = _aggregate_sequence_predictions(y_true_inv, **params)
         y_pred_agg = _aggregate_sequence_predictions(y_pred_inv, **params)
 
+        print(f"y_true_agg.shape: {y_true_agg.shape}")
+
+
         # Assign results to X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred
         _assign_results(y_true_agg, y_pred_agg, coord_str)
 
@@ -127,10 +130,12 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, **params):
 
     # Now, we have final X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred
     # depending on which coordinates exist. Let's save them:
-    _save_prediction_results(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params)
+    _save_prediction_results(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, row_counts, **params)
 
-    if verbose:
-        print("Computing metrics...")
+    print(f"X_true.shape: {X_true.shape}")
+    print(f"Y_true.shape: {Y_true.shape}")
+    print(f"Z_true.shape: {Z_true.shape}")
+
 
     # Compute metrics (handles partial or full if some are None)
     metrics_dict = _compute_metrics(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params)

@@ -1,5 +1,6 @@
 import numpy as np
 from ._generate_sequences import _generate_sequences
+from utils import _aggregate_sequence_predictions
 
 def _split_data_by_scenario(scaled_arrays_list, **params):
     """
