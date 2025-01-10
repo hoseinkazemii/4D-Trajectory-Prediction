@@ -9,7 +9,7 @@ class MultiHeadEncDecAttention(Layer):
     Returns:
       context_vector shape: (batch_size, 1, hidden_dim)
     """
-    def __init__(self, num_heads=4, key_dim=16, **kwargs):
+    def __init__(self, num_heads, key_dim, **kwargs):
         super(MultiHeadEncDecAttention, self).__init__(**kwargs)
         self.mha = MultiHeadAttention(num_heads=num_heads, key_dim=key_dim)
         self.layernorm = LayerNormalization()  # Add normalization
