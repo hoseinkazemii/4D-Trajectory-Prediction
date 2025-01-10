@@ -44,7 +44,7 @@ common_params = {
 }
 
 run_specific_params = {
-    "model_name": "Seq2SeqMultiHeadAttention",
+    "model_name": "Seq2SeqLuongAttention",
 }
 
 params = {**common_params, **run_specific_params}
@@ -54,7 +54,7 @@ def main():
     preprocessor = Preprocess(**params)
     split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
 
-    trainer = Seq2SeqMultiHeadAttention(**params)
+    trainer = Seq2SeqLuongAttention(**params)
     trainer.construct_model()
     trainer.run(split_data_dict, scalers_dict, row_counts)
 

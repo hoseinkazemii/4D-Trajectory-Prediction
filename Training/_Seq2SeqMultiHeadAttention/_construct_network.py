@@ -4,7 +4,7 @@ from io import StringIO
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import (
-    Input, LSTM, Dense, Bidirectional , TimeDistributed, RepeatVector, Reshape
+    Input, LSTM, Dense, Bidirectional, LayerNormalization, TimeDistributed, RepeatVector, Reshape
 )
 from tensorflow.keras.losses import MeanSquaredError, Huber
 from tensorflow.keras.optimizers import Adam
@@ -60,6 +60,7 @@ def _construct_network(**params):
         encoder_outputs = encoder_lstm1(encoder_inputs)
         encoder_outputs, state_h, state_c = encoder_lstm2(encoder_outputs)
         # => (batch_size, sequence_length, 64)
+        # encoder_outputs = LayerNormalization()(encoder_outputs)
 
         # Multi-head cross-attention
         # We treat state_h => (batch_size, 64) as the "query" 
@@ -87,6 +88,7 @@ def _construct_network(**params):
         decoder_outputs = decoder_lstm1(decoder_inputs, initial_state=[state_h, state_c])
         decoder_outputs = decoder_lstm2(decoder_outputs)
         # => (batch_size, prediction_horizon, 64)
+        # decoder_outputs = LayerNormalization()(decoder_outputs)
 
         decoder_dense = TimeDistributed(Dense(out_dim), 
                                         name=f"decoder_dense_{coord_str}_mha")

@@ -43,31 +43,27 @@ class Attention(Layer):
         #    value: (batch_size, enc_seq_len, hidden_dim)
         #    W:     (hidden_dim, hidden_dim)
         # => value_transformed: (batch_size, enc_seq_len, hidden_dim)
-        value_transformed = tf.tensordot(value, self.W, axes=[[2],[0]])  
-        # or equivalently: value_transformed = tf.matmul(value, self.W)
-
+        value_transformed = tf.tensordot(value, self.W, axes=[[2],[0]])
+        
         # 2) Compute raw alignment scores via dot-product of value_transformed and query:
         #    value_transformed: (batch_size, enc_seq_len, hidden_dim)
         #    query:            (batch_size, 1, hidden_dim)
         #
         # => scores: (batch_size, enc_seq_len, 1)
         scores = tf.matmul(value_transformed, query, transpose_b=True)
-
+        
         # 3) Softmax over the enc_seq_len dimension
-        attention_weights = tf.nn.softmax(scores, axis=1)  # shape: (batch_size, enc_seq_len, 1)
-
-        # 4) Multiply each encoder output by its attention weight and sum
-        context_vector = attention_weights * value  # still shape: (batch_size, enc_seq_len, hidden_dim)
-        context_vector = tf.reduce_sum(context_vector, axis=1)  # => (batch_size, hidden_dim)
+        attention_weights = tf.nn.softmax(scores, axis=1)
+        
+        # 4. Compute context vector using batch matrix multiplication
+        context_vector = tf.matmul(attention_weights, value, transpose_a=True)  # (batch_size, 1, hidden_dim)
+        context_vector = tf.squeeze(context_vector, axis=1)  # (batch_size, hidden_dim)
 
         return context_vector
 
     def compute_output_shape(self, input_shape):
         # The output is (batch_size, hidden_dim)
         return (input_shape[0][0], input_shape[0][-1])
-
-
-
 
 
 

@@ -1,9 +1,9 @@
 from .BaseMLModel import BaseMLModel
-from ._Seq2SeqTemporalAttention import _construct_model, _train_and_evaluate_model
+from ._Seq2SeqLuongAttention import _construct_model, _train_and_evaluate_model
 
-class Seq2SeqTemporalAttention(BaseMLModel):
+class Seq2SeqLuongAttention(BaseMLModel):
     def __init__(self, **params):
-        super(Seq2SeqTemporalAttention, self).__init__(**params)
+        super(Seq2SeqLuongAttention, self).__init__(**params)
         self.models_dict = None  # will store { "XZ": model, "Y": model, ... } after construct
 
     def construct_model(self):
