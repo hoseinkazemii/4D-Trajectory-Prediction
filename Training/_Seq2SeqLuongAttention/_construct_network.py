@@ -25,7 +25,7 @@ def _construct_network(**params):
     decay_rate = params.get("decay_rate")
 
     if verbose:
-        print("Building Seq2Seq models (with Multi-Head Attention) for coordinates: ", coordinates_list)
+        print("Building Seq2Seq models (with Luong Attention) for coordinates: ", coordinates_list)
 
     # This will store all created models
     models_dict = {}

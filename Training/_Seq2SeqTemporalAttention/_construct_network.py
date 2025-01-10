@@ -3,22 +3,33 @@ from io import StringIO
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import (
-    Input, LSTM, Dense, TimeDistributed, RepeatVector
+    Input, LSTM, Dense, Bidirectional, LayerNormalization, TimeDistributed, RepeatVector, Reshape
 )
+from tensorflow.keras.losses import MeanSquaredError, Huber
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers.schedules import ExponentialDecay
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 from ._attention_layer import TemporalAttention
 from ._physics_loss import piml_loss_factory
 
 def _construct_network(**params):
     """
-    Builds three separate models: one for X, one for Y, one for Z,
+    Builds separate models for each coord_str in coordinates list in ,
     each with a temporal attention mechanism + physics-informed time derivative constraints.
     """
     verbose = params.get("verbose", True)
-    sequence_length = params["sequence_length"]
-    prediction_horizon = params["prediction_horizon"]
-    log = params["log"]
+    sequence_length = params.get("sequence_length")
+    prediction_horizon = params.get("prediction_horizon")
+    coordinates_list = params.get("coordinates") # e.g. ["XZ", "Y"] or ["X","Y","Z"], etc.
+    log = params.get("log")
+    coord_to_dim = params.get("coord_to_dim")
+    learning_rate = params.get("learning_rate")
+    decay_steps = params.get("decay_steps")
+    decay_rate = params.get("decay_rate")
+
+    if verbose:
+        print("Building Seq2Seq models (with Temporal Attention) for coordinates: ", coordinates_list)
 
     # Hyperparams for the PI loss
     alpha = params.get("pi_alpha", 0.1)   # weight for velocity penalty
@@ -30,90 +41,78 @@ def _construct_network(**params):
     # Create the custom PIML loss
     piml_loss = piml_loss_factory(alpha=alpha, beta=beta, v_max=v_max, a_max=a_max, dt=dt)
 
-    if verbose:
-        print("Building three models (X, Y, Z) with Temporal Attention + Time-derivative PIML Loss...")
+    models_dict = {}
 
-    # We'll store the final compiled models here
-    model_X = None
-    model_Y = None
-    model_Z = None
+    for coord_str in coordinates_list:
+        # Determine input/output dimension from the coordinate string
+        if coord_str not in coord_to_dim:
+            raise ValueError(f"Unknown coordinate pattern '{coord_str}'. "
+                             f"Supported keys: {list(coord_to_dim.keys())}")
 
-    # -------------
-    # Model for X
-    # -------------
-    encoder_inputs_x = Input(shape=(sequence_length, 1), name="encoder_input_x")
-    encoder_lstm_x = LSTM(16, return_sequences=True, return_state=True, name="encoder_lstm_x")
-    encoder_outputs_x, state_h_x, state_c_x = encoder_lstm_x(encoder_inputs_x)
+        in_dim = coord_to_dim[coord_str]   # e.g. 2 if coord_str == "XZ"
+        out_dim = in_dim                  # same dimension for predictions
 
-    attention_layer_x = TemporalAttention(name="temporal_attention_x")
-    context_vector_x = attention_layer_x(encoder_outputs_x)
+        # Encoder
+        # Use shape (sequence_length, in_dim), e.g. (seq_len, 2) for XZ
+        encoder_inputs = Input(shape=(sequence_length, in_dim), 
+                               name=f"encoder_input_{coord_str}_mha")
 
-    decoder_inputs_x = RepeatVector(prediction_horizon, name="repeat_context_x")(context_vector_x)
-    decoder_lstm_x = LSTM(16, return_sequences=True, name="decoder_lstm_x")
-    decoder_outputs_x = decoder_lstm_x(decoder_inputs_x, initial_state=[state_h_x, state_c_x])
+        # Add multiple LSTM layers
+        encoder_lstm1 = Bidirectional(LSTM(64, return_sequences=True, name='encoder_1', dropout=0.2, recurrent_dropout=0.2))
+        encoder_lstm2 = LSTM(64, return_sequences=True, return_state=True, name='encoder_2')
+        encoder_outputs = encoder_lstm1(encoder_inputs)
+        encoder_outputs, state_h, state_c = encoder_lstm2(encoder_outputs)
+        # => (batch_size, sequence_length, 64)
+        # encoder_outputs = LayerNormalization()(encoder_outputs)
 
-    decoder_dense_x = TimeDistributed(Dense(1), name="decoder_dense_x")
-    predictions_x = decoder_dense_x(decoder_outputs_x)
+        attention_layer = TemporalAttention(name="temporal_attention")
+        context_vector = attention_layer(encoder_outputs)
 
-    model_X = Model(encoder_inputs_x, predictions_x, name="TemporalAttention_PIML_X")
-    model_X.compile(optimizer=Adam(), loss=piml_loss)
+        # Decoder
+        # Repeat the 2D context for 'prediction_horizon' steps
+        decoder_inputs = RepeatVector(prediction_horizon, 
+                                      name=f"repeat_context_{coord_str}_mha")(context_vector)
+        # => (batch_size, prediction_horizon, 64)
 
-    summary_io = StringIO()
-    with contextlib.redirect_stdout(summary_io):
-        model_X.summary()
-    log.info("Model X Summary (PIML):\n" + summary_io.getvalue())
-    summary_io.close()
+        decoder_lstm1 = LSTM(64, return_sequences=True, dropout=0.2, name='decoder_lstm1')
+        decoder_lstm2 = LSTM(64, return_sequences=True, dropout=0.2, name='decoder_lstm2')
 
-    # -------------
-    # Model for Y
-    # -------------
-    encoder_inputs_y = Input(shape=(sequence_length, 1), name="encoder_input_y")
-    encoder_lstm_y = LSTM(16, return_sequences=True, return_state=True, name="encoder_lstm_y")
-    encoder_outputs_y, state_h_y, state_c_y = encoder_lstm_y(encoder_inputs_y)
+        decoder_outputs = decoder_lstm1(decoder_inputs, initial_state=[state_h, state_c])
+        decoder_outputs = decoder_lstm2(decoder_outputs)
+        # => (batch_size, prediction_horizon, 64)
+        # decoder_outputs = LayerNormalization()(decoder_outputs)
 
-    attention_layer_y = TemporalAttention(name="temporal_attention_y")
-    context_vector_y = attention_layer_y(encoder_outputs_y)
+        decoder_dense = TimeDistributed(Dense(out_dim), 
+                                        name=f"decoder_dense_{coord_str}_mha")
+        predictions = decoder_dense(decoder_outputs)
+        # => (batch_size, prediction_horizon, out_dim)
 
-    decoder_inputs_y = RepeatVector(prediction_horizon, name="repeat_context_y")(context_vector_y)
-    decoder_lstm_y = LSTM(16, return_sequences=True, name="decoder_lstm_y")
-    decoder_outputs_y = decoder_lstm_y(decoder_inputs_y, initial_state=[state_h_y, state_c_y])
+        # Build & compile the model
+        # Use learning rate scheduling
+        lr_schedule = ExponentialDecay(
+            learning_rate, decay_steps, decay_rate)
+        optimizer = Adam(learning_rate=lr_schedule)
+        model = Model(encoder_inputs, predictions, 
+                      name=f"MHA_Model_{coord_str}")
+        model.compile(optimizer=optimizer, loss=MeanSquaredError())
+        # model.compile(optimizer=optimizer, loss=piml_loss)
 
-    decoder_dense_y = TimeDistributed(Dense(1), name="decoder_dense_y")
-    predictions_y = decoder_dense_y(decoder_outputs_y)
+        # # Add early stopping and model checkpointing
+        # early_stopping = EarlyStopping(monitor='val_loss', 
+        #                             patience=10,
+        #                             restore_best_weights=True)
+        # model_checkpoint = ModelCheckpoint('best_model.keras', 
+        #                                 monitor='val_loss',
+        #                                 save_best_only=True)
 
-    model_Y = Model(encoder_inputs_y, predictions_y, name="TemporalAttention_PIML_Y")
-    model_Y.compile(optimizer=Adam(), loss=piml_loss)
+        # Log model summary
+        summary_io = StringIO()
+        with contextlib.redirect_stdout(summary_io):
+            model.summary()
+        log.info(f"MultiHeadAttention - Model {coord_str} Summary:\n" + summary_io.getvalue())
+        summary_io.close()
 
-    summary_io = StringIO()
-    with contextlib.redirect_stdout(summary_io):
-        model_Y.summary()
-    log.info("Model Y Summary (PIML):\n" + summary_io.getvalue())
-    summary_io.close()
+        # Store the model in the dictionary
+        models_dict[coord_str] = model
 
-    # -------------
-    # Model for Z
-    # -------------
-    encoder_inputs_z = Input(shape=(sequence_length, 1), name="encoder_input_z")
-    encoder_lstm_z = LSTM(16, return_sequences=True, return_state=True, name="encoder_lstm_z")
-    encoder_outputs_z, state_h_z, state_c_z = encoder_lstm_z(encoder_inputs_z)
-
-    attention_layer_z = TemporalAttention(name="temporal_attention_z")
-    context_vector_z = attention_layer_z(encoder_outputs_z)
-
-    decoder_inputs_z = RepeatVector(prediction_horizon, name="repeat_context_z")(context_vector_z)
-    decoder_lstm_z = LSTM(16, return_sequences=True, name="decoder_lstm_z")
-    decoder_outputs_z = decoder_lstm_z(decoder_inputs_z, initial_state=[state_h_z, state_c_z])
-
-    decoder_dense_z = TimeDistributed(Dense(1), name="decoder_dense_z")
-    predictions_z = decoder_dense_z(decoder_outputs_z)
-
-    model_Z = Model(encoder_inputs_z, predictions_z, name="TemporalAttention_PIML_Z")
-    model_Z.compile(optimizer=Adam(), loss=piml_loss)
-
-    summary_io = StringIO()
-    with contextlib.redirect_stdout(summary_io):
-        model_Z.summary()
-    log.info("Model Z Summary (PIML):\n" + summary_io.getvalue())
-    summary_io.close()
-
-    return model_X, model_Y, model_Z
+    return models_dict
