@@ -18,6 +18,7 @@ common_params = {
     "decay_steps" : 1000,
     "decay_rate" : 0.9,
     "batch_size": 32,
+    "run_eagerly":True,
     "sample_index": 0,
     "coordinates": ["XYZ"], # custom coordinates
     "coord_to_indices" : { # A helper mapping from coordinate string to the appropriate column indices
@@ -44,7 +45,7 @@ common_params = {
 }
 
 run_specific_params = {
-    "model_name": "Seq2SeqMultiHeadAttention",
+    "model_name": "Seq2SeqTemporalAttention",
 }
 
 params = {**common_params, **run_specific_params}
@@ -54,7 +55,7 @@ def main():
     preprocessor = Preprocess(**params)
     split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
 
-    trainer = Seq2SeqMultiHeadAttention(**params)
+    trainer = Seq2SeqTemporalAttention(**params)
     trainer.construct_model()
     trainer.run(split_data_dict, scalers_dict, row_counts)
 

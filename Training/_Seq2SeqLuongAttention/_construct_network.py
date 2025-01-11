@@ -44,7 +44,7 @@ def _construct_network(**params):
         #  1) Encoder
         # --------------------------------------------------
         encoder_inputs = Input(shape=(sequence_length, in_dim), 
-                               name=f"encoder_input_{coord_str}_mha")
+                               name=f"encoder_input_{coord_str}_LuongAtt")
 
         # Add multiple LSTM layers
         encoder_lstm1 = Bidirectional(LSTM(64, return_sequences=True, name='encoder_1', dropout=0.2, recurrent_dropout=0.2))
@@ -57,7 +57,7 @@ def _construct_network(**params):
         #  2) Attention: final h is the "query"
         # --------------------------------------------------
         # Expand dims so that shape is (batch_size, 1, hidden_dim)
-        query = Reshape((1, 64), name=f"reshape_query_{coord_str}_mha")(state_h)
+        query = Reshape((1, 64), name=f"reshape_query_{coord_str}_LuongAtt")(state_h)
 
         # We pass [query, encoder_outputs] to the Attention layer
         context_vector = Attention(name='attention_y')([query, encoder_outputs])
@@ -68,7 +68,7 @@ def _construct_network(**params):
         # --------------------------------------------------
         # Repeat the 2D context for 'prediction_horizon' steps
         decoder_inputs = RepeatVector(prediction_horizon, 
-                                      name=f"repeat_context_{coord_str}_mha")(context_vector)
+                                      name=f"repeat_context_{coord_str}_LuongAtt")(context_vector)
         # => (batch_size, prediction_horizon, hidden_dim)
 
         decoder_lstm1 = LSTM(64, return_sequences=True, dropout=0.2, name='decoder_lstm1')
@@ -79,7 +79,7 @@ def _construct_network(**params):
         # => (batch_size, prediction_horizon, hidden_dim)
 
         decoder_dense = TimeDistributed(Dense(out_dim), 
-                                        name=f"decoder_dense_{coord_str}_mha")
+                                        name=f"decoder_dense_{coord_str}_LuongAtt")
         predictions = decoder_dense(decoder_outputs)
         # => (batch_size, prediction_horizon, out_dim)
 
@@ -89,7 +89,7 @@ def _construct_network(**params):
             learning_rate, decay_steps, decay_rate)
         optimizer = Adam(learning_rate=lr_schedule)
         model = Model(encoder_inputs, predictions, 
-                      name=f"MHA_Model_{coord_str}")
+                      name=f"LuongAtt_Model_{coord_str}")
         model.compile(optimizer=optimizer, loss=MeanSquaredError())
 
         # # Add early stopping and model checkpointing
@@ -163,7 +163,7 @@ def _construct_network(**params):
 #         #  1) Encoder
 #         # --------------------------------------------------
 #         encoder_inputs = Input(shape=(sequence_length, in_dim), 
-#                              name=f"encoder_input_{coord_str}_mha")
+#                              name=f"encoder_input_{coord_str}_LuongAtt")
         
 #         # First encoder layer with layer normalization
 #         encoder_lstm1 = Bidirectional(LSTM(hidden_dim // 2, return_sequences=True,
@@ -183,7 +183,7 @@ def _construct_network(**params):
 #         #  2) Attention
 #         # --------------------------------------------------
 #         # Reshape state_h for attention query
-#         query = Reshape((1, hidden_dim), name=f"reshape_query_{coord_str}_mha")(state_h)
+#         query = Reshape((1, hidden_dim), name=f"reshape_query_{coord_str}_LuongAtt")(state_h)
         
 #         # Apply attention mechanism
 #         context_vector = Attention(name=f'attention_{coord_str}')([query, encoder_outputs])
@@ -193,7 +193,7 @@ def _construct_network(**params):
 #         # --------------------------------------------------
 #         # Prepare decoder inputs
 #         decoder_inputs = RepeatVector(prediction_horizon, 
-#                                     name=f"repeat_context_{coord_str}_mha")(context_vector)
+#                                     name=f"repeat_context_{coord_str}_LuongAtt")(context_vector)
 
 #         # First decoder layer with residual connection and layer normalization
 #         decoder_lstm1 = LSTM(hidden_dim, return_sequences=True, dropout=0.2,
@@ -216,7 +216,7 @@ def _construct_network(**params):
 
 #         # Output layer
 #         decoder_dense = TimeDistributed(Dense(out_dim), 
-#                                       name=f"decoder_dense_{coord_str}_mha")
+#                                       name=f"decoder_dense_{coord_str}_LuongAtt")
 #         predictions = decoder_dense(decoder_outputs)
 
 #         # Build & compile model
@@ -224,7 +224,7 @@ def _construct_network(**params):
 #         optimizer = Adam(learning_rate=lr_schedule)
         
 #         model = Model(encoder_inputs, predictions, 
-#                      name=f"MHA_Model_{coord_str}")
+#                      name=f"LuongAtt_Model_{coord_str}")
 #         model.compile(optimizer=optimizer, 
 #                      loss=MeanSquaredError(),
 #                      metrics=['mae'])  # Added MAE metric
