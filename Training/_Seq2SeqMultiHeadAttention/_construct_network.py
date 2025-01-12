@@ -12,7 +12,7 @@ from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 from ._attention_layer import MultiHeadEncDecAttention
-
+from ._physics_loss import combined_loss
 
 def _construct_network(**params):
     """
