@@ -123,6 +123,19 @@ def _compute_metrics(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params):
             (Y_true - Y_pred)**2 +
             (Z_true - Z_pred)**2
         )
+
+        # -----------------------------
+        # 3D displacement metrics
+        # -----------------------------
+        # Euclidean distance per sample
+        distances = np.sqrt((X_pred - X_true)**2 + (Y_pred - Y_true)**2 + (Z_pred - Z_true)**2)
+
+        # Mean distance
+        mean_distance = np.mean(distances)
+        # Median distance
+        median_distance = np.median(distances)
+        # Max distance
+        max_distance = np.max(distances)
         
         metrics_dict.update({
             'Average_Trajectory_Error': ate,
@@ -137,8 +150,11 @@ def _compute_metrics(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params):
             'Endpoint_Error_Mean': np.mean(endpoint_errors),
             'Endpoint_Error_Std': np.std(endpoint_errors),
             'Path_Difference_Mean': mean_path_diff,
-            'Path_Difference_Normalized': normalized_path_diff
-        })
+            'Path_Difference_Normalized': normalized_path_diff,
+            "Mean_3D_Displacement": mean_distance,
+            "Median_3D_Displacement": median_distance,
+            "Max_3D_Displacement": max_distance
+            })
 
     return metrics_dict
 

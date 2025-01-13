@@ -2,6 +2,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+# Set font sizes globally
+plt.rcParams.update({
+    'font.size': 16,          # Default font size for all text
+    'axes.titlesize': 20,     # Title font size
+    'axes.labelsize': 18,     # X, Y, Z label size
+    'legend.fontsize': 16,    # Legend font size
+    'xtick.labelsize': 14,    # X-tick labels size
+    'ytick.labelsize': 14     # Y-tick labels size
+})
+
 def plot_3d_trajectory(csv_path, **params):
     verbose = params.get("verbose")
     if verbose:
@@ -23,17 +33,16 @@ def plot_3d_trajectory(csv_path, **params):
     ax = fig.add_subplot(111, projection='3d')
 
     # Plot true trajectory
-    ax.plot(X_true, Y_true, Z_true, label='True Trajectory', color='b', marker='o')
+    ax.plot(X_true, Y_true, Z_true, label='True Trajectory', color='b', marker='o', linewidth=2)
     # Plot predicted trajectory
-    ax.plot(X_pred, Y_pred, Z_pred, label='Predicted Trajectory', color='r', marker='x')
+    ax.plot(X_pred, Y_pred, Z_pred, label='Predicted Trajectory', color='r', marker='x', linewidth=2)
 
     # Labels and title
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
-    ax.set_title('True vs Predicted 3D Trajectory')
     ax.legend()
 
     # Save plot to a file
-    plt.savefig("./Reports/Figures/TrueTrajectory_vs_PredictedTrajectory.png", dpi=300)
+    plt.savefig("./Reports/TrajectoryFigures/TrueTrajectory_vs_PredictedTrajectory.png", dpi=300)
     plt.show()

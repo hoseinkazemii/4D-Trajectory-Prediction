@@ -7,9 +7,9 @@ common_params = {
     "data_directory": "./Data/",
     "verbose": True,
     "warmup": False,
-    "sequence_length": 20, # The length of the input sequences (e.g., 10 time steps)
+    "sequence_length": 10, # The length of the input sequences (e.g., 10 time steps)
     "sequence_step": 1, # The distance between consecutive coordinates to generate sequences
-    "prediction_horizon": 10, # The number of future time steps we want to predict
+    "prediction_horizon": 3, # The number of future time steps we want to predict
     "num_train": 7,
     "num_val": 1,
     "num_test": 2,
@@ -45,7 +45,7 @@ common_params = {
 }
 
 run_specific_params = {
-    "model_name": "Seq2SeqMultiHeadAttention",
+    "model_name": "Seq2SeqLuongAttention",
 }
 
 params = {**common_params, **run_specific_params}
@@ -55,13 +55,13 @@ def main():
     preprocessor = Preprocess(**params)
     split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
 
-    trainer = Seq2SeqMultiHeadAttention(**params)
+    trainer = Seq2SeqLuongAttention(**params)
     trainer.construct_model()
     trainer.run(split_data_dict, scalers_dict, row_counts)
 
 
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)
-    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqMultiHeadAttention/202501110300/Results_TestSet_2.csv", **params)
+    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqTemporalAttention/202501121850/Results_TestSet_2.csv", **params)
 
 
 
