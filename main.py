@@ -4,16 +4,18 @@ from utils import plot_3d_trajectory
 
 
 common_params = {
-    "data_directory": "./Data/",
+    "data_directory": "./Data/UpdatedData/RandomPositionss/",
     "verbose": True,
     "warmup": False,
+    "signal_based_extraction": True,
+    "time_interval": 1.0,
     "sequence_length": 10, # The length of the input sequences (e.g., 10 time steps)
     "sequence_step": 1, # The distance between consecutive coordinates to generate sequences
     "prediction_horizon": 3, # The number of future time steps we want to predict
-    "num_train": 7,
+    "num_train": 4,
     "num_val": 1,
-    "num_test": 2,
-    "num_epochs": 50,
+    "num_test": 1,
+    "num_epochs": 10,
     "learning_rate" : 0.001,
     "decay_steps" : 1000,
     "decay_rate" : 0.9,
@@ -45,7 +47,7 @@ common_params = {
 }
 
 run_specific_params = {
-    "model_name": "Seq2SeqLuongAttention",
+    "model_name": "Seq2SeqMultiHeadAttention",
 }
 
 params = {**common_params, **run_specific_params}
@@ -55,13 +57,13 @@ def main():
     preprocessor = Preprocess(**params)
     split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
 
-    trainer = Seq2SeqLuongAttention(**params)
+    trainer = Seq2SeqMultiHeadAttention(**params)
     trainer.construct_model()
     trainer.run(split_data_dict, scalers_dict, row_counts)
 
 
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)
-    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqTemporalAttention/202501121850/Results_TestSet_2.csv", **params)
+    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqMultiHeadAttention/202501141944/Results_TestSet_1.csv", **params)
 
 
 

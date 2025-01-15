@@ -1,0 +1,127 @@
+Path Length: 93.38 meters
+----------------------------------------
+Path Coordinates and Time:
+(-72.88, 68.90, -33.84) | Time: 27.00
+(-72.59, 68.90, -34.42) | Time: 28.00
+(-71.38, 69.07, -36.05) | Time: 29.00
+(-67.29, 70.54, -37.57) | Time: 30.00
+(-62.76, 72.05, -39.63) | Time: 31.00
+(-58.03, 73.60, -41.49) | Time: 32.00
+(-53.39, 75.09, -42.89) | Time: 33.00
+(-48.69, 76.62, -43.97) | Time: 34.00
+(-44.12, 78.17, -44.68) | Time: 35.00
+(-39.67, 79.78, -45.09) | Time: 36.00
+(-35.34, 80.95, -45.16) | Time: 37.00
+(-32.24, 80.95, -46.49) | Time: 38.00
+(-29.53, 80.95, -48.18) | Time: 39.00
+(-28.17, 80.95, -52.19) | Time: 40.00
+(-26.35, 80.95, -55.97) | Time: 41.00
+(-23.22, 80.95, -57.29) | Time: 42.00
+(-20.05, 80.95, -58.45) | Time: 43.00
+(-16.85, 80.95, -59.43) | Time: 44.00
+(-13.65, 80.95, -60.23) | Time: 45.00
+(-10.47, 80.95, -60.85) | Time: 46.00
+(-7.29, 80.95, -61.31) | Time: 47.00
+(-4.15, 80.95, -61.61) | Time: 48.00
+(-1.08, 80.95, -61.75) | Time: 49.00
+(1.97, 80.95, -61.74) | Time: 50.00
+(5.03, 80.95, -61.59) | Time: 51.00
+(8.16, 80.95, -61.28) | Time: 52.00
+(11.31, 80.95, -60.81) | Time: 53.00
+(14.48, 80.95, -60.18) | Time: 54.00
+(17.64, 80.95, -59.38) | Time: 55.00
+(20.86, 80.43, -58.39) | Time: 56.00
+(24.02, 79.48, -57.23) | Time: 57.00
+(27.14, 78.55, -55.89) | Time: 58.00
+(30.24, 77.24, -54.36) | Time: 59.00
+(33.68, 74.87, -53.44) | Time: 60.00
+(37.20, 72.49, -52.46) | Time: 61.00
+(40.69, 70.12, -51.28) | Time: 62.00
+(44.10, 67.74, -49.93) | Time: 63.00
+(46.97, 65.37, -48.84) | Time: 64.00
+(49.81, 62.99, -47.60) | Time: 65.00
+(52.50, 60.62, -46.36) | Time: 66.00
+(55.12, 58.43, -44.68) | Time: 67.00
+(56.63, 56.01, -42.86) | Time: 68.00
+(58.81, 53.61, -41.44) | Time: 69.00
+(60.34, 52.21, -40.32) | Time: 70.00
+(61.98, 52.08, -38.03) | Time: 71.00
+(64.32, 49.92, -36.99) | Time: 72.00
+(66.65, 47.97, -35.41) | Time: 73.00
+(69.04, 46.07, -33.46) | Time: 74.00
+(71.08, 44.81, -31.98) | Time: 75.00
+(71.53, 44.81, -31.05) | Time: 76.00
+(72.46, 44.09, -30.88) | Time: 77.00
+(72.44, 43.64, -30.22) | Time: 78.00
+(70.14, 42.76, -28.52) | Time: 79.00
+(68.00, 42.08, -27.00) | Time: 80.00
+(66.36, 42.07, -25.78) | Time: 81.00
+(65.40, 42.07, -24.89) | Time: 82.00
+(65.55, 42.07, -24.53) | Time: 83.00
+----------------------------------------
+Task Completion Time: 82.52 seconds
+Start Time: Second 1.37
+End Time: Second 83.89
+----------------------------------------
+Preciseness: 0.57 meters
+----------------------------------------
+Collision Logs:
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 1.14, Position: (-77.81, 46.58, -32.68)
+Collision with: crane_hook, Time: 60.20, Position: (20.16, 67.34, -55.26)
+Collision with: crane_hook, Time: 60.35, Position: (20.58, 67.16, -54.96)
+Collision with: crane_hook, Time: 62.12, Position: (26.99, 62.74, -53.35)
+Collision with: crane_hook, Time: 62.18, Position: (27.17, 62.63, -53.23)
+Collision with: crane_hook, Time: 62.20, Position: (27.25, 62.59, -53.18)
+Collision with: crane_hook, Time: 62.31, Position: (27.63, 62.43, -52.94)
+Collision with: crane_hook, Time: 62.32, Position: (27.62, 62.45, -52.92)
+Collision with: crane_hook, Time: 62.57, Position: (28.30, 62.14, -52.44)
+Collision with: crane_hook, Time: 63.36, Position: (31.20, 59.67, -51.29)
+Collision with: crane_hook, Time: 63.41, Position: (31.35, 59.54, -51.24)
+Collision with: crane_hook, Time: 63.43, Position: (31.41, 59.48, -51.23)
+Collision with: crane_hook, Time: 64.56, Position: (34.59, 57.09, -50.49)
+Collision with: crane_hook, Time: 64.65, Position: (34.82, 56.93, -50.38)
+Collision with: crane_hook, Time: 64.66, Position: (34.87, 56.88, -50.36)
+Collision with: crane_hook, Time: 64.67, Position: (34.90, 56.86, -50.35)
+Collision with: crane_hook, Time: 66.82, Position: (40.92, 51.92, -48.35)
+Collision with: crane_hook, Time: 66.83, Position: (40.92, 51.91, -48.35)
+Collision with: crane_hook, Time: 67.00, Position: (41.37, 51.42, -48.10)
+Collision with: UnloadingArea, Time: 75.53, Position: (62.32, 32.42, -37.29)
+Collision with: UnloadingArea, Time: 75.70, Position: (62.98, 32.03, -37.29)
+Collision with: SM_Item_Radio_01, Time: 76.33, Position: (65.48, 30.76, -37.11)
+Collision with: UnloadingArea, Time: 76.33, Position: (65.47, 30.77, -37.10)
+Collision with: UnloadingArea, Time: 76.38, Position: (65.45, 30.80, -37.09)
+Collision with: UnloadingArea, Time: 76.44, Position: (65.44, 30.80, -37.11)
+Collision with: UnloadingArea, Time: 76.45, Position: (65.44, 30.79, -37.12)
+Collision with: UnloadingArea, Time: 76.51, Position: (65.44, 30.76, -37.18)
+Collision with: UnloadingArea, Time: 76.52, Position: (65.44, 30.76, -37.19)
+Collision with: UnloadingArea, Time: 76.53, Position: (65.44, 30.75, -37.20)
+Collision with: SM_Tool_Torch_01, Time: 76.87, Position: (65.78, 30.73, -37.48)
+Collision with: SM_Item_Radio_01, Time: 76.88, Position: (65.79, 30.73, -37.48)
+Collision with: SM_Tool_Torch_01, Time: 76.93, Position: (65.81, 30.79, -37.47)
+Collision with: SM_Item_Radio_01, Time: 76.93, Position: (65.81, 30.79, -37.47)
+Collision with: SM_Tool_Torch_01, Time: 76.94, Position: (65.81, 30.81, -37.47)
+Collision with: SM_Item_Radio_01, Time: 76.94, Position: (65.81, 30.81, -37.47)
+Collision with: SM_Item_Radio_01, Time: 76.95, Position: (65.82, 30.83, -37.47)
+Collision with: SM_Item_Radio_01, Time: 76.96, Position: (65.82, 30.84, -37.47)
+Collision with: UnloadingArea, Time: 76.97, Position: (65.83, 30.86, -37.47)
+Collision with: SM_Item_Radio_01, Time: 76.97, Position: (65.83, 30.86, -37.47)
+Collision with: SM_Item_Radio_01, Time: 76.98, Position: (65.84, 30.88, -37.47)
+Collision with: SM_Item_Radio_01, Time: 76.99, Position: (65.84, 30.89, -37.46)
+Collision with: SM_Item_Radio_01, Time: 77.00, Position: (65.85, 30.90, -37.46)
+Collision with: SM_Item_Radio_01, Time: 77.01, Position: (65.86, 30.91, -37.46)
+Collision with: SM_Item_Radio_01, Time: 77.02, Position: (65.88, 30.92, -37.47)
+Collision with: SM_Item_Radio_01, Time: 77.36, Position: (66.00, 31.00, -37.45)
+Collision with: SM_Tool_Torch_01, Time: 77.44, Position: (65.95, 30.99, -37.44)
+Collision with: SM_Item_Radio_01, Time: 77.61, Position: (65.98, 30.97, -37.37)
+Collision with: SM_Item_Radio_01, Time: 77.62, Position: (65.98, 30.97, -37.37)
+Collision with: SM_Item_Radio_01, Time: 77.94, Position: (65.69, 30.97, -37.03)
+Collision with: SM_Tool_Torch_01, Time: 78.03, Position: (65.55, 30.90, -36.95)
+Collision with: SM_Tool_Torch_01, Time: 78.29, Position: (65.06, 30.89, -36.63)
+Collision with: SM_Tool_Torch_01, Time: 78.41, Position: (64.89, 30.83, -36.51)
+Collision with: SM_Tool_Torch_01, Time: 78.50, Position: (64.72, 30.78, -36.39)
+Collision with: SM_Tool_Torch_01, Time: 78.53, Position: (64.65, 30.76, -36.33)
+Collision with: UnloadingArea, Time: 78.66, Position: (64.36, 30.65, -36.14)
+Collision with: UnloadingArea, Time: 78.87, Position: (64.11, 30.40, -35.85)
+Collision with: UnloadingArea, Time: 78.88, Position: (64.10, 30.38, -35.84)
+Collision with: UnloadingArea, Time: 78.89, Position: (64.09, 30.37, -35.83)
+Collision with: UnloadingArea, Time: 84.28, Position: (65.10, 27.08, -30.67)

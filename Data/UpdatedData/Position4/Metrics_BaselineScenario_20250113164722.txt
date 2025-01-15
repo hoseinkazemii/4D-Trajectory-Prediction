@@ -1,0 +1,144 @@
+Path Length: 69.87 meters
+----------------------------------------
+Path Coordinates and Time:
+(65.17, 49.43, -4.70) | Time: 79.00
+(65.17, 49.43, -4.70) | Time: 80.00
+(65.25, 49.92, -5.08) | Time: 81.00
+(66.14, 51.01, -6.77) | Time: 82.00
+(66.69, 52.10, -9.53) | Time: 83.00
+(67.22, 53.34, -12.52) | Time: 84.00
+(68.90, 54.91, -16.05) | Time: 85.00
+(70.41, 56.45, -20.04) | Time: 86.00
+(71.50, 57.93, -24.60) | Time: 87.00
+(72.06, 59.18, -29.28) | Time: 88.00
+(72.08, 60.26, -33.98) | Time: 89.00
+(71.89, 61.23, -38.89) | Time: 90.00
+(71.34, 61.93, -43.91) | Time: 91.00
+(71.25, 62.57, -49.61) | Time: 92.00
+(70.29, 63.32, -55.08) | Time: 93.00
+(69.31, 63.97, -60.94) | Time: 94.00
+(67.48, 64.59, -66.44) | Time: 95.00
+(64.76, 64.95, -71.30) | Time: 96.00
+(60.68, 65.49, -74.68) | Time: 97.00
+(56.09, 66.36, -77.31) | Time: 98.00
+(51.85, 66.55, -80.37) | Time: 99.00
+(49.74, 66.55, -85.62) | Time: 100.00
+(49.02, 66.55, -89.94) | Time: 101.00
+(47.54, 66.55, -94.58) | Time: 102.00
+(46.42, 65.64, -98.66) | Time: 103.00
+(45.67, 64.23, -102.12) | Time: 104.00
+(44.44, 62.64, -105.53) | Time: 105.00
+(44.01, 61.05, -108.60) | Time: 106.00
+(43.98, 59.46, -111.50) | Time: 107.00
+(44.39, 57.67, -113.93) | Time: 108.00
+(44.07, 55.72, -116.32) | Time: 109.00
+(43.87, 53.67, -116.83) | Time: 110.00
+(43.55, 51.47, -116.94) | Time: 111.00
+(43.22, 49.03, -117.06) | Time: 112.00
+(42.89, 46.88, -117.18) | Time: 113.00
+(42.57, 45.26, -117.29) | Time: 114.00
+(42.24, 44.33, -117.41) | Time: 115.00
+(41.92, 43.48, -117.52) | Time: 116.00
+----------------------------------------
+Task Completion Time: 113.82 seconds
+Start Time: Second 3.07
+End Time: Second 116.89
+----------------------------------------
+Preciseness: 0.58 meters
+----------------------------------------
+Collision Logs:
+Collision with: SM_Env_Dirt_Round_01 (12), Time: 2.54, Position: (69.46, 26.16, -7.60)
+Collision with: SM_Env_DirtRoad_Straight_01 (5), Time: 2.54, Position: (69.46, 26.16, -7.60)
+Collision with: SM_Env_DirtRoad_Straight_01 (5), Time: 2.75, Position: (69.48, 26.16, -7.63)
+Collision with: IndustrialLight4, Time: 85.49, Position: (66.90, 40.35, -17.03)
+Collision with: IndustrialLight4, Time: 85.75, Position: (66.80, 40.89, -17.78)
+Collision with: IndustrialLight4, Time: 85.75, Position: (66.80, 40.91, -17.82)
+Collision with: IndustrialLight4, Time: 85.77, Position: (66.79, 40.94, -17.85)
+Collision with: IndustrialLight4, Time: 85.78, Position: (66.78, 40.96, -17.89)
+Collision with: IndustrialLight4, Time: 85.79, Position: (66.78, 40.97, -17.92)
+Collision with: IndustrialLight4, Time: 85.82, Position: (66.75, 41.05, -18.04)
+Collision with: IndustrialLight4, Time: 85.83, Position: (66.75, 41.07, -18.06)
+Collision with: IndustrialLight4, Time: 85.84, Position: (66.74, 41.09, -18.09)
+Collision with: IndustrialLight4, Time: 85.84, Position: (66.74, 41.11, -18.12)
+Collision with: IndustrialLight4, Time: 85.85, Position: (66.73, 41.13, -18.15)
+Collision with: IndustrialLight4, Time: 85.86, Position: (66.73, 41.15, -18.18)
+Collision with: IndustrialLight4, Time: 85.87, Position: (66.72, 41.17, -18.21)
+Collision with: IndustrialLight4, Time: 85.88, Position: (66.72, 41.18, -18.23)
+Collision with: IndustrialLight4, Time: 85.89, Position: (66.71, 41.20, -18.26)
+Collision with: IndustrialLight4, Time: 85.89, Position: (66.71, 41.22, -18.29)
+Collision with: IndustrialLight4, Time: 85.90, Position: (66.71, 41.24, -18.32)
+Collision with: IndustrialLight4, Time: 85.91, Position: (66.70, 41.26, -18.34)
+Collision with: IndustrialLight4, Time: 85.92, Position: (66.70, 41.27, -18.37)
+Collision with: IndustrialLight4, Time: 85.93, Position: (66.70, 41.30, -18.40)
+Collision with: IndustrialLight4, Time: 85.94, Position: (66.69, 41.32, -18.44)
+Collision with: IndustrialLight4, Time: 85.95, Position: (66.69, 41.33, -18.47)
+Collision with: IndustrialLight4, Time: 85.96, Position: (66.69, 41.36, -18.50)
+Collision with: IndustrialLight4, Time: 85.97, Position: (66.68, 41.37, -18.54)
+Collision with: IndustrialLight4, Time: 85.98, Position: (66.68, 41.39, -18.57)
+Collision with: IndustrialLight4, Time: 85.99, Position: (66.69, 41.42, -18.60)
+Collision with: IndustrialLight4, Time: 86.00, Position: (66.68, 41.43, -18.63)
+Collision with: IndustrialLight4, Time: 86.00, Position: (66.68, 41.45, -18.67)
+Collision with: IndustrialLight4, Time: 86.02, Position: (66.68, 41.48, -18.70)
+Collision with: IndustrialLight4, Time: 86.03, Position: (66.68, 41.49, -18.74)
+Collision with: IndustrialLight4, Time: 86.04, Position: (66.67, 41.54, -18.81)
+Collision with: IndustrialLight4, Time: 86.05, Position: (66.66, 41.55, -18.85)
+Collision with: IndustrialLight4, Time: 86.06, Position: (66.66, 41.57, -18.88)
+Collision with: IndustrialLight4, Time: 86.07, Position: (66.65, 41.58, -18.91)
+Collision with: IndustrialLight4, Time: 86.08, Position: (66.64, 41.60, -18.94)
+Collision with: IndustrialLight4, Time: 86.09, Position: (66.64, 41.62, -18.97)
+Collision with: IndustrialLight4, Time: 86.30, Position: (66.59, 42.06, -19.81)
+Collision with: IndustrialLight4, Time: 86.31, Position: (66.59, 42.07, -19.84)
+Collision with: IndustrialLight4, Time: 86.34, Position: (66.59, 42.13, -19.95)
+Collision with: IndustrialLight4, Time: 86.35, Position: (66.59, 42.15, -19.98)
+Collision with: IndustrialLight4, Time: 86.35, Position: (66.59, 42.16, -20.02)
+Collision with: IndustrialLight4, Time: 86.89, Position: (66.92, 43.13, -22.01)
+Collision with: IndustrialLight4, Time: 86.89, Position: (66.93, 43.15, -22.04)
+Collision with: IndustrialLight4, Time: 86.90, Position: (66.95, 43.17, -22.07)
+Collision with: IndustrialLight4, Time: 86.91, Position: (66.96, 43.18, -22.10)
+Collision with: IndustrialLight4, Time: 86.92, Position: (66.96, 43.19, -22.14)
+Collision with: IndustrialLight4, Time: 86.93, Position: (66.97, 43.20, -22.17)
+Collision with: IndustrialLight4, Time: 86.94, Position: (66.98, 43.22, -22.20)
+Collision with: IndustrialLight4, Time: 86.94, Position: (66.99, 43.24, -22.24)
+Collision with: IndustrialLight4, Time: 87.01, Position: (67.07, 43.32, -22.49)
+Collision with: IndustrialLight4, Time: 87.02, Position: (67.08, 43.33, -22.52)
+Collision with: IndustrialLight4, Time: 87.03, Position: (67.10, 43.36, -22.57)
+Collision with: IndustrialLight4, Time: 87.04, Position: (67.12, 43.37, -22.63)
+Collision with: IndustrialLight4, Time: 87.05, Position: (67.13, 43.38, -22.67)
+Collision with: IndustrialLight4, Time: 87.07, Position: (67.16, 43.41, -22.72)
+Collision with: IndustrialLight4, Time: 87.08, Position: (67.17, 43.42, -22.76)
+Collision with: IndustrialLight4, Time: 87.08, Position: (67.19, 43.42, -22.80)
+Collision with: IndustrialLight4, Time: 87.09, Position: (67.20, 43.43, -22.84)
+Collision with: IndustrialLight4, Time: 87.10, Position: (67.22, 43.45, -22.87)
+Collision with: IndustrialLight4, Time: 87.11, Position: (67.23, 43.46, -22.91)
+Collision with: IndustrialLight4, Time: 87.12, Position: (67.25, 43.47, -22.94)
+Collision with: IndustrialLight4, Time: 87.13, Position: (67.26, 43.48, -22.98)
+Collision with: IndustrialLight4, Time: 87.14, Position: (67.28, 43.49, -23.01)
+Collision with: IndustrialLight4, Time: 87.14, Position: (67.29, 43.50, -23.04)
+Collision with: IndustrialLight4, Time: 87.15, Position: (67.30, 43.51, -23.08)
+Collision with: IndustrialLight4, Time: 87.16, Position: (67.31, 43.52, -23.12)
+Collision with: IndustrialLight4, Time: 87.17, Position: (67.33, 43.54, -23.15)
+Collision with: IndustrialLight4, Time: 87.18, Position: (67.34, 43.55, -23.19)
+Collision with: IndustrialLight4, Time: 87.19, Position: (67.35, 43.56, -23.22)
+Collision with: IndustrialLight4, Time: 87.19, Position: (67.36, 43.57, -23.25)
+Collision with: IndustrialLight4, Time: 87.20, Position: (67.38, 43.58, -23.29)
+Collision with: IndustrialLight4, Time: 87.21, Position: (67.39, 43.59, -23.32)
+Collision with: IndustrialLight4, Time: 87.22, Position: (67.41, 43.61, -23.36)
+Collision with: IndustrialLight4, Time: 87.23, Position: (67.42, 43.62, -23.40)
+Collision with: IndustrialLight4, Time: 87.24, Position: (67.43, 43.63, -23.43)
+Collision with: IndustrialLight4, Time: 87.25, Position: (67.45, 43.65, -23.48)
+Collision with: IndustrialLight4, Time: 87.26, Position: (67.46, 43.66, -23.53)
+Collision with: IndustrialLight4, Time: 87.27, Position: (67.47, 43.67, -23.56)
+Collision with: IndustrialLight4, Time: 87.28, Position: (67.49, 43.69, -23.60)
+Collision with: IndustrialLight4, Time: 87.29, Position: (67.50, 43.70, -23.64)
+Collision with: IndustrialLight4, Time: 87.30, Position: (67.52, 43.73, -23.68)
+Collision with: IndustrialLight4, Time: 87.31, Position: (67.53, 43.73, -23.72)
+Collision with: IndustrialLight4, Time: 87.32, Position: (67.54, 43.74, -23.76)
+Collision with: IndustrialLight4, Time: 87.33, Position: (67.56, 43.76, -23.79)
+Collision with: IndustrialLight4, Time: 87.34, Position: (67.57, 43.78, -23.83)
+Collision with: IndustrialLight4, Time: 87.34, Position: (67.58, 43.79, -23.86)
+Collision with: IndustrialLight4, Time: 87.35, Position: (67.59, 43.80, -23.89)
+Collision with: IndustrialLight4, Time: 87.36, Position: (67.59, 43.82, -23.92)
+Collision with: IndustrialLight4, Time: 87.37, Position: (67.61, 43.84, -23.96)
+Collision with: UnloadingArea, Time: 116.96, Position: (39.44, 27.15, -118.04)
+Collision with: UnloadingArea, Time: 117.08, Position: (39.45, 26.96, -118.04)
+Collision with: UnloadingArea, Time: 117.31, Position: (39.40, 26.93, -118.02)

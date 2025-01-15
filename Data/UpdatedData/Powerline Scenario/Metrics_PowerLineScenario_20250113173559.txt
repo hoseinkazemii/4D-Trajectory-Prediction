@@ -1,0 +1,85 @@
+Path Length: 86.79 meters
+----------------------------------------
+Path Coordinates:
+(-10.71, 42.54, 100.86) | Time: 42.12
+(-10.71, 42.54, 100.86) | Time: 43.12
+(-10.70, 42.81, 100.46) | Time: 44.12
+(-11.40, 44.36, 97.71) | Time: 45.12
+(-13.39, 46.11, 94.97) | Time: 46.12
+(-16.56, 47.90, 91.97) | Time: 47.12
+(-20.50, 49.74, 88.69) | Time: 48.12
+(-24.24, 51.67, 85.44) | Time: 49.12
+(-27.82, 53.68, 82.11) | Time: 50.12
+(-31.04, 55.70, 78.68) | Time: 51.12
+(-33.07, 57.72, 75.54) | Time: 52.12
+(-34.96, 59.73, 72.36) | Time: 53.12
+(-37.45, 61.72, 68.70) | Time: 54.12
+(-39.77, 63.76, 64.88) | Time: 55.12
+(-41.82, 65.76, 61.02) | Time: 56.12
+(-43.61, 67.78, 57.10) | Time: 57.12
+(-45.15, 69.81, 53.17) | Time: 58.12
+(-46.41, 71.87, 49.20) | Time: 59.12
+(-47.38, 73.90, 45.30) | Time: 60.12
+(-48.08, 75.95, 41.42) | Time: 61.12
+(-48.51, 78.01, 37.61) | Time: 62.12
+(-48.47, 80.08, 34.18) | Time: 63.12
+(-48.68, 80.95, 31.55) | Time: 64.12
+(-48.94, 80.95, 28.34) | Time: 65.12
+(-49.01, 80.95, 25.12) | Time: 66.12
+(-48.89, 80.95, 22.03) | Time: 67.12
+(-49.28, 80.95, 19.29) | Time: 68.12
+(-50.07, 80.95, 16.76) | Time: 69.12
+(-51.13, 80.95, 14.38) | Time: 70.12
+(-54.50, 80.95, 12.54) | Time: 71.12
+(-58.17, 80.64, 10.46) | Time: 72.12
+(-61.39, 80.09, 8.05) | Time: 73.12
+(-61.59, 80.09, 5.16) | Time: 74.12
+(-62.24, 80.07, 2.34) | Time: 75.12
+(-64.41, 79.14, -0.49) | Time: 76.12
+(-64.20, 79.14, -3.47) | Time: 77.12
+(-64.80, 79.14, -6.16) | Time: 78.12
+(-65.91, 79.14, -8.78) | Time: 79.12
+(-67.99, 78.50, -12.49) | Time: 80.12
+(-70.27, 77.52, -16.62) | Time: 81.12
+(-72.34, 76.54, -20.91) | Time: 82.12
+(-73.86, 75.69, -25.27) | Time: 83.12
+(-72.81, 75.66, -28.38) | Time: 84.12
+(-74.09, 74.63, -31.34) | Time: 85.12
+(-73.72, 74.56, -32.13) | Time: 86.12
+(-74.07, 72.61, -32.28) | Time: 87.12
+(-74.68, 70.94, -32.74) | Time: 88.12
+(-75.04, 69.55, -34.16) | Time: 89.12
+(-75.12, 68.53, -34.76) | Time: 90.12
+(-75.77, 67.47, -35.05) | Time: 91.12
+(-75.79, 66.79, -35.06) | Time: 92.12
+----------------------------------------
+Task Completion Time: 90.42 seconds
+Start Time: Second 2.29
+End Time: Second 92.71
+----------------------------------------
+Preciseness: 0.90 meters
+----------------------------------------
+Collision Logs:
+Collision with: SM_Env_Dirt_Square_01 (15), Time: 1.82, Position: (-4.89, 25.59, 102.47)
+Collision with: SM_Env_Dirt_Square_01 (15), Time: 43.78, Position: (-8.10, 25.54, 100.84)
+Collision with: SM_Env_Dirt_Square_01 (15), Time: 43.78, Position: (-8.10, 25.54, 100.84)
+Collision with: SM_Env_Dirt_Round_01 (4), Time: 43.78, Position: (-8.10, 25.54, 100.84)
+Collision with: SM_Env_Dirt_Square_01 (15), Time: 44.08, Position: (-7.39, 27.65, 99.35)
+Collision with: SM_Env_Dirt_Square_01 (15), Time: 44.32, Position: (-7.91, 27.51, 98.27)
+Collision with: SM_Env_Dirt_Square_01 (15), Time: 44.33, Position: (-7.94, 27.53, 98.25)
+Collision with: crane_hook, Time: 82.12, Position: (-65.18, 71.10, -8.39)
+Collision with: crane_hook, Time: 82.13, Position: (-65.15, 71.14, -8.37)
+Collision with: crane_hook, Time: 82.14, Position: (-65.20, 71.16, -8.49)
+Collision with: crane_hook, Time: 82.49, Position: (-65.67, 71.52, -9.92)
+Collision with: crane_hook, Time: 82.50, Position: (-65.66, 71.53, -9.92)
+Collision with: crane_hook, Time: 83.12, Position: (-66.59, 70.76, -13.01)
+Collision with: crane_hook, Time: 83.25, Position: (-66.56, 70.51, -13.58)
+Collision with: crane_hook, Time: 83.26, Position: (-66.56, 70.48, -13.65)
+Collision with: crane_hook, Time: 83.31, Position: (-66.56, 70.35, -13.85)
+Collision with: crane_hook, Time: 83.32, Position: (-66.56, 70.33, -13.86)
+Collision with: crane_hook, Time: 83.34, Position: (-66.56, 70.29, -13.91)
+Collision with: crane_hook, Time: 83.35, Position: (-66.56, 70.24, -13.99)
+Collision with: crane_hook, Time: 83.48, Position: (-66.59, 69.76, -14.45)
+Collision with: UnloadingArea, Time: 92.52, Position: (-76.85, 48.27, -33.00)
+Collision with: UnloadingArea, Time: 92.80, Position: (-76.89, 47.36, -32.86)
+Collision with: UnloadingArea, Time: 92.87, Position: (-76.89, 47.29, -32.86)

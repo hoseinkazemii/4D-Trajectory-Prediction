@@ -1,0 +1,77 @@
+Path Length: 70.45 meters
+----------------------------------------
+Path Coordinates and Time:
+(-90.00, 65.84, -4.34) | Time: 27.00
+(-90.00, 65.84, -4.35) | Time: 28.00
+(-89.94, 65.84, -5.12) | Time: 29.00
+(-88.20, 66.92, -6.63) | Time: 30.00
+(-85.32, 68.60, -9.23) | Time: 31.00
+(-82.21, 70.36, -12.84) | Time: 32.00
+(-78.92, 72.10, -16.43) | Time: 33.00
+(-75.43, 73.85, -19.82) | Time: 34.00
+(-71.84, 75.58, -22.91) | Time: 35.00
+(-68.07, 77.32, -25.76) | Time: 36.00
+(-64.20, 79.05, -28.31) | Time: 37.00
+(-60.24, 80.78, -30.56) | Time: 38.00
+(-56.19, 80.95, -32.52) | Time: 39.00
+(-52.09, 80.95, -34.15) | Time: 40.00
+(-48.00, 80.95, -35.43) | Time: 41.00
+(-44.47, 80.45, -36.74) | Time: 42.00
+(-44.26, 78.67, -40.04) | Time: 43.00
+(-43.76, 77.05, -44.23) | Time: 44.00
+(-43.18, 75.75, -48.77) | Time: 45.00
+(-42.71, 74.43, -52.96) | Time: 46.00
+(-43.04, 73.03, -56.32) | Time: 47.00
+(-43.62, 71.66, -59.47) | Time: 48.00
+(-43.67, 70.12, -62.78) | Time: 49.00
+(-44.22, 68.42, -65.46) | Time: 50.00
+(-44.98, 66.72, -67.98) | Time: 51.00
+(-45.76, 65.00, -70.48) | Time: 52.00
+(-46.36, 63.20, -72.97) | Time: 53.00
+(-47.54, 61.41, -75.06) | Time: 54.00
+(-48.85, 59.59, -77.06) | Time: 55.00
+(-50.14, 57.73, -79.02) | Time: 56.00
+(-51.40, 55.88, -80.97) | Time: 57.00
+(-52.68, 54.02, -82.92) | Time: 58.00
+(-53.94, 52.16, -84.83) | Time: 59.00
+(-55.27, 50.24, -86.68) | Time: 60.00
+(-56.54, 48.29, -88.40) | Time: 61.00
+(-58.17, 46.28, -89.78) | Time: 62.00
+(-59.34, 43.98, -90.26) | Time: 63.00
+(-60.10, 41.48, -89.77) | Time: 64.00
+(-60.84, 39.00, -89.28) | Time: 65.00
+(-61.22, 36.52, -89.02) | Time: 66.00
+(-61.36, 34.06, -88.93) | Time: 67.00
+(-61.50, 33.61, -88.84) | Time: 68.00
+(-61.57, 33.61, -88.79) | Time: 69.00
+(-61.57, 33.61, -88.79) | Time: 70.00
+(-61.57, 33.61, -88.79) | Time: 71.00
+(-61.57, 33.61, -88.79) | Time: 72.00
+----------------------------------------
+Task Completion Time: 70.21 seconds
+Start Time: Second 2.27
+End Time: Second 72.48
+----------------------------------------
+Preciseness: 0.98 meters
+----------------------------------------
+Collision Logs:
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 1.35, Position: (-91.60, 46.58, -2.85)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 1.35, Position: (-91.60, 46.58, -2.85)
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 1.35, Position: (-91.60, 46.58, -2.85)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 28.82, Position: (-89.78, 46.75, -2.29)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 28.82, Position: (-89.78, 46.75, -2.29)
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 28.82, Position: (-89.78, 46.75, -2.29)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 28.83, Position: (-89.93, 46.78, -2.32)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 28.83, Position: (-89.93, 46.78, -2.32)
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 28.83, Position: (-89.93, 46.78, -2.32)
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 28.90, Position: (-92.28, 49.81, -3.39)
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 28.97, Position: (-87.41, 50.15, -1.80)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 29.00, Position: (-86.77, 50.58, -1.99)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 29.00, Position: (-86.77, 50.58, -1.99)
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 29.46, Position: (-83.88, 51.58, -1.74)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 29.47, Position: (-83.85, 51.61, -1.79)
+Collision with: SM_Bld_Concrete_Floor_03 (11)_B3, Time: 29.47, Position: (-83.85, 51.61, -1.79)
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 29.47, Position: (-83.85, 51.61, -1.79)
+Collision with: UnloadingArea, Time: 72.44, Position: (-63.18, 13.01, -87.43)
+Collision with: UnloadingArea, Time: 72.51, Position: (-63.16, 12.68, -87.43)
+Collision with: UnloadingArea, Time: 72.87, Position: (-63.11, 12.47, -87.42)

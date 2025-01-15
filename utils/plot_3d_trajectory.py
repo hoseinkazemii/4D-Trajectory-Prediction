@@ -22,11 +22,11 @@ def plot_3d_trajectory(csv_path, **params):
 
     # Extract true and predicted coordinates
     X_true = df['X_true'].values
-    Y_true = df['Y_true'].values
-    Z_true = df['Z_true'].values
+    Y_true = df['Z_true'].values # Unity's Z (depth) -> Cartesian Y
+    Z_true = df['Y_true'].values # Unity's Y (height) -> Cartesian Z
     X_pred = df['X_predicted'].values
-    Y_pred = df['Y_predicted'].values
-    Z_pred = df['Z_predicted'].values
+    Y_pred = df['Z_predicted'].values # Unity's Z (depth) -> Cartesian Y
+    Z_pred = df['Y_predicted'].values # Unity's Y (height) -> Cartesian Z
 
     # Create a 3D plot
     fig = plt.figure(figsize=(12, 8))

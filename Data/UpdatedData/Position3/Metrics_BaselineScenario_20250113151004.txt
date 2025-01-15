@@ -1,0 +1,116 @@
+Path Length: 88.49 meters
+----------------------------------------
+Path Coordinates and Time:
+(-67.48, 69.78, -32.20) | Time: 24.00
+(-67.44, 69.78, -32.28) | Time: 25.00
+(-67.21, 69.78, -32.71) | Time: 26.00
+(-64.68, 70.54, -33.10) | Time: 27.00
+(-60.53, 71.68, -34.07) | Time: 28.00
+(-55.92, 72.80, -35.55) | Time: 29.00
+(-51.24, 73.91, -36.72) | Time: 30.00
+(-46.65, 75.05, -37.55) | Time: 31.00
+(-43.62, 76.61, -39.31) | Time: 32.00
+(-40.80, 79.00, -41.15) | Time: 33.00
+(-38.41, 80.95, -43.28) | Time: 34.00
+(-35.90, 80.95, -45.29) | Time: 35.00
+(-33.27, 80.95, -47.18) | Time: 36.00
+(-30.59, 80.95, -48.89) | Time: 37.00
+(-27.82, 80.95, -50.46) | Time: 38.00
+(-24.99, 80.95, -51.87) | Time: 39.00
+(-22.13, 80.95, -53.11) | Time: 40.00
+(-19.22, 80.95, -54.20) | Time: 41.00
+(-16.30, 80.95, -55.12) | Time: 42.00
+(-13.38, 80.95, -55.88) | Time: 43.00
+(-10.46, 80.95, -56.49) | Time: 44.00
+(-7.56, 80.95, -56.95) | Time: 45.00
+(-4.68, 80.95, -57.26) | Time: 46.00
+(-1.88, 80.95, -57.43) | Time: 47.00
+(0.93, 80.95, -57.47) | Time: 48.00
+(3.72, 80.95, -57.37) | Time: 49.00
+(6.53, 80.95, -57.15) | Time: 50.00
+(9.40, 80.95, -56.78) | Time: 51.00
+(12.31, 80.95, -56.26) | Time: 52.00
+(15.22, 80.95, -55.59) | Time: 53.00
+(18.11, 80.95, -54.76) | Time: 54.00
+(21.01, 80.95, -53.78) | Time: 55.00
+(23.90, 80.95, -52.63) | Time: 56.00
+(26.73, 80.95, -51.33) | Time: 57.00
+(29.54, 80.95, -49.86) | Time: 58.00
+(32.25, 80.95, -48.25) | Time: 59.00
+(35.25, 79.51, -46.95) | Time: 60.00
+(38.14, 77.18, -46.24) | Time: 61.00
+(40.22, 74.81, -46.08) | Time: 62.00
+(42.43, 72.48, -45.75) | Time: 63.00
+(44.77, 70.13, -45.26) | Time: 64.00
+(46.93, 67.81, -44.86) | Time: 65.00
+(49.15, 65.48, -44.38) | Time: 66.00
+(51.37, 63.15, -43.84) | Time: 67.00
+(53.52, 60.82, -43.29) | Time: 68.00
+(55.95, 58.50, -42.39) | Time: 69.00
+(58.37, 56.28, -41.19) | Time: 70.00
+(59.78, 54.33, -40.45) | Time: 71.00
+(61.40, 52.48, -40.28) | Time: 72.00
+(63.79, 50.64, -39.00) | Time: 73.00
+(65.38, 50.28, -37.00) | Time: 74.00
+(66.82, 49.50, -36.43) | Time: 75.00
+(67.71, 48.55, -36.83) | Time: 76.00
+(68.72, 47.17, -37.47) | Time: 77.00
+(69.74, 46.05, -38.11) | Time: 78.00
+(70.63, 45.11, -38.67) | Time: 79.00
+(70.63, 45.11, -38.67) | Time: 80.00
+(70.95, 45.63, -38.13) | Time: 81.00
+(71.95, 48.09, -36.32) | Time: 82.00
+(73.48, 48.38, -33.37) | Time: 83.00
+(74.62, 48.38, -30.94) | Time: 84.00
+(75.12, 48.38, -29.80) | Time: 85.00
+----------------------------------------
+Task Completion Time: 77.65 seconds
+Start Time: Second 1.74
+End Time: Second 79.39
+----------------------------------------
+Preciseness: 1.93 meters
+----------------------------------------
+Collision Logs:
+Collision with: SM_Bld_Concrete_Floor_03 (10)_B2, Time: 1.61, Position: (-77.81, 46.58, -32.68)
+Collision with: crane_hook, Time: 61.37, Position: (24.88, 68.95, -47.35)
+Collision with: crane_hook, Time: 61.50, Position: (25.10, 68.78, -47.18)
+Collision with: crane_hook, Time: 61.59, Position: (25.24, 68.65, -47.06)
+Collision with: crane_hook, Time: 61.66, Position: (25.34, 68.56, -46.98)
+Collision with: crane_hook, Time: 61.80, Position: (25.60, 68.28, -46.85)
+Collision with: crane_hook, Time: 61.85, Position: (25.68, 68.19, -46.81)
+Collision with: crane_hook, Time: 62.05, Position: (25.96, 67.85, -46.66)
+Collision with: crane_hook, Time: 62.35, Position: (26.57, 67.23, -46.43)
+Collision with: crane_hook, Time: 62.36, Position: (26.57, 67.24, -46.42)
+Collision with: crane_hook, Time: 62.44, Position: (26.76, 67.07, -46.37)
+Collision with: crane_hook, Time: 62.56, Position: (27.07, 66.81, -46.27)
+Collision with: crane_hook, Time: 62.86, Position: (27.68, 66.32, -46.03)
+Collision with: crane_hook, Time: 62.93, Position: (27.85, 66.21, -45.99)
+Collision with: crane_hook, Time: 62.94, Position: (27.85, 66.22, -45.99)
+Collision with: crane_hook, Time: 62.99, Position: (28.01, 66.10, -45.96)
+Collision with: crane_hook, Time: 63.00, Position: (28.04, 66.09, -45.96)
+Collision with: crane_hook, Time: 63.01, Position: (28.06, 66.07, -45.95)
+Collision with: crane_hook, Time: 63.32, Position: (28.68, 65.59, -45.81)
+Collision with: crane_hook, Time: 69.43, Position: (42.98, 51.22, -44.22)
+Collision with: crane_hook, Time: 69.44, Position: (42.97, 51.23, -44.22)
+Collision with: SM_Item_SprayCan_01, Time: 77.37, Position: (69.22, 30.79, -38.75)
+Collision with: SM_Item_SprayCan_01, Time: 77.98, Position: (69.68, 30.42, -39.19)
+Collision with: SM_Item_SprayCan_01, Time: 77.99, Position: (69.69, 30.40, -39.20)
+Collision with: SM_Item_Radio_01, Time: 78.33, Position: (70.14, 29.97, -39.72)
+Collision with: SM_Item_Radio_01, Time: 78.34, Position: (70.15, 29.97, -39.73)
+Collision with: SM_Item_SprayCan_01, Time: 78.39, Position: (70.14, 29.95, -39.84)
+Collision with: SM_Item_SprayCan_01, Time: 78.42, Position: (70.05, 29.93, -39.95)
+Collision with: SM_Item_SprayCan_01, Time: 78.43, Position: (70.02, 29.92, -39.99)
+Collision with: UnloadingArea, Time: 79.23, Position: (68.46, 29.16, -41.58)
+Collision with: UnloadingArea, Time: 79.39, Position: (68.47, 29.15, -41.57)
+Collision with: SM_Tool_Tool_Nailgun_01, Time: 79.54, Position: (68.48, 29.13, -41.57)
+Collision with: SM_Prop_Trestle_Table_01, Time: 79.54, Position: (68.48, 29.13, -41.57)
+Collision with: SM_Tool_Tool_Nailgun_01, Time: 80.51, Position: (68.39, 29.15, -41.64)
+Collision with: SM_Item_SprayCan_01, Time: 80.56, Position: (68.40, 29.11, -41.64)
+Collision with: SM_Tool_Tool_Nailgun_01, Time: 81.63, Position: (68.40, 29.10, -41.64)
+Collision with: SM_Prop_Trestle_Table_01, Time: 81.65, Position: (68.40, 29.10, -41.64)
+Collision with: SM_Item_SprayCan_01, Time: 82.09, Position: (68.39, 29.11, -41.64)
+Collision with: SM_Tool_Tool_Nailgun_01, Time: 82.62, Position: (68.39, 29.10, -41.65)
+Collision with: SM_Prop_Trestle_Table_01, Time: 82.66, Position: (68.39, 29.10, -41.65)
+Collision with: SM_Item_SprayCan_01, Time: 82.88, Position: (68.39, 29.11, -41.65)
+Collision with: SM_Tool_Tool_Nailgun_01, Time: 83.16, Position: (68.39, 29.10, -41.64)
+Collision with: SM_Prop_Trestle_Table_01, Time: 83.26, Position: (68.39, 29.10, -41.65)

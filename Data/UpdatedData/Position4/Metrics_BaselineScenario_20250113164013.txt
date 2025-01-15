@@ -1,0 +1,85 @@
+Path Length: 66.60 meters
+----------------------------------------
+Path Coordinates and Time:
+(64.07, 48.59, -5.72) | Time: 78.00
+(63.96, 48.59, -6.55) | Time: 79.00
+(63.98, 48.59, -8.58) | Time: 80.00
+(63.18, 49.42, -11.46) | Time: 81.00
+(61.22, 51.74, -14.12) | Time: 82.00
+(59.36, 53.90, -16.71) | Time: 83.00
+(60.34, 55.44, -20.47) | Time: 84.00
+(61.90, 56.60, -24.84) | Time: 85.00
+(62.84, 57.48, -29.22) | Time: 86.00
+(63.91, 58.39, -34.10) | Time: 87.00
+(64.59, 59.35, -39.11) | Time: 88.00
+(65.05, 59.88, -44.39) | Time: 89.00
+(65.19, 59.88, -49.82) | Time: 90.00
+(65.16, 59.88, -54.95) | Time: 91.00
+(64.40, 59.88, -60.62) | Time: 92.00
+(63.20, 59.88, -66.46) | Time: 93.00
+(61.60, 59.88, -72.43) | Time: 94.00
+(59.63, 59.88, -78.36) | Time: 95.00
+(57.52, 59.88, -84.05) | Time: 96.00
+(55.36, 59.88, -89.49) | Time: 97.00
+(53.15, 59.36, -94.55) | Time: 98.00
+(51.22, 58.09, -98.96) | Time: 99.00
+(50.40, 56.86, -102.71) | Time: 100.00
+(49.49, 55.62, -106.47) | Time: 101.00
+(49.06, 54.38, -109.98) | Time: 102.00
+(47.89, 53.15, -113.77) | Time: 103.00
+(46.73, 51.92, -115.75) | Time: 104.00
+(44.62, 50.70, -116.55) | Time: 105.00
+(43.63, 49.61, -116.91) | Time: 106.00
+(41.90, 48.69, -117.53) | Time: 107.00
+(40.09, 47.26, -118.14) | Time: 108.00
+(39.95, 46.38, -118.19) | Time: 109.00
+(39.10, 46.38, -115.41) | Time: 110.00
+(38.49, 47.07, -113.41) | Time: 111.00
+(38.49, 47.07, -113.41) | Time: 112.00
+(38.49, 47.07, -113.41) | Time: 113.00
+(38.49, 47.07, -113.41) | Time: 114.00
+(38.49, 47.07, -113.41) | Time: 115.00
+----------------------------------------
+Task Completion Time: 115.00 seconds
+Start Time: Second 0.94
+End Time: Second 115.94
+----------------------------------------
+Preciseness: 2.11 meters
+----------------------------------------
+Collision Logs:
+Collision with: SM_Env_Dirt_Round_01 (12), Time: 0.79, Position: (69.46, 26.16, -7.60)
+Collision with: SM_Env_DirtRoad_Straight_01 (5), Time: 0.79, Position: (69.46, 26.16, -7.60)
+Collision with: SM_Env_DirtRoad_Straight_01 (5), Time: 0.99, Position: (69.48, 26.16, -7.63)
+Collision with: crane_hook, Time: 79.66, Position: (55.96, 37.47, -15.58)
+Collision with: crane_hook, Time: 79.86, Position: (54.66, 38.87, -16.54)
+Collision with: crane_hook, Time: 80.10, Position: (54.00, 39.60, -16.32)
+Collision with: crane_hook, Time: 80.14, Position: (53.85, 39.64, -16.23)
+Collision with: UnloadingArea, Time: 107.77, Position: (45.35, 34.72, -116.18)
+Collision with: UnloadingArea, Time: 107.82, Position: (45.38, 34.66, -116.22)
+Collision with: UnloadingArea, Time: 107.83, Position: (45.39, 34.65, -116.23)
+Collision with: UnloadingArea, Time: 107.84, Position: (45.40, 34.64, -116.24)
+Collision with: UnloadingArea, Time: 107.88, Position: (45.42, 34.61, -116.27)
+Collision with: UnloadingArea, Time: 107.89, Position: (45.43, 34.60, -116.27)
+Collision with: UnloadingArea, Time: 108.00, Position: (45.52, 34.52, -116.32)
+Collision with: UnloadingArea, Time: 108.08, Position: (45.56, 34.47, -116.33)
+Collision with: UnloadingArea, Time: 108.11, Position: (45.58, 34.46, -116.33)
+Collision with: UnloadingArea, Time: 108.19, Position: (45.59, 34.49, -116.35)
+Collision with: UnloadingArea, Time: 108.38, Position: (45.50, 34.83, -116.31)
+Collision with: UnloadingArea, Time: 108.39, Position: (45.52, 34.82, -116.28)
+Collision with: UnloadingArea, Time: 108.44, Position: (45.52, 34.75, -116.11)
+Collision with: UnloadingArea, Time: 110.39, Position: (44.69, 34.82, -114.70)
+Collision with: UnloadingArea, Time: 110.40, Position: (44.68, 34.84, -114.72)
+Collision with: UnloadingArea, Time: 110.41, Position: (44.67, 34.86, -114.73)
+Collision with: UnloadingArea, Time: 110.42, Position: (44.66, 34.87, -114.73)
+Collision with: UnloadingArea, Time: 110.43, Position: (44.65, 34.89, -114.73)
+Collision with: UnloadingArea, Time: 110.44, Position: (44.64, 34.92, -114.74)
+Collision with: UnloadingArea, Time: 110.54, Position: (44.56, 35.13, -114.82)
+Collision with: UnloadingArea, Time: 110.55, Position: (44.56, 35.15, -114.82)
+Collision with: UnloadingArea, Time: 110.56, Position: (44.55, 35.17, -114.83)
+Collision with: UnloadingArea, Time: 110.66, Position: (44.49, 35.33, -114.89)
+Collision with: UnloadingArea, Time: 110.66, Position: (44.48, 35.34, -114.90)
+Collision with: UnloadingArea, Time: 115.48, Position: (45.55, 29.82, -110.10)
+Collision with: SM_Env_DirtRoad_Corner_01 (2), Time: 116.08, Position: (45.80, 26.91, -109.85)
+Collision with: SM_Env_DirtRoad_Straight_01, Time: 116.09, Position: (45.80, 26.92, -109.85)
+Collision with: SM_Env_DirtRoad_Corner_01 (1), Time: 116.60, Position: (46.22, 26.98, -110.16)
+Collision with: UnloadingArea, Time: 116.62, Position: (46.23, 26.96, -110.17)

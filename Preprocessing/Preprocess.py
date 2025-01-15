@@ -25,7 +25,6 @@ class Preprocess():
         """
         # Load the datasets => list of DataFrames (one per scenario)
         self.df_list, self.row_counts = _load_data(**self.params)
-
         # e.g. df_list[0], df_list[1], ... each is a separate scenario's DataFrame
         self.arrays_list = _dfs_to_array(self.df_list, **self.params)
         # 3) Scale the arrays across ALL scenarios for each coordinate
