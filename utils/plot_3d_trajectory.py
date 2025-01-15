@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -13,9 +14,14 @@ plt.rcParams.update({
 })
 
 def plot_3d_trajectory(csv_path, **params):
+    model_name = params.get("model_name")
+    coordinates =params.get("coordinates")
     verbose = params.get("verbose")
     if verbose:
         print("Plotting the predicted trajectory vs true trajectory")
+
+    filename = os.path.basename(csv_path)  # Extracts "Results_TestSet_1.csv"
+    filename = os.path.splitext(filename)[0]  # Removes the ".csv" extension
 
     # Load the data from CSV
     df = pd.read_csv(csv_path)
@@ -44,5 +50,5 @@ def plot_3d_trajectory(csv_path, **params):
     ax.legend()
 
     # Save plot to a file
-    plt.savefig("./Reports/TrajectoryFigures/TrueTrajectory_vs_PredictedTrajectory.png", dpi=300)
+    plt.savefig(f"./Reports/TrajectoryFigures/TrueTrajectory_vs_PredictedTrajectory_{model_name}_{coordinates}_{filename}.png", dpi=300)
     plt.show()
