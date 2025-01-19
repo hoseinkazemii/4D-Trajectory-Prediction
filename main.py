@@ -48,6 +48,8 @@ common_params = {
 
 run_specific_params = {
     "model_name": "Seq2SeqTemporalAttention",
+    "show_errors": True,
+    "error_threshold": 5,
 }
 
 params = {**common_params, **run_specific_params}
@@ -63,7 +65,7 @@ def main():
 
 
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)
-    plot_3d_trajectory(csv_path="./Reports/Seq2SeqTemporalAttention/202501142035/Results_TestSet_5.csv", **params)
+    plot_3d_trajectory(csv_path="./Reports/Seq2SeqTemporalAttention/202501161755/Results_TestSet_5.csv", **params)
 
 
 
