@@ -12,9 +12,9 @@ common_params = {
     "sequence_length": 10, # The length of the input sequences (e.g., 10 time steps)
     "sequence_step": 1, # The distance between consecutive coordinates to generate sequences
     "prediction_horizon": 3, # The number of future time steps we want to predict
-    "train_indices": list(range(5,35)),
-    "val_indices": list(range(35,40)),
-    "test_indices": list(range(0,5)),
+    "num_train": 30,
+    "num_val": 5,
+    "num_test": 5,
     "num_epochs": 50,
     "learning_rate" : 0.001,
     "decay_steps" : 1000,
@@ -48,22 +48,24 @@ common_params = {
 
 run_specific_params = {
     "model_name": "Seq2SeqTemporalAttention",
+    "show_errors": True,
+    "error_threshold": 5,
 }
 
 params = {**common_params, **run_specific_params}
 
 def main():
     # Step 1: Preprocess and Train models
-    preprocessor = Preprocess(**params)
-    split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
+    # preprocessor = Preprocess(**params)
+    # split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
 
-    trainer = Seq2SeqTemporalAttention(**params)
-    trainer.construct_model()
-    trainer.run(split_data_dict, scalers_dict, row_counts)
+    # trainer = Seq2SeqTemporalAttention(**params)
+    # trainer.construct_model()
+    # trainer.run(split_data_dict, scalers_dict, row_counts)
 
 
     # Step 2: Plot "predicted trajectory" vs "true trajectory" (CHANGE the datetime in csv_path)
-    # plot_3d_trajectory(csv_path="./Reports/Seq2SeqTemporalAttention/202501211047/Results_TestSet_1.csv", **params)
+    plot_3d_trajectory(csv_path="./Reports/Seq2SeqTemporalAttention/202501161755/Results_TestSet_5.csv", **params)
 
 
 
