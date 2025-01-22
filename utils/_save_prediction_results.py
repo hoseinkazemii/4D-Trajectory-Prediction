@@ -11,10 +11,10 @@ def _save_prediction_results(X_true, Y_true, Z_true,
     """
     verbose = params.get("verbose", True)
     report_directory = params.get("report_directory", "./Reports/")
-    num_test = params.get("num_test", 2)
-    sequence_length = params.get("sequence_length", 10)
-    prediction_horizon = params.get("prediction_horizon", 3)
-    sequence_step = params.get("sequence_step", 1)
+    test_indices = params.get("test_indices")
+    sequence_length = params.get("sequence_length")
+    prediction_horizon = params.get("prediction_horizon")
+    sequence_step = params.get("sequence_step")
 
     if verbose:
         print(f"Saving results...")
@@ -43,7 +43,7 @@ def _save_prediction_results(X_true, Y_true, Z_true,
     # The aggregator output for each scenario is:
     # aggregator_length_i = n_seq_i + (prediction_horizon - 1)
     # where n_seq_i = (row_counts_i - sequence_length - prediction_horizon + 1) // sequence_step
-    test_row_counts = row_counts[-num_test:]
+    test_row_counts = [row_counts[i] for i in test_indices]
     aggregator_lengths = []
     for c in test_row_counts:
         n_seq = (c - sequence_length - prediction_horizon + 1) // sequence_step
@@ -85,13 +85,6 @@ def _save_prediction_results(X_true, Y_true, Z_true,
             print(f"Saved {agg_len} aggregator rows for scenario {i+1} to {results_path}")
 
         start_index = end_index
-
-
-
-
-
-
-
 
 
 

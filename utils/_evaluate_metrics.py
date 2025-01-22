@@ -29,8 +29,7 @@ def _compute_metrics(X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred, **params):
     dict
         Dictionary containing all computed metrics
     """
-    verbose = params.get("verbose", False)
-    batch_first = params.get("batch_first", True)
+    verbose = params.get("verbose", True)
 
     if verbose:
         print("Computing enhanced trajectory metrics...")

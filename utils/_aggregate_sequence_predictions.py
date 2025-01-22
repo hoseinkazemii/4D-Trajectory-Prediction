@@ -36,13 +36,13 @@ def _aggregate_sequence_predictions(y, row_counts, **params):
     5) Finally, we concatenate scenario aggregator arrays => shape (sum of aggregator rows, num_features).
     """
 
-    sequence_length     = params.get("sequence_length", 10)
-    prediction_horizon  = params.get("prediction_horizon", 3)
-    sequence_step       = params.get("sequence_step", 1)
-    num_test            = params.get("num_test", 2)  # how many scenario files used for test
+    sequence_length     = params.get("sequence_length")
+    prediction_horizon  = params.get("prediction_horizon")
+    sequence_step       = params.get("sequence_step")
+    test_indices = params.get("test_indices")
 
-    # We'll only use the last num_test row_counts for the test set
-    test_row_counts = row_counts[-num_test:]
+
+    test_row_counts = [row_counts[i] for i in test_indices]
 
     # Compute how many sequences each scenario contributed
     scenario_nseqs = []
