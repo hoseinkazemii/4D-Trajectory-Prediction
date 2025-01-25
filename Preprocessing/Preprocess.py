@@ -2,6 +2,7 @@ from ._load_data import _load_data
 from ._df_to_array import _dfs_to_array   # Now handles a SINGLE DataFrame and returns a dict of arrays
 from ._scale_data import _scale_data     # We'll revise to fit a global scaler for each coordinate across ALL scenarios
 from ._split_data_by_scenario import _split_data_by_scenario
+from ._build_graph_data import _build_graph_data
 
 class Preprocess():
     def __init__(self, **params):
@@ -35,6 +36,13 @@ class Preprocess():
         # 4) Split the scaled data into train/val/test sets by scenario index
         #    => no cross-file boundaries
         self.split_data_dict = _split_data_by_scenario(self.scaled_arrays_list, **self.params)
+
+        if self.params.get("use_gnn"):
+            from ._build_graph_data import _build_graph_data
+            self.graph_data_dict = _build_graph_data(self.split_data_dict, **self.params)
+        else:
+            self.graph_data_dict = None
+
 
         return self.split_data_dict, self.scalers_dict, self.row_counts
 
