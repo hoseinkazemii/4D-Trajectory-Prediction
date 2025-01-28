@@ -15,6 +15,7 @@ class Preprocess():
         self.scaled_arrays_list = None # list of dicts { coord_str: scaled_array }
         self.scalers_dict = None       # dict of scalers keyed by coordinate
         self.split_data_dict = None    # final train/val/test splits
+        self.graph_data_dict = None
 
     def preprocess_data(self):
         """
@@ -36,13 +37,6 @@ class Preprocess():
         # 4) Split the scaled data into train/val/test sets by scenario index
         #    => no cross-file boundaries
         self.split_data_dict = _split_data_by_scenario(self.scaled_arrays_list, **self.params)
-
-        if self.params.get("use_gnn"):
-            from ._build_graph_data import _build_graph_data
-            self.graph_data_dict = _build_graph_data(self.split_data_dict, **self.params)
-        else:
-            self.graph_data_dict = None
-
 
         return self.split_data_dict, self.scalers_dict, self.row_counts
 

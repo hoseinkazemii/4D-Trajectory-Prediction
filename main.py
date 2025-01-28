@@ -12,9 +12,9 @@ common_params = {
     "sequence_length": 10, # The length of the input sequences (e.g., 10 time steps)
     "sequence_step": 1, # The distance between consecutive coordinates to generate sequences
     "prediction_horizon": 3, # The number of future time steps we want to predict
-    "train_indices": list(range(0,30)),
-    "val_indices": list(range(30,35)),
-    "test_indices": list(range(35,40)),
+    "train_indices": list(range(0,2)),
+    "val_indices": list(range(2,3)),
+    "test_indices": list(range(3,4)),
     "num_epochs": 50,
     "learning_rate" : 0.001,
     "decay_steps" : 1000,
@@ -42,6 +42,8 @@ common_params = {
         "XYZ": 3
     },
     "use_gnn": True,
+    "use_velocity": True,
+    "use_acceleration": True,
 
 
 
@@ -57,7 +59,6 @@ def main():
     # Step 1: Preprocess and Train models
     preprocessor = Preprocess(**params)
     split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
-
     trainer = Seq2SeqTemporalAttention(**params)
     trainer.construct_model()
     trainer.run(split_data_dict, scalers_dict, row_counts)
