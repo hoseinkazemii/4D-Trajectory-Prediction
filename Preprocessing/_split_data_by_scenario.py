@@ -8,26 +8,9 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
     Additionally, if use_gnn=True, it creates graph snapshots (chain graphs)
     for each time-series window.
 
-    Parameters
-    ----------
     scaled_arrays_list : list of dict
         Each element is a scenario_dict with keys like "XYZ", "VX", "VY", "VZ", "AX", "AY", "AZ" ...
         e.g. scenario_dict["XYZ"] => shape (T,3) for T timesteps
-    train_indices : list of int
-    val_indices : list of int
-    test_indices : list of int
-    coordinates : list of str
-        Names of the timeseries keys to use (e.g. ["XYZ", "VX", "VY", "VZ", "AX", "AY", "AZ"]).
-        Used if use_gnn=False to handle coordinate-by-coordinate.
-    use_gnn : bool
-        If True, we will combine columns into node features and build chain graphs.
-        If False, we just do standard coordinate-based splits for typical Seq2Seq usage.
-    use_velocity : bool
-    use_acceleration : bool
-    sequence_length : int
-    prediction_horizon : int
-    sequence_step : int
-    verbose : bool
 
     Returns
     -------
@@ -87,7 +70,7 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
 
     # Depending on use_gnn, we prepare a different data structure
     if not use_gnn:
-        # Non-GNN approach: keep the old coordinate-by-coordinate structure
+        # coordinate-by-coordinate structure
         split_data_dict = {}
         # Prepare keys
         for coord_str in coordinates:
@@ -161,7 +144,7 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
             #    Then add acceleration components if use_acceleration=True
             node_feature_list = []
 
-            # If you specifically store "XYZ" as shape (T,3), add that:
+            # If we specifically store "XYZ" as shape (T,3), add that:
             if "XYZ" in scenario_dict:
                 node_feature_list.append(scenario_dict["XYZ"])  # shape (T,3)
 
@@ -186,6 +169,7 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
 
             # 2) Generate input (X_seq) and output (y_seq) windows from the combined feature matrix
             X_seq, y_seq = _generate_sequences(combined_features, **params)
+
             # shapes:
             #  X_seq: (num_samples, sequence_length, num_features)
             #  y_seq: (num_samples, prediction_horizon, num_features)
@@ -212,6 +196,8 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
                 split_data_dict["gnn"]["X_test"].append(X_seq)
                 split_data_dict["gnn"]["y_test"].append(y_seq)
                 split_data_dict["gnn"]["graphs_test"].extend(subset_graphs)
+            
+            print(f"*****************************************************************{subset_label}")
 
         # 5) Concatenate across all scenarios for each subset (X/Y). Graph lists are just extended.
         for subset_name in ["X_train", "y_train", "X_val", "y_val", "X_test", "y_test"]:
@@ -222,6 +208,5 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
 
         # For the lists of graphs, we do not need concatenation, because they are typically
         # a Python list of separate graph objects. They are already extended above.
-
         return split_data_dict
     

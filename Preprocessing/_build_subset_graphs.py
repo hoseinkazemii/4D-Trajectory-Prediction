@@ -18,9 +18,8 @@ def _build_subset_graphs(X_seq, y_seq, subset_label, **params):
         Indicates which subset these sequences belong to ('train', 'val', 'test').
     **params : dict
         max_hop : int (optional)
-            Maximum forward hop to connect. Defaults to 1 (which is a simple chain).
+            Maximum forward hop to connect.
             If max_hop=2, each node connects to i+1 and i+2, if possible.
-        Additional parameters if needed.
 
     Returns
     -------
@@ -28,7 +27,7 @@ def _build_subset_graphs(X_seq, y_seq, subset_label, **params):
         A list of Data objects (one per sample window).
     """
 
-    max_hop = params.get("max_hop", 1)  # default = 1 => immediate chain
+    max_hop = params.get("max_hop")
 
     graphs = []
     num_samples = X_seq.shape[0]
@@ -59,8 +58,10 @@ def _build_subset_graphs(X_seq, y_seq, subset_label, **params):
             y=label_tensor      # Optionally store the label
         )
 
-        # If you want to store subset_label or other metadata:
         data.subset_label = subset_label
+
         graphs.append(data)
+    print(graphs)
+    print(len(graphs))
 
     return graphs

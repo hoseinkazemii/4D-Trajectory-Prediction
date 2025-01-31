@@ -42,8 +42,9 @@ common_params = {
         "XYZ": 3
     },
     "use_gnn": True,
-    "use_velocity": False,
+    "use_velocity": True,
     "use_acceleration": True,
+    "max_hop": 4,
 
 
 
