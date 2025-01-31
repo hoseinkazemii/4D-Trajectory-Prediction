@@ -1,30 +1,66 @@
-from ._compute_node_features import _compute_node_features
+import torch
+from torch_geometric.data import Data
 
-
-# Build snippet-graphs for each subset
-def _build_subset_graphs(coord_str, subset_name, split_data_dict, edge_index, **params):
+def _build_subset_graphs(X_seq, y_seq, subset_label, **params):
     """
-    subset_name in ["train","val","test"]
-    We'll read X_{subset}, y_{subset} from split_data_dict[coord_str].
-    For each sample, build (node_feats, edge_index, target_feats).
+    Build chain-graph snapshots with multi-hop forward edges.
+    
+    For each node i in the sequence, we create directed edges to i+1, i+2, ..., i+max_hop
+    (as long as those indices are within the sequence length).
+
+    Parameters
+    ----------
+    X_seq : np.ndarray of shape (num_samples, sequence_length, num_features)
+        The input windows for a single subset (e.g. 'train').
+    y_seq : np.ndarray of shape (num_samples, prediction_horizon, num_features)
+        The target windows for the same subset.
+    subset_label : str
+        Indicates which subset these sequences belong to ('train', 'val', 'test').
+    **params : dict
+        max_hop : int (optional)
+            Maximum forward hop to connect. Defaults to 1 (which is a simple chain).
+            If max_hop=2, each node connects to i+1 and i+2, if possible.
+        Additional parameters if needed.
+
+    Returns
+    -------
+    graphs : list of torch_geometric.data.Data
+        A list of Data objects (one per sample window).
     """
-    X_data = split_data_dict[coord_str]["X_" + subset_name]  # shape (N, sequence_length, D)
-    y_data = split_data_dict[coord_str]["y_" + subset_name]  # shape (N, prediction_horizon, D)
 
-    n_samples = X_data.shape[0]
-    snippet_graphs = []
-    for i in range(n_samples):
-        positions_2d = X_data[i]   # shape (sequence_length, D)
-        target_2d    = y_data[i]   # shape (prediction_horizon, D)
+    max_hop = params.get("max_hop", 1)  # default = 1 => immediate chain
 
-        # node features: possibly including velocity & acceleration
-        # print(f"n_samples: {n_samples}")
-        # print(f"positions_2d: {positions_2d}")
-        # raise ValueError
-        node_features = _compute_node_features(positions_2d, **params)  
-        # node_features shape => (sequence_length, out_dim)
+    graphs = []
+    num_samples = X_seq.shape[0]
 
-        # We store (node_features, edge_index, target_2d)
-        snippet_graphs.append((node_features, edge_index, target_2d))
+    for i in range(num_samples):
+        # Convert X_seq[i] and y_seq[i] to tensors
+        node_features = torch.tensor(X_seq[i], dtype=torch.float)  # shape (sequence_length, num_features)
+        label_tensor  = torch.tensor(y_seq[i], dtype=torch.float)  # shape (prediction_horizon, num_features)
 
-    return snippet_graphs
+        sequence_length = node_features.size(0)
+
+        # Build adjacency with up to 'max_hop' forward edges from each node i
+        src = []
+        dst = []
+        for node_idx in range(sequence_length):
+            for h in range(1, max_hop + 1):
+                neighbor = node_idx + h
+                if neighbor < sequence_length:
+                    src.append(node_idx)
+                    dst.append(neighbor)
+
+        edge_index = torch.tensor([src, dst], dtype=torch.long)  # shape (2, num_edges)
+
+        # Create the PyG Data object
+        data = Data(
+            x=node_features,    # Node feature matrix
+            edge_index=edge_index,
+            y=label_tensor      # Optionally store the label
+        )
+
+        # If you want to store subset_label or other metadata:
+        data.subset_label = subset_label
+        graphs.append(data)
+
+    return graphs

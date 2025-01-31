@@ -42,7 +42,7 @@ common_params = {
         "XYZ": 3
     },
     "use_gnn": True,
-    "use_velocity": True,
+    "use_velocity": False,
     "use_acceleration": True,
 
 
