@@ -61,7 +61,11 @@ def _build_subset_graphs(X_seq, y_seq, subset_label, **params):
         data.subset_label = subset_label
 
         graphs.append(data)
-    print(graphs)
+
+    for graph in graphs[0]:
+        print(graph)
+        print("777777777777777777777777777777777777")
+    print(graphs[0])
     print(len(graphs))
 
     return graphs

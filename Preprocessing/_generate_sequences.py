@@ -12,8 +12,11 @@ def _generate_sequences(timeseries, **params):
     # Slide over the timeseries with the given step
     # from t=0 up to the point where we can have a full sequence_length+prediction_horizon
     for i in range(0, len(timeseries) - total_window + 1, sequence_step):
-        X_window = timeseries[i : i + sequence_length]
-        y_window = timeseries[i + sequence_length : i + total_window]
+        X_window = timeseries[i : i + sequence_length]     # shape (sequence_length, 9)
+        y_window = timeseries[i + sequence_length : i + total_window, :3]  # shape (prediction_horizon, 3)
+
+
+
 
         X.append(X_window)
         y.append(y_window)
