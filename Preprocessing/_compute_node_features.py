@@ -13,7 +13,7 @@ def _compute_node_features(sample_dict, t_index, **params):
     use_acceleration = params.get("use_acceleration")
 
     # Always get X,Y,Z => shape (sequence_length,1)
-    Xpos = sample_dict["X"][t_index]  # for example
+    Xpos = sample_dict["X"][t_index]
     Ypos = sample_dict["Y"][t_index]
     Zpos = sample_dict["Z"][t_index]
 

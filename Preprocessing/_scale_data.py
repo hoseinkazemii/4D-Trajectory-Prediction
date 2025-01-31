@@ -1,21 +1,29 @@
 import numpy as np
 from sklearn.preprocessing import RobustScaler
 
-def _scale_data(arrays_list, use_velocity=False, use_acceleration=False, use_gnn=False, **params):
+def _scale_data(arrays_list, **params):
+    use_gnn = params.get("use_gnn")
+
+    if use_gnn:
+       scaled_arrays_list, scalers_dict = _scale_data_gnn(arrays_list, **params)
+    else:
+        scaled_arrays_list, scalers_dict = _scale_data_timeseries(arrays_list, **params)
+    
+    return scaled_arrays_list, scalers_dict
+    
+
+def _scale_data_gnn(arrays_list, **params):
     """
     arrays_list: a list of dicts, each dict => { possibly "XYZ", "VX", "VY", "VZ", "AX", "AY", "AZ", etc. }
-    
-    We'll gather which fields should be scaled based on the flags:
-      - use_velocity or use_gnn => scale velocity fields if present
-      - use_acceleration or use_gnn => scale acceleration fields if present
-      
-    Then, for each chosen field, gather all data across ALL scenarios, 
-    fit a single scaler, and transform each scenario's arrays.
-    
+       
     Returns: (scaled_arrays_list, scalers_dict)
       - scaled_arrays_list => same shape as arrays_list but with scaled values
       - scalers_dict => { field_str: fitted_scaler }
     """
+
+    use_velocity = params.get("use_velocity")
+    use_acceleration = params.get("use_acceleration")
+    use_gnn = params.get("use_gnn")
     verbose = params.get("verbose", True)
 
     if verbose:
@@ -85,55 +93,52 @@ def _scale_data(arrays_list, use_velocity=False, use_acceleration=False, use_gnn
 
 
 
-
-
-
 ####################################
-# import numpy as np
-# from sklearn.preprocessing import RobustScaler
+import numpy as np
+from sklearn.preprocessing import RobustScaler
 
-# def _scale_data(arrays_list, **params):
-#     """
-#     arrays_list: a list of dicts, each dict => { coord_str: unscaled_array }
-#     e.g. arrays_list[i]["X"] => shape (rows_i,1)
+def _scale_data_timeseries(arrays_list, **params):
+    """
+    arrays_list: a list of dicts, each dict => { coord_str: unscaled_array }
+    e.g. arrays_list[i]["X"] => shape (rows_i,1)
 
-#     We'll fit one scaler per coord_str across ALL scenarios, 
-#     then transform each scenario's arrays.
+    We'll fit one scaler per coord_str across ALL scenarios, 
+    then transform each scenario's arrays.
 
-#     Returns: (scaled_arrays_list, scalers_dict)
-#       - scaled_arrays_list => same shape as arrays_list but with scaled values
-#       - scalers_dict => { coord_str: fitted_scaler }
-#     """
-#     coordinates = params.get("coordinates")
-#     verbose = params.get("verbose", True)
+    Returns: (scaled_arrays_list, scalers_dict)
+      - scaled_arrays_list => same shape as arrays_list but with scaled values
+      - scalers_dict => { coord_str: fitted_scaler }
+    """
+    coordinates = params.get("coordinates")
+    verbose = params.get("verbose", True)
 
-#     if verbose:
-#         print("Fitting scalers globally for each coordinate & scaling each scenario.")
+    if verbose:
+        print("Fitting scalers globally for each coordinate & scaling each scenario.")
 
-#     # Gather all data for each coordinate from all scenarios
-#     big_data = {coord_str: [] for coord_str in coordinates}
-#     for scenario_dict in arrays_list:
-#         for coord_str in coordinates:
-#             big_data[coord_str].append(scenario_dict[coord_str])
+    # Gather all data for each coordinate from all scenarios
+    big_data = {coord_str: [] for coord_str in coordinates}
+    for scenario_dict in arrays_list:
+        for coord_str in coordinates:
+            big_data[coord_str].append(scenario_dict[coord_str])
     
-#     # Fit a single scaler for each coordinate
-#     scalers_dict = {}
-#     for coord_str in coordinates:
-#         cat_data = np.concatenate(big_data[coord_str], axis=0)  # combine rows from all scenarios
-#         scaler = RobustScaler()
-#         scaler.fit(cat_data)
-#         scalers_dict[coord_str] = scaler
-#         if verbose:
-#             print(f"Fitted scaler for coordinate '{coord_str}' with data shape {cat_data.shape}.")
+    # Fit a single scaler for each coordinate
+    scalers_dict = {}
+    for coord_str in coordinates:
+        cat_data = np.concatenate(big_data[coord_str], axis=0)  # combine rows from all scenarios
+        scaler = RobustScaler()
+        scaler.fit(cat_data)
+        scalers_dict[coord_str] = scaler
+        if verbose:
+            print(f"Fitted scaler for coordinate '{coord_str}' with data shape {cat_data.shape}.")
 
-#     # Transform each scenario's arrays
-#     scaled_arrays_list = []
-#     for scenario_dict in arrays_list:
-#         scaled_scenario = {}
-#         for coord_str in coordinates:
-#             arr = scenario_dict[coord_str]
-#             # scaled_scenario[coord_str] = arr
-#             scaled_scenario[coord_str] = scalers_dict[coord_str].transform(arr)
-#         scaled_arrays_list.append(scaled_scenario)
+    # Transform each scenario's arrays
+    scaled_arrays_list = []
+    for scenario_dict in arrays_list:
+        scaled_scenario = {}
+        for coord_str in coordinates:
+            arr = scenario_dict[coord_str]
+            # scaled_scenario[coord_str] = arr
+            scaled_scenario[coord_str] = scalers_dict[coord_str].transform(arr)
+        scaled_arrays_list.append(scaled_scenario)
 
-#     return scaled_arrays_list, scalers_dict
+    return scaled_arrays_list, scalers_dict

@@ -8,11 +8,6 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
     scaled_arrays_list: list of scenario_dicts, each scenario_dict => { coord_str: scaled_array }
       e.g. scaled_arrays_list[i]["X"] => shape (rows_i,1)
 
-    Instead of fixed integer counts for train/val/test, now we allow lists:
-      - train_indices: List of indices assigned to training
-      - val_indices: List of indices assigned to validation
-      - test_indices: List of indices assigned to testing
-
     Returns: split_data_dict => e.g. { "X": { "X_train": <>, "y_train": <>, ... }, "Y": {...}, ... }
     """
     train_indices     = params.get("train_indices")
@@ -65,7 +60,7 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
         for coordinate_str in coordinates:
             arr = scenario_dict[coordinate_str]  # shape (rows_i, dim)
             X_seq, y_seq = _generate_sequences(arr, **params)
-
+            
             if subset_label == "train":
                 split_data_dict[coordinate_str]["X_train"].append(X_seq)
                 split_data_dict[coordinate_str]["y_train"].append(y_seq)

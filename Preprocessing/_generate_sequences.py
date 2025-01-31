@@ -3,7 +3,7 @@ import numpy as np
 def _generate_sequences(timeseries, **params):
     sequence_length = params.get("sequence_length")
     prediction_horizon = params.get("prediction_horizon")
-    sequence_step = params.get("sequence_step", 1)
+    sequence_step = params.get("sequence_step")
 
     total_window = sequence_length + prediction_horizon
 

@@ -33,10 +33,7 @@ class Preprocess():
         #    so they share the same scale. `_scale_data` will do a "two-pass":
         #    (a) gather data for each coordinate from all scenarios,
         #    (b) fit one scaler per coordinate, (c) transform each scenario's arrays.
-        print(self.arrays_list)
-        raise ValueError
         self.scaled_arrays_list, self.scalers_dict = _scale_data(self.arrays_list, **self.params)
-
         # 4) Split the scaled data into train/val/test sets by scenario index
         #    => no cross-file boundaries
         self.split_data_dict = _split_data_by_scenario(self.scaled_arrays_list, **self.params)
