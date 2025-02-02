@@ -55,17 +55,10 @@ def _build_subset_graphs(X_seq, y_seq, subset_label, **params):
         data = Data(
             x=node_features,    # Node feature matrix
             edge_index=edge_index,
-            y=label_tensor      # Optionally store the label
+            y=label_tensor      # Store the label
         )
 
         data.subset_label = subset_label
-
         graphs.append(data)
-
-    for graph in graphs[0]:
-        print(graph)
-        print("777777777777777777777777777777777777")
-    print(graphs[0])
-    print(len(graphs))
 
     return graphs

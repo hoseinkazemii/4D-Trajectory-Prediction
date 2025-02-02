@@ -6,8 +6,6 @@ def combine_features_for_sample(idx_array_dict, **params):
     # idx_array_dict is e.g. { "X": (sequence_length,1), "Y": (sequence_length,1), "Z": (sequence_length,1) }
     # We'll just horizontally stack them: shape -> (sequence_length, 3)
     coordinates = params.get("coordinates")
-    print(idx_array_dict)
-    raise ValueError
     feat_list = []
     for coord in coordinates:
         feat_list.append(idx_array_dict[coord].squeeze(-1))  # shape => (sequence_length,)

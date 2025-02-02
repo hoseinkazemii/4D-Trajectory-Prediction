@@ -15,9 +15,6 @@ def _generate_sequences(timeseries, **params):
         X_window = timeseries[i : i + sequence_length]     # shape (sequence_length, 9)
         y_window = timeseries[i + sequence_length : i + total_window, :3]  # shape (prediction_horizon, 3)
 
-
-
-
         X.append(X_window)
         y.append(y_window)
 

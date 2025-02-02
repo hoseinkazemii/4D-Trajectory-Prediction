@@ -29,9 +29,6 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
         If use_gnn=True:
             {
               "gnn": {
-                 "X_train": np.array(...), "y_train": np.array(...),
-                 "X_val":   np.array(...), "y_val":   np.array(...),
-                 "X_test":  np.array(...), "y_test":  np.array(...),
                  "graphs_train": [...],
                  "graphs_val":   [...],
                  "graphs_test":  [...]
@@ -115,23 +112,18 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
 
         return split_data_dict
 
-    else:
+    elif use_gnn:
         # GNN approach:
         # We will combine all needed features into a single matrix: [X, Y, Z, (VX, VY, VZ)?, (AX, AY, AZ)?]
         # Then produce chain-graph snapshots from each sequence.
         # We'll store them in a single dict keyed by "gnn".
         split_data_dict = {
             "gnn": {
-                "X_train": [], "y_train": [],
-                "X_val":   [], "y_val":   [],
-                "X_test":  [], "y_test":  [],
-                # Optionally store list of graph objects or adjacency info
                 "graphs_train": [],
                 "graphs_val":   [],
                 "graphs_test":  [],
             }
         }
-
         # For each scenario in scaled_arrays_list
         for i, scenario_dict in enumerate(scaled_arrays_list):
             subset_label = get_subset_label(i)
@@ -183,28 +175,11 @@ def _split_data_by_scenario(scaled_arrays_list, **params):
 
             # 4) Append them to the correct subset
             if subset_label == "train":
-                split_data_dict["gnn"]["X_train"].append(X_seq)
-                split_data_dict["gnn"]["y_train"].append(y_seq)
                 split_data_dict["gnn"]["graphs_train"].extend(subset_graphs)
-
             elif subset_label == "val":
-                split_data_dict["gnn"]["X_val"].append(X_seq)
-                split_data_dict["gnn"]["y_val"].append(y_seq)
                 split_data_dict["gnn"]["graphs_val"].extend(subset_graphs)
-
             elif subset_label == "test":
-                split_data_dict["gnn"]["X_test"].append(X_seq)
-                split_data_dict["gnn"]["y_test"].append(y_seq)
                 split_data_dict["gnn"]["graphs_test"].extend(subset_graphs)
-            
-            print(f"*****************************************************************{subset_label}")
-
-        # 5) Concatenate across all scenarios for each subset (X/Y). Graph lists are just extended.
-        for subset_name in ["X_train", "y_train", "X_val", "y_val", "X_test", "y_test"]:
-            if split_data_dict["gnn"][subset_name]:
-                split_data_dict["gnn"][subset_name] = np.concatenate(split_data_dict["gnn"][subset_name], axis=0)
-            else:
-                split_data_dict["gnn"][subset_name] = np.array([])
 
         # For the lists of graphs, we do not need concatenation, because they are typically
         # a Python list of separate graph objects. They are already extended above.

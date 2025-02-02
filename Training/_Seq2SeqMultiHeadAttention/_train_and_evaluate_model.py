@@ -124,7 +124,7 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **param
         _assign_results(y_true_agg, y_pred_agg, coord_str)
 
         # Plot loss for each coordinate group
-        _plot_loss(history, coord_str, coord_str, **params)
+        _plot_loss(history, coordinates, coord_str, **params)
 
     # Now, we have final X_true, Y_true, Z_true, X_pred, Y_pred, Z_pred
     # depending on which coordinates exist. Let's save them:

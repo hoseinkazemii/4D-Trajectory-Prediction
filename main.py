@@ -1,3 +1,4 @@
+import torch
 from Preprocessing import Preprocess
 from Training import *
 from utils import plot_3d_trajectory
@@ -12,9 +13,9 @@ common_params = {
     "sequence_length": 10, # The length of the input sequences (e.g., 10 time steps)
     "sequence_step": 1, # The distance between consecutive coordinates to generate sequences
     "prediction_horizon": 3, # The number of future time steps we want to predict
-    "train_indices": list(range(0,2)),
-    "val_indices": list(range(2,3)),
-    "test_indices": list(range(3,4)),
+    "train_indices": list(range(0,5)),
+    "val_indices": list(range(5,6)),
+    "test_indices": list(range(6,7)),
     "num_epochs": 50,
     "learning_rate" : 0.001,
     "decay_steps" : 1000,
@@ -22,7 +23,6 @@ common_params = {
     "batch_size": 32,
     "run_eagerly":False,
     "sample_index": 0,
-    "coordinates": ["XYZ"], # custom coordinates
     "coord_to_indices" : { # A helper mapping from coordinate string to the appropriate column indices
         "X":   [0],
         "Y":   [1],
@@ -41,17 +41,22 @@ common_params = {
         "YZ":  2,
         "XYZ": 3
     },
+    "coordinates": ["XYZ"], # custom coordinates to train on
     "use_gnn": True,
-    "use_velocity": True,
-    "use_acceleration": True,
-    "max_hop": 4,
+    "use_velocity": False,
+    "use_acceleration": False,
+    "max_hop": 1,
+    "device": "cuda" if torch.cuda.is_available() else "cpu",
+    "hidden_dim": 64,
+    "in_channels": 3,
+
 
 
 
 }
 
 run_specific_params = {
-    "model_name": "Seq2SeqTemporalAttention",
+    "model_name": "GNN",
 }
 
 params = {**common_params, **run_specific_params}
@@ -60,7 +65,8 @@ def main():
     # Step 1: Preprocess and Train models
     preprocessor = Preprocess(**params)
     split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
-    trainer = Seq2SeqTemporalAttention(**params)
+
+    trainer = GNN(**params)
     trainer.construct_model()
     trainer.run(split_data_dict, scalers_dict, row_counts)
 
