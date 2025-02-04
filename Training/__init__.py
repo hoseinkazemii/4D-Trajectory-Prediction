@@ -7,3 +7,4 @@ from .ConvLSTM import ConvLSTM
 from .Seq2SeqLSTM import Seq2SeqLSTM
 from .Seq2SeqGRU import Seq2SeqGRU
 from .TCN import TCN
+from .TCNUQ import TCNUQ
