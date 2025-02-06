@@ -10,16 +10,17 @@ common_params = {
     "warmup": False,
     "signal_based_extraction": True,
     "time_interval": 0.5,
-    "sequence_length": 10, # The length of the input sequences (e.g., 10 time steps)
+    "sequence_length": 30, # The length of the input sequences (e.g., 10 time steps)
     "sequence_step": 1, # The distance between consecutive coordinates to generate sequences
-    "prediction_horizon": 3, # The number of future time steps we want to predict
-    "train_indices": list(range(0,2)),
-    "val_indices": list(range(2,3)),
-    "test_indices": list(range(3,4)),
-    "num_epochs": 30,
-    "learning_rate" : 0.001,
+    "prediction_horizon": 20, # The number of future time steps we want to predict
+    "train_indices": [i for i in range(0, 35) if i not in [0, 5, 10, 15, 20, 25, 30]],
+    "val_indices": [0, 5, 10, 15, 20, 25, 30],  #list(range(30,35))
+    "test_indices": list(range(35, 40)), #list(range(35,40))
+    "num_epochs": 50,
+    "learning_rate" : 0.0005,
     "decay_steps" : 1000,
     "decay_rate" : 0.9,
+    "l2_reg_factor": 0.001,
     "batch_size": 32,
     "run_eagerly":False,
     "sample_index": 0,
@@ -42,7 +43,7 @@ common_params = {
         "XYZ": 3
     },
     "coordinates": ["XYZ"], # custom coordinates to train on
-    "use_gnn": True,
+    "use_gnn": False,
     "use_velocity": False,
     "use_acceleration": False,
     "max_hop": 2,
@@ -58,7 +59,7 @@ common_params = {
 }
 
 run_specific_params = {
-    "model_name": "TCNUQ",
+    "model_name": "Seq2SeqMultiHeadAttention",
 }
 
 params = {**common_params, **run_specific_params}
@@ -68,7 +69,7 @@ def main():
     preprocessor = Preprocess(**params)
     split_data_dict, scalers_dict, row_counts = preprocessor.preprocess_data()
 
-    trainer = TCNUQ(**params)
+    trainer = Seq2SeqMultiHeadAttention(**params)
     trainer.construct_model()
     trainer.run(split_data_dict, scalers_dict, row_counts)
 

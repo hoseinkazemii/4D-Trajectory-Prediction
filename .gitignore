@@ -166,3 +166,4 @@ cython_debug/
 *.png
 *.keras
 *.txt
+test.py
