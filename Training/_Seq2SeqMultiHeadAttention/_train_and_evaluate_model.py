@@ -2,6 +2,7 @@ from Preprocessing import _inverse_transform
 from utils import _aggregate_sequence_predictions, _save_prediction_results, _plot_loss
 from utils._evaluate_metrics import _compute_metrics, _export_metrics
 import pandas as pd
+import numpy as np
 
 def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **params):
     """
@@ -98,19 +99,29 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **param
         val_y   = split_data_dict[coord_str]["y_val"]
         test_X  = split_data_dict[coord_str]["X_test"]
         test_y  = split_data_dict[coord_str]["y_test"]
+        decoder_input = np.zeros_like(train_y)
+        decoder_input[:, 1:, :] = train_y[:, :-1, :]
+        val_decoder_input = np.zeros_like(val_y)
+        val_decoder_input[:, 1:, :] = val_y[:, :-1, :]
+        test_decoder_input = np.zeros_like(test_y)
+        test_decoder_input[:, 1:, :] = test_y[:, :-1, :]
 
         # Fit
         history = model.fit(
-            train_X, train_y,
-            validation_data=(val_X, val_y),
+            [train_X, decoder_input],   # training inputs
+            train_y,                    # training target
+            validation_data=(
+                [val_X, val_decoder_input],  # validation inputs
+                val_y                        # validation targets
+            ),
             epochs=num_epochs,
             batch_size=batch_size,
             verbose=1 if verbose else 0
         )
 
         # Predict on test
-        y_pred_test = model.predict(test_X)
-
+        y_pred_test = model.predict([test_X, test_decoder_input])
+        
         # Inverse transform (test_y and y_pred_test)
         # shape => (num_samples, prediction_horizon, dimension_of(coord_str))
         y_true_inv = _inverse_transform(scaler, test_y, coord_str, **params)
