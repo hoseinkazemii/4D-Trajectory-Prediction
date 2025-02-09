@@ -3,6 +3,8 @@ from utils import _aggregate_sequence_predictions, _save_prediction_results, _pl
 from utils._evaluate_metrics import _compute_metrics, _export_metrics
 import pandas as pd
 import numpy as np
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
+
 
 def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **params):
     """
@@ -32,6 +34,7 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **param
     num_epochs = params.get('num_epochs')
     batch_size = params.get('batch_size')
     models_dict = params.get("models_dict")
+    model_name = params.get("model_name")
 
     if verbose:
         print("Training the models for coordinates:", coordinates)
@@ -105,6 +108,20 @@ def _train_and_evaluate_model(split_data_dict, scalers_dict, row_counts, **param
         val_decoder_input[:, 1:, :] = val_y[:, :-1, :]
         test_decoder_input = np.zeros_like(test_y)
         test_decoder_input[:, 1:, :] = test_y[:, :-1, :]
+
+        # Save the best model during training
+        model_checkpoint = ModelCheckpoint(
+            f'/BestModels/best_{model_name}_model.keras',
+            monitor='val_loss',
+            save_best_only=True
+        )
+
+        early_stopping = EarlyStopping(
+            monitor='val_loss',   # Monitor validation loss
+            patience=5,           # Stop after 5 epochs of no improvement
+            min_delta=0.0001,  # Require an improvement of at least 0.001 in val_loss
+            restore_best_weights=True  # Restore weights from the best epoch
+        )
 
         # Fit
         history = model.fit(

@@ -5,8 +5,8 @@ from utils import plot_3d_trajectory
 
 num_scenarios = 8
 num_trials_per_scenario = 5
-training_scenarios = [0,1,3,4,5,6,7]
-test_scenario = 2
+training_scenarios = [0,1,2,3,4,5,6]
+test_scenario = 7
 train_indices = [
     i for scenario in training_scenarios
     for i in range(scenario * num_trials_per_scenario, (scenario + 1) * num_trials_per_scenario)
