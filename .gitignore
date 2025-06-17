@@ -166,6 +166,7 @@ cython_debug/
 *.png
 *.keras
 *.txt
+!requirements.txt
 test.py
 *.docx
 *.doc
