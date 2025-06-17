@@ -3,14 +3,11 @@ from io import StringIO
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import (
-    Input, LSTM, Dense, Add, Dropout, RepeatVector, TimeDistributed, Lambda
+    Input, LSTM, Dense, Add, Dropout, RepeatVector, TimeDistributed
 )
 from tensorflow.keras.losses import Huber
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.optimizers.schedules import ExponentialDecay
-
-from ._attention_layer import TemporalEncDecAttention
-
 
 def _construct_network(**params):
     coordinates_list = params.get("coordinates")
@@ -25,7 +22,7 @@ def _construct_network(**params):
     run_eagerly = params.get("run_eagerly")
 
     if verbose:
-        print("Constructing Seq2Seq RepeatVector models for coordinates:", coordinates_list)
+        print("Constructing pure Seq2Seq RepeatVector models for coordinates:", coordinates_list)
 
     models_dict = {}
 
@@ -33,50 +30,35 @@ def _construct_network(**params):
         in_dim = coord_to_dim[coord_str]
         out_dim = in_dim
 
-        encoder_inputs = Input(shape=(sequence_length, in_dim),
-                               name=f"encoder_input_{coord_str}")
+        encoder_inputs = Input(shape=(sequence_length, in_dim), name=f"encoder_input_{coord_str}")
 
-        # LSTM #1
         enc_out1 = LSTM(128, return_sequences=True, name=f"encoder_lstm1_{coord_str}")(encoder_inputs)
         enc_out1 = Dropout(0.2)(enc_out1)
 
-        # LSTM #2
         enc_out2 = LSTM(128, return_sequences=True, name=f"encoder_lstm2_{coord_str}")(enc_out1)
         enc_out2 = Dropout(0.2)(enc_out2)
 
-        # Residual connection
         enc_out2_res = Add(name=f"encoder_residual1_{coord_str}")([enc_out1, enc_out2])
 
-        # LSTM #3: returns final sequence + final states
         enc_out3, state_h, state_c = LSTM(128, return_sequences=True, return_state=True,
                                           name=f"encoder_lstm3_{coord_str}")(enc_out2_res)
 
         repeated_context = RepeatVector(prediction_horizon, name=f"repeat_{coord_str}")(state_h)
 
-        # LSTM #1
         dec_out1 = LSTM(128, return_sequences=True, name=f"decoder_lstm1_{coord_str}")(
             repeated_context, initial_state=[state_h, state_c]
         )
         dec_out1 = Dropout(0.2)(dec_out1)
 
-        # LSTM #2
         dec_out2 = LSTM(128, return_sequences=True, name=f"decoder_lstm2_{coord_str}")(dec_out1)
         dec_out2 = Dropout(0.2)(dec_out2)
 
-        # Residual connection
         dec_out2_res = Add(name=f"decoder_residual_{coord_str}")([dec_out1, dec_out2])
 
-        # Query = dec_out2_res, Value = enc_out3
-        attention_layer = TemporalEncDecAttention(units=32, hidden_dim=128, num_heads=4, name=f"temporal_att_{coord_str}")
-        context_attended = attention_layer([dec_out2_res, enc_out3])
-
-        # Residual + LN
-        cross_out = Add(name=f"cross_residual_{coord_str}")([dec_out2_res, context_attended])
-
         decoder_dense = TimeDistributed(Dense(out_dim), name=f"dense_out_{coord_str}")
-        outputs = decoder_dense(cross_out)
+        outputs = decoder_dense(dec_out2_res)
 
-        model = Model(encoder_inputs, outputs, name=f"RepeatVecModel_TemporalAtt_{coord_str}")
+        model = Model(encoder_inputs, outputs, name=f"RepeatVecModel_PureSeq2Seq_{coord_str}")
         lr_schedule = ExponentialDecay(learning_rate, decay_steps, decay_rate)
         model.compile(optimizer=Adam(learning_rate=lr_schedule),
                       loss=Huber(delta=1.0), run_eagerly=run_eagerly)
@@ -85,7 +67,7 @@ def _construct_network(**params):
         with contextlib.redirect_stdout(summary_io):
             model.summary()
         if log:
-            log.info(f"Temporal Attention RepeatVector Model for {coord_str}:\n{summary_io.getvalue()}")
+            log.info(f"Pure Seq2Seq RepeatVector Model for {coord_str}:\n{summary_io.getvalue()}")
         else:
             print(summary_io.getvalue())
 

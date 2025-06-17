@@ -1,104 +1,105 @@
-######################
-## Multi-pass temporal attention
 import tensorflow as tf
 from tensorflow.keras.layers import Layer, Dense
 
-class TemporalAttention(Layer):
-    def __init__(self, hidden_dim, **kwargs):
-        super(TemporalAttention, self).__init__(**kwargs)
+class TemporalEncDecAttention(Layer):
+    def __init__(self, units, hidden_dim, num_heads, **kwargs):
+        super(TemporalEncDecAttention, self).__init__(**kwargs)
+        self.units = units
         self.hidden_dim = hidden_dim
-        self.W_enc = None
-        self.W_dec = None
-        self.V = None
+        self.num_heads = num_heads
+        
+        assert units % num_heads == 0, "units must be divisible by num_heads"
+        self.head_dim = units // num_heads
+        
+        self.Wq = Dense(units, name="Wq")
+        self.Wk = Dense(units, name="Wk")
+        self.Wv = Dense(units, name="Wv")
+
+        self.temperature = tf.Variable(tf.sqrt(tf.cast(self.head_dim, tf.float32)), 
+                                       trainable=True, name="temperature")
+        
+        self.output_dense = Dense(hidden_dim, name="output_projection")
+        
         self.attention_weights = None
 
-    def build(self, input_shape):
-        # Initialize layers in build() instead of __init__
-        self.W_enc = Dense(self.hidden_dim, use_bias=False, name='W_enc')
-        self.W_dec = Dense(self.hidden_dim, use_bias=False, name='W_dec')
-        self.V = Dense(1, use_bias=False, name='V')
-        super().build(input_shape)
+    def get_sinusoidal_position_encoding(self, positions, d_model):
+        seq_len = tf.shape(positions)[1]
+        
+        position = tf.range(seq_len, dtype=tf.float32)[:, tf.newaxis]
+        div_term = tf.exp(tf.range(0, d_model, 2, dtype=tf.float32) * -(tf.math.log(10000.0) / d_model))
+        
+        sin_encoding = tf.sin(position * div_term)
+        cos_encoding = tf.cos(position * div_term)
+        
+        position_encoding = tf.concat([sin_encoding, cos_encoding], axis=-1)
+        if d_model % 2 != 0:
+            position_encoding = tf.concat([position_encoding, tf.zeros([seq_len, 1])], axis=-1)
+        
+        position_encoding = tf.expand_dims(position_encoding, 0)
+        
+        return position_encoding
 
-    @tf.function
-    def call(self, query, value, training=None):
-        """
-        Args:
-            query: (batch_size, hidden_dim) - decoder hidden state
-            value: (batch_size, enc_seq_len, hidden_dim) - encoder outputs
-            training: bool - whether in training mode
-        Returns:
-            context_vector: (batch_size, hidden_dim)
-        """
-        # Ensure inputs are proper tensors
-        query = tf.convert_to_tensor(query)
-        value = tf.convert_to_tensor(value)
+    def split_heads(self, x, batch_size):
+        x = tf.reshape(x, (batch_size, -1, self.num_heads, self.head_dim))
+        return tf.transpose(x, perm=[0, 2, 1, 3])
         
-        # Add time dimension to query
-        query_expanded = tf.expand_dims(query, 1)  # (batch, 1, hidden_dim)
+    def combine_heads(self, x, batch_size):
+        x = tf.transpose(x, perm=[0, 2, 1, 3])
+        return tf.reshape(x, (batch_size, -1, self.units))
+
+    def call(self, inputs, training=None):
+        query, value = inputs
+        batch_size = tf.shape(query)[0]
+        dec_time = tf.shape(query)[1]
+        enc_time = tf.shape(value)[1]
         
-        # Transform value and query
-        value_transformed = self.W_enc(value)  # (batch, enc_seq_len, hidden_dim)
-        query_transformed = self.W_dec(query_expanded)  # (batch, 1, hidden_dim)
+        dec_positions = tf.range(dec_time, dtype=tf.float32)
+        dec_positions = tf.expand_dims(dec_positions, 0)
+        dec_positions = tf.tile(dec_positions, [batch_size, 1])
+        enc_positions = tf.range(enc_time, dtype=tf.float32)
+        enc_positions = tf.expand_dims(enc_positions, 0)
+        enc_positions = tf.tile(enc_positions, [batch_size, 1])
+        enc_positions = tf.range(enc_time, dtype=tf.float32)
+        enc_positions = tf.expand_dims(enc_positions, 0)
+        enc_positions = tf.tile(enc_positions, [batch_size, 1])
         
-        # Compute alignment scores
-        score = tf.nn.tanh(value_transformed + query_transformed)  # (batch, enc_seq_len, hidden_dim)
-        score = self.V(score)  # (batch, enc_seq_len, 1)
+        dec_pos_encoding = self.get_sinusoidal_position_encoding(dec_positions, self.hidden_dim)
+        enc_pos_encoding = self.get_sinusoidal_position_encoding(enc_positions, self.hidden_dim)
         
-        # Compute attention weights
-        attention_weights = tf.nn.softmax(score, axis=1)  # (batch, enc_seq_len, 1)
+        query = query + dec_pos_encoding
+        value = value + enc_pos_encoding
+
+        Q = self.Wq(query)
+        K = self.Wk(value)
+        V = self.Wv(value)
+
+        Q = self.split_heads(Q, batch_size)
+        K = self.split_heads(K, batch_size)
+        V = self.split_heads(V, batch_size)
+
+        scores = tf.matmul(Q, K, transpose_b=True)
+        scores = scores / self.temperature
+
+        attention_weights = tf.nn.softmax(scores, axis=-1)
+
+        context = tf.matmul(attention_weights, V)
+
+        context = self.combine_heads(context, batch_size)
+
+        context = self.output_dense(context)
+
+        self.attention_weights = tf.reduce_mean(attention_weights, axis=1)
         
-        # Store weights for visualization (without gradient tracking)
-        self.attention_weights = tf.stop_gradient(tf.squeeze(attention_weights, -1))
-        
-        # Compute context vector
-        context_vector = tf.reduce_sum(attention_weights * value, axis=1)  # (batch, hidden_dim)
-        
-        return context_vector
+        return context
+
+    def get_attention_weights(self):
+        return self.attention_weights
 
     def get_config(self):
         config = super().get_config()
         config.update({
-            'hidden_dim': self.hidden_dim
+            "units": self.units,
+            "hidden_dim": self.hidden_dim,
+            "num_heads": self.num_heads,
         })
         return config
-
-
-
-## Single-pass temporal attention
-# import tensorflow as tf
-# from tensorflow.keras.layers import Layer, Dense
-
-# class TemporalAttention(Layer):
-#     """
-#     Learns a per-timestep weight distribution (attention) from the encoder outputs.
-#     No explicit 'query' is used. This is a simpler 'temporal-only' attention.
-#     """
-#     def __init__(self, **kwargs):
-#         super(TemporalAttention, self).__init__(**kwargs)
-
-#     def build(self, input_shape):
-#         """
-#         input_shape: (batch_size, enc_seq_len, hidden_dim)
-#         We'll learn a small dense layer to map from hidden_dim -> 1 (scores).
-#         """
-#         _, seq_len, hidden_dim = input_shape
-#         self.score_dense = Dense(1)  # shape: (hidden_dim) -> (1)
-#         super(TemporalAttention, self).build(input_shape)
-
-#     def call(self, value):
-#         """
-#         value shape: (batch_size, enc_seq_len, hidden_dim)
-#         Returns: context_vector shape (batch_size, hidden_dim)
-#         """
-#         # 1) Compute raw scores for each time step
-#         #    shape => (batch_size, enc_seq_len, 1)
-#         scores = self.score_dense(value)
-
-#         # 2) Softmax over the 'enc_seq_len' dimension
-#         attention_weights = tf.nn.softmax(scores, axis=1)  # (batch, enc_seq_len, 1)
-
-#         # 3) Weighted sum of 'value'
-#         context_vector = attention_weights * value  # (batch, enc_seq_len, hidden_dim)
-#         context_vector = tf.reduce_sum(context_vector, axis=1)  # (batch, hidden_dim)
-
-#         return context_vector

@@ -167,3 +167,15 @@ cython_debug/
 *.keras
 *.txt
 test.py
+*.docx
+*.doc
+*.pdf
+*.npy
+*.h5
+*.xlsx
+*.xls
+*.json
+*.hdf5
+*.hdf
+*.pickle
+*.pkl

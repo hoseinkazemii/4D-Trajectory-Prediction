@@ -1,9 +1,9 @@
 from .BaseMLModel import BaseMLModel
-from ._Seq2SeqMultiHeadAttention import _construct_model, _train_and_evaluate_model
+from ._Seq2SeqLocalAttention import _construct_model, _train_and_evaluate_model
 
-class Seq2SeqMultiHeadAttention(BaseMLModel):
+class Seq2SeqLocalAttention(BaseMLModel):
     def __init__(self, **params):
-        super(Seq2SeqMultiHeadAttention, self).__init__(**params)
+        super(Seq2SeqLocalAttention, self).__init__(**params)
         self.models_dict = None
 
     def construct_model(self):

@@ -5,7 +5,7 @@ from ._ConvLSTM import _train_and_evaluate_model_convlstm
 class ConvLSTM(BaseMLModel):
     def __init__(self, **params):
         super(ConvLSTM, self).__init__(**params)
-        self.models_dict = None  # will store { "XYZ": model, "XZ": model, ... } after construction
+        self.models_dict = None
 
     def construct_model(self):
         self.models_dict = _construct_model_convlstm(**self.__dict__)

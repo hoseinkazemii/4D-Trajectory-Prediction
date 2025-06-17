@@ -4,7 +4,7 @@ from ._Seq2SeqTemporalAttention import _construct_model, _train_and_evaluate_mod
 class Seq2SeqTemporalAttention(BaseMLModel):
     def __init__(self, **params):
         super(Seq2SeqTemporalAttention, self).__init__(**params)
-        self.models_dict = None  # will store { "XZ": model, "Y": model, ... } after construct
+        self.models_dict = None
 
     def construct_model(self):
         self.models_dict = _construct_model(**self.__dict__)

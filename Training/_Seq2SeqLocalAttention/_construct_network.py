@@ -3,13 +3,13 @@ from io import StringIO
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import (
-    Input, LSTM, Dense, Add, Dropout, RepeatVector, TimeDistributed, Lambda
+    Input, LSTM, Dense, Add, Dropout, RepeatVector, TimeDistributed
 )
 from tensorflow.keras.losses import Huber
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.optimizers.schedules import ExponentialDecay
 
-from ._attention_layer import TemporalEncDecAttention
+from ._attention_layer import LocalMultiHeadEncDecAttention
 
 
 def _construct_network(**params):
@@ -44,7 +44,7 @@ def _construct_network(**params):
         enc_out2 = LSTM(128, return_sequences=True, name=f"encoder_lstm2_{coord_str}")(enc_out1)
         enc_out2 = Dropout(0.2)(enc_out2)
 
-        # Residual connection
+        # residual
         enc_out2_res = Add(name=f"encoder_residual1_{coord_str}")([enc_out1, enc_out2])
 
         # LSTM #3: returns final sequence + final states
@@ -52,7 +52,7 @@ def _construct_network(**params):
                                           name=f"encoder_lstm3_{coord_str}")(enc_out2_res)
 
         repeated_context = RepeatVector(prediction_horizon, name=f"repeat_{coord_str}")(state_h)
-
+        
         # LSTM #1
         dec_out1 = LSTM(128, return_sequences=True, name=f"decoder_lstm1_{coord_str}")(
             repeated_context, initial_state=[state_h, state_c]
@@ -63,32 +63,31 @@ def _construct_network(**params):
         dec_out2 = LSTM(128, return_sequences=True, name=f"decoder_lstm2_{coord_str}")(dec_out1)
         dec_out2 = Dropout(0.2)(dec_out2)
 
-        # Residual connection
+        # Decoder residual
         dec_out2_res = Add(name=f"decoder_residual_{coord_str}")([dec_out1, dec_out2])
 
-        # Query = dec_out2_res, Value = enc_out3
-        attention_layer = TemporalEncDecAttention(units=32, hidden_dim=128, num_heads=4, name=f"temporal_att_{coord_str}")
-        context_attended = attention_layer([dec_out2_res, enc_out3])
-
-        # Residual + LN
-        cross_out = Add(name=f"cross_residual_{coord_str}")([dec_out2_res, context_attended])
+        attention_layer = LocalMultiHeadEncDecAttention(
+            window_size=7, key_dim=16, num_heads=8, name=f"local_mha_{coord_str}"
+        )
+        cross_out = attention_layer([dec_out2_res, enc_out3])
 
         decoder_dense = TimeDistributed(Dense(out_dim), name=f"dense_out_{coord_str}")
         outputs = decoder_dense(cross_out)
 
-        model = Model(encoder_inputs, outputs, name=f"RepeatVecModel_TemporalAtt_{coord_str}")
+        model = Model(encoder_inputs, outputs, name=f"RepeatVecModel_LocalAtt_{coord_str}")
         lr_schedule = ExponentialDecay(learning_rate, decay_steps, decay_rate)
         model.compile(optimizer=Adam(learning_rate=lr_schedule),
-                      loss=Huber(delta=1.0), run_eagerly=run_eagerly)
+                     loss=Huber(delta=1.0), run_eagerly=run_eagerly)
 
         summary_io = StringIO()
         with contextlib.redirect_stdout(summary_io):
             model.summary()
         if log:
-            log.info(f"Temporal Attention RepeatVector Model for {coord_str}:\n{summary_io.getvalue()}")
+            log.info(f"Local Attention RepeatVector Model for {coord_str}:\n{summary_io.getvalue()}")
         else:
             print(summary_io.getvalue())
 
         models_dict[coord_str] = model
 
     return models_dict
+

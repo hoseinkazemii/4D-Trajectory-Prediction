@@ -13,6 +13,5 @@ def _construct_model_convlstm(**params):
         except OSError:
             print("The ConvLSTM model is not trained before. No saved models found")
     
-    # Build a new network if not warm‑starting from a saved model
     models_dict = _construct_network_convlstm(**params)
     return models_dict
