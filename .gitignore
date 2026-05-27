@@ -162,6 +162,7 @@ cython_debug/
 #.idea/
 
 # Ignore CSV and PNG files
+Figures/
 *.csv
 *.png
 *.keras

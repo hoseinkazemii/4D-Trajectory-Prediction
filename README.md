@@ -1,27 +1,67 @@
 # Generalizable Deep Sequence Models for 4D Trajectory Prediction of Tower Crane Loads
 
-This repository accompanies the paper:
+This repository contains the code for the paper:
 
-> **Kazemi *et al.*** “Generalizable Deep Sequence Models for 4D Trajectory Prediction of Tower Crane Loads”  
-> DOI:&nbsp;`10.XXXX/zenodo.XXXXXXX` <!-- update once assigned -->
+> "Generalizable deep sequence models for 4D trajectory prediction of tower crane loads."  
+> Mohammad Hossein Kazemi et al.,
+> *Automation in Construction*, 182, 106696, 2026.  
+> DOI: https://doi.org/10.1016/j.autcon.2025.106696
 
-The project provides an **end-to-end framework** for forecasting the future Cartesian trajectory (X&nbsp;Y&nbsp;Z + time) of suspended loads moved by tower cranes.  
+The project predicts the future 3D position of suspended tower-crane loads over time using human-operated crane trajectories collected in a Unity-based digital twin. The paper evaluates Seq2Seq attention models, ConvLSTM, and TCN models under unseen logistics scenarios, different prediction horizons, sampling rates, input windows, and sensor noise. The best reported model is `Seq2SeqTemporalAttention`, with a 0.45 m mean 3D displacement error on unseen logistics scenarios.
 
----
+## Overview
 
-## ✨ Key contributions
+<p align="center">
+  <img src="Figures/Methodology_Steps.jpg" alt="Methodology pipeline" width="760">
+</p>
 
-| Aspect | Highlights |
-|--------|------------|
-| **Data generation** | Unity-based digital twin that emulates industrial rotary & linear encoders (θ, r, h) and logs time-synchronised crane states. |
-| **Human-in-the-loop realism** | 29 participants executed randomized pick-and-place tasks, yielding a diverse dataset of operator-induced motion patterns. |
-| **Model families** | 1) **Seq2Seq + Temporal Attention** • 2) **ConvLSTM** • 3) **Temporal Convolutional Network (TCN)** |
-| **Robust evaluation** | Benchmarks cover spatial generalization to unseen logistics layouts, varying look-ahead horizons, sensor-noise injection, and lower sampling frequencies. |
-| **Deployment-ready code** | Modular PyTorch/TensorFlow pipeline with configuration files, training & evaluation scripts, and a real-time inference demo. |
+<p align="center">
+  <img src="Figures/model_generalization_test_scenarios.png" alt="Model generalization across held-out logistics scenarios" width="760">
+</p>
 
-> **Results are intentionally omitted here** while the manuscript undergoes peer review.
+<p align="center">
+  <img src="Figures/before_collison.png" alt="Digital twin before predicted collision warning" width="48%">
+  <img src="Figures/collision_warning.png" alt="Digital twin predicted collision warning" width="48%">
+</p>
 
----
+## Repository Structure
 
-## 📂 Repository layout
+```text
+Preprocessing/   Data loading, scaling, scenario splitting, and sequence generation
+Training/        Model implementations and training loops
+Unity_Scripts/   Unity C# scripts for crane simulation, different scenarios, eye-tracking (Tobii and Oculus), VR and desktop experiments, data capture, and more
+utils/           Evaluation, plotting, logging, and prediction utilities
+main.py          Example training entry point
+requirements.txt Python dependencies
+```
 
+## Setup
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+The pinned PyTorch dependency targets CUDA 11.8. If you use a different CUDA version or CPU-only PyTorch, install the matching PyTorch build before running the project.
+
+## Citation
+
+```bibtex
+@article{KAZEMI2026106696,
+  title = {Generalizable deep sequence models for 4D trajectory prediction of tower crane loads},
+  journal = {Automation in Construction},
+  volume = {182},
+  pages = {106696},
+  year = {2026},
+  issn = {0926-5805},
+  doi = {https://doi.org/10.1016/j.autcon.2025.106696},
+  url = {https://www.sciencedirect.com/science/article/pii/S0926580525007368},
+  author = {Mohammad Hossein Kazemi and Yuqing Hu and Yi Wu and John I. Messner and Scarlett R. Miller},
+  keywords = {Tower cranes trajectory prediction, Sequence-to-sequence models, Attention mechanisms, Digital twin, Virtual reality}
+}
+```
+
+## Acknowledgment
+
+This work was supported by the U.S. National Science Foundation under Grant No. 2222730.
