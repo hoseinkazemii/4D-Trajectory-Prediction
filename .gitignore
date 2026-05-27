@@ -161,10 +161,14 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Ignore CSV and PNG files
-Figures/
+# Ignore generated data and image files
 *.csv
 *.png
+Figures/*
+!Figures/Methodology_Steps.jpg
+!Figures/model_generalization_test_scenarios.png
+!Figures/before_collison.png
+!Figures/collision_warning.png
 *.keras
 *.txt
 !requirements.txt
